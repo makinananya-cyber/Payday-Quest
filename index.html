@@ -5,1230 +5,534 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Payday Quest</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="A game for teens that teaches money skills through real paychecks, budgets and decisions.">
+<meta name="description" content="Payday Quest: a free, game-style money course for teens with lessons, quizzes, games and a life simulator.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Instrument+Serif:ital@0;1&family=Figtree:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap">
 <style>
-/* Layout: an app shell — sticky HUD bar, routed views, game panels on a warm "Milky Way" ground; on phones the nav moves to a bottom tab bar. */
+/* Layout: an Indigo sidebar (bottom tab bar on phones) beside a calm azure-mist workspace; content sits in soft palette-coloured cards. Only the six palette colours, their label inks, and light tints of them. */
 :root{
-  /* palette (from the two reference swatches) */
-  --milky:#FFF9F0; --meteor:#F7F2EB; --sky:#D0E3FF; --venus:#BAD6EB; --universe:#7096D1; --planetary:#334EAC; --galaxy:#081F5C;
   --matcha:#8FB78F; --pistachio:#CBE6C7; --azure:#B4CCCF; --indigo:#28536B; --orchid:#F3A5BC; --peach:#FFC49B;
-  --forest:#173d22; --maroon:#7a1a38; --deepblue:#1d4258;
-
-  /* roles */
-  --bg:var(--milky); --surface:#ffffff; --surface-2:var(--meteor); --ink:var(--galaxy); --ink-soft:#43507a;
-  --line:rgba(8,31,92,.12); --primary:var(--planetary); --on-primary:#ffffff; --tint:var(--sky); --tint-2:var(--venus);
-  --good:#2f6b3b; --good-bg:var(--pistachio); --warn-bg:var(--peach); --bad:#a3244b; --bad-bg:#fbd3df;
-  --shadow:0 1px 0 rgba(8,31,92,.06), 0 12px 30px -14px rgba(8,31,92,.25);
-
-  --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
-  --f-serif:"Instrument Serif","Iowan Old Style",Georgia,serif;
-  --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-mono:"DM Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
-
-  --r:18px; --r-sm:12px;
-  --gutter-l:max(16px, env(safe-area-inset-left, 0px));
-  --gutter-r:max(16px, env(safe-area-inset-right, 0px));
+  --forest:#1E3D1F; --maroon:#7A1E3A; --deep:#1B3B4D;
+  --bg:#E5EDEE; --surface:#F7FAFA; --surface-2:#EEF4F4; --ink:var(--deep); --ink-soft:#4A6878; --line:rgba(40,83,107,.15);
+  --pist-tint:#E6F3E4; --peach-tint:#FFEADB; --orchid-tint:#FBE2EA; --azure-tint:#DCE8E9;
+  --shadow:0 1px 2px rgba(27,59,77,.06), 0 10px 28px -14px rgba(27,59,77,.28);
+  --f-serif:"Fraunces", "Iowan Old Style", Georgia, serif;
+  --f-sans:"Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r:20px; --r-sm:14px;
+  --side-w:250px;
+  --gl:max(16px, env(safe-area-inset-left, 0px)); --gr:max(16px, env(safe-area-inset-right, 0px));
+  color-scheme:light;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#06163f; --surface:#0d2766; --surface-2:#0a1f55; --ink:var(--milky); --ink-soft:#bcd0ee;
-    --line:rgba(208,227,255,.15); --primary:var(--universe); --on-primary:var(--galaxy); --tint:#17337e; --tint-2:#21448f;
-    --good:#a9d6a9; --good-bg:#244b33; --bad:#ffb3c8; --bad-bg:#5a2040;
-    --shadow:0 1px 0 rgba(0,0,0,.2), 0 16px 34px -16px rgba(0,0,0,.6);
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#06163f; --surface:#0d2766; --surface-2:#0a1f55; --ink:var(--milky); --ink-soft:#bcd0ee;
-  --line:rgba(208,227,255,.15); --primary:var(--universe); --on-primary:var(--galaxy); --tint:#17337e; --tint-2:#21448f;
-  --good:#a9d6a9; --good-bg:#244b33; --bad:#ffb3c8; --bad-bg:#5a2040;
-  --shadow:0 1px 0 rgba(0,0,0,.2), 0 16px 34px -16px rgba(0,0,0,.6);
-  color-scheme:dark;
-}
-
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg); color:var(--ink); font-family:var(--f-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
-body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:60; background:var(--bg)}
-h1,h2,h3,h4{font-family:var(--f-display); line-height:1.08; margin:0; text-wrap:balance; letter-spacing:-.01em}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg); color:var(--ink); font-family:var(--f-sans); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:70; background:var(--bg)}
+h1,h2,h3,h4{font-family:var(--f-serif); font-weight:600; line-height:1.15; margin:0; text-wrap:balance; letter-spacing:-.01em; font-variation-settings:"opsz" 72}
+h1{font-size:clamp(2rem,4.4vw,3.1rem)}
+h2{font-size:clamp(1.5rem,3vw,2.05rem)}
+h3{font-size:1.25rem}
 p{margin:0}
-button{font:inherit; color:inherit; cursor:pointer}
-:focus-visible{outline:3px solid var(--universe); outline-offset:3px; border-radius:8px}
-.serif{font-family:var(--f-serif); font-style:italic; font-weight:400; letter-spacing:0}
-.mono{font-family:var(--f-mono); font-variant-numeric:tabular-nums}
-.eyebrow{font-family:var(--f-mono); font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft)}
-.wrap{max-width:1160px; margin:0 auto; padding-left:var(--gutter-l); padding-right:var(--gutter-r)}
+em.it{font-family:var(--f-serif); font-style:italic; font-weight:400}
+button,input,textarea,select{font:inherit; color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--indigo); outline-offset:3px; border-radius:10px}
+.label{font-size:.72rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft)}
+.muted{color:var(--ink-soft)}
+.num{font-variant-numeric:tabular-nums}
 
-/* ---------- HUD / header ---------- */
-.hud{position:sticky; top:env(safe-area-inset-top,0px); z-index:50; background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
-.hud .wrap{display:flex; align-items:center; gap:18px; padding-block:12px}
-.brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); flex:none}
-.brand b{font-family:var(--f-display); font-weight:800; font-size:1.02rem; letter-spacing:-.02em}
-.brand svg{width:34px; height:34px}
-.nav{display:flex; gap:4px; margin-left:8px}
-.nav a{display:flex; align-items:center; gap:8px; padding:9px 14px; border-radius:999px; text-decoration:none; color:var(--ink-soft); font-weight:600; font-size:.93rem; transition:background .2s,color .2s}
-.nav a svg{width:18px; height:18px; flex:none}
-.nav a:hover{background:var(--tint); color:var(--ink)}
-.nav a[aria-current="page"]{background:var(--primary); color:var(--on-primary)}
-.stats{margin-left:auto; display:flex; align-items:center; gap:10px}
-.lvl{display:flex; align-items:center; gap:10px}
-.lvl-badge{font-family:var(--f-display); font-weight:800; font-size:.8rem; width:38px; height:38px; border-radius:12px; display:grid; place-items:center; background:var(--peach); color:var(--maroon); flex:none}
-.xpbox{display:grid; gap:4px; min-width:120px}
-.xpbox small{font-size:.72rem; color:var(--ink-soft); font-weight:600; white-space:nowrap}
-.xpbar{height:8px; border-radius:99px; background:var(--tint); overflow:hidden}
-.xpbar i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--matcha),var(--universe)); border-radius:inherit; transition:width .8s cubic-bezier(.2,.9,.3,1.2)}
-.chip{display:inline-flex; align-items:center; gap:6px; padding:7px 11px; border-radius:999px; background:var(--surface); border:1px solid var(--line); font-weight:700; font-size:.86rem; white-space:nowrap}
-.chip svg{width:16px; height:16px}
-.chip.pop{animation:pop .5s}
-@keyframes pop{40%{transform:scale(1.18)}}
+/* ---------- shell ---------- */
+.side{position:fixed; top:0; bottom:0; left:0; width:var(--side-w); background:var(--indigo); color:var(--azure); display:flex; flex-direction:column; padding:calc(26px + env(safe-area-inset-top,0px)) 16px 22px max(16px, env(safe-area-inset-left,0px)); z-index:40}
+.logo{display:flex; align-items:center; gap:12px; text-decoration:none; color:#F7FAFA; padding:0 10px 26px}
+.logo svg{width:38px; height:38px; flex:none}
+.logo b{font-family:var(--f-serif); font-size:1.32rem; font-weight:600; letter-spacing:-.01em}
+.logo b i{font-weight:400; color:var(--peach)}
+.nav{display:grid; gap:4px}
+.nav a{display:flex; align-items:center; gap:14px; padding:12px 14px; border-radius:14px; text-decoration:none; color:var(--azure); font-weight:700; font-size:.98rem; transition:background .2s, color .2s}
+.nav a svg{width:22px; height:22px; flex:none}
+.nav a:hover{background:rgba(180,204,207,.12); color:#F7FAFA}
+.nav a[aria-current="page"]{background:var(--pistachio); color:var(--forest)}
+.side-card{margin-top:auto; padding:16px; border-radius:16px; background:rgba(180,204,207,.12); display:grid; gap:10px}
+.side-card .row{display:flex; justify-content:space-between; align-items:center; font-size:.86rem; font-weight:700; color:var(--azure)}
+.side-card .row b{color:#F7FAFA; font-size:1rem}
+.side-card .bar{height:8px; border-radius:99px; background:rgba(180,204,207,.2); overflow:hidden}
+.side-card .bar i{display:block; height:100%; background:var(--peach); border-radius:inherit; transition:width .6s}
 
-/* ---------- views ---------- */
-main{padding-bottom:40px}
-.view{display:none}
-.view.on{display:block; animation:viewIn .45s cubic-bezier(.2,.8,.2,1)}
-@keyframes viewIn{from{opacity:.001; transform:translateY(10px)}}
-.section{padding-block:44px}
-.sec-head{display:flex; align-items:end; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:22px}
-.sec-head h2{font-size:clamp(1.5rem,3.2vw,2.1rem)}
-.sec-head p{color:var(--ink-soft); max-width:52ch}
+.shell{margin-left:var(--side-w); min-height:100vh}
+.topbar{position:sticky; top:env(safe-area-inset-top,0px); z-index:30; background:var(--bg); border-bottom:1px solid var(--line)}
+.topbar .in{max-width:1120px; margin:0 auto; display:flex; align-items:center; gap:12px; padding:14px var(--gr) 14px var(--gl)}
+.crumbs{display:flex; align-items:center; gap:8px; font-weight:700; font-size:.95rem; min-width:0; flex-wrap:wrap}
+.crumbs a{color:var(--ink-soft); text-decoration:none}
+.crumbs a:hover{color:var(--ink); text-decoration:underline}
+.crumbs span.sep{color:var(--ink-soft); opacity:.5}
+.chips{margin-left:auto; display:flex; gap:8px; align-items:center; flex:none}
+.chip{display:inline-flex; align-items:center; gap:7px; padding:7px 12px; border-radius:99px; font-weight:800; font-size:.86rem; white-space:nowrap; border:1px solid transparent}
+.chip svg{width:18px; height:18px}
+.chip.streak{background:var(--peach-tint); color:var(--maroon)}
+.chip.xp{background:var(--pist-tint); color:var(--forest)}
+.chip.goal{background:var(--surface); border-color:var(--line); padding:4px 12px 4px 4px}
+.ring{width:30px; height:30px}
+.chip.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.15)}}
+.mobile-logo{display:none}
 
-.btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; border:0; border-radius:14px; padding:14px 22px; font-weight:700; font-size:1rem; text-decoration:none; transition:transform .15s, box-shadow .2s, background .2s}
-.btn:active{transform:translateY(2px)}
-.btn-primary{background:var(--primary); color:var(--on-primary); box-shadow:0 4px 0 color-mix(in srgb,var(--primary) 55%, #000)}
-.btn-primary:hover{transform:translateY(-2px)}
-.btn-primary:active{box-shadow:0 1px 0 color-mix(in srgb,var(--primary) 55%, #000)}
-.btn-ghost{background:transparent; color:var(--ink); border:2px solid var(--line)}
-.btn-ghost:hover{border-color:var(--universe)}
-.btn[disabled]{opacity:.45; cursor:not-allowed; transform:none}
+.page{max-width:1120px; margin:0 auto; padding:30px var(--gr) 70px var(--gl)}
+.view-enter{animation:enter .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes enter{from{opacity:.001; transform:translateY(10px)}}
+
+/* ---------- generic ---------- */
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); box-shadow:var(--shadow)}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; border:0; border-radius:14px; padding:13px 22px; font-weight:800; font-size:1rem; text-decoration:none; transition:transform .15s, box-shadow .15s, background .2s; letter-spacing:.01em}
 .btn svg{width:18px; height:18px}
+.btn-primary{background:var(--indigo); color:#F7FAFA; box-shadow:0 4px 0 var(--deep)}
+.btn-primary:hover{transform:translateY(-1px)}
+.btn-primary:active{transform:translateY(3px); box-shadow:0 1px 0 var(--deep)}
+.btn-soft{background:var(--azure-tint); color:var(--deep)}
+.btn-soft:hover{background:var(--azure)}
+.btn-line{background:transparent; border:2px solid var(--line); color:var(--ink)}
+.btn-line:hover{border-color:var(--indigo)}
+.btn-good{background:var(--matcha); color:var(--forest); box-shadow:0 4px 0 #5f8a5f}
+.btn-bad{background:var(--orchid); color:var(--maroon); box-shadow:0 4px 0 #c97b93}
+.btn[disabled]{opacity:.45; cursor:not-allowed; transform:none!important}
+.btn-sm{padding:9px 14px; font-size:.9rem; border-radius:12px}
+.pill{display:inline-flex; align-items:center; gap:6px; padding:4px 11px; border-radius:99px; font-size:.78rem; font-weight:800}
+.t-peach{background:var(--peach); color:var(--maroon)}
+.t-orchid{background:var(--orchid); color:var(--maroon)}
+.t-pistachio{background:var(--pistachio); color:var(--forest)}
+.t-matcha{background:var(--matcha); color:var(--forest)}
+.t-azure{background:var(--azure); color:var(--deep)}
+.t-indigo{background:var(--indigo); color:var(--pistachio)}
+.head{display:flex; justify-content:space-between; align-items:end; gap:16px; flex-wrap:wrap; margin-bottom:22px}
+.head p{max-width:56ch}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+.grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+.grid2>*,.grid3>*{min-width:0}
+.bar{height:10px; border-radius:99px; background:var(--azure-tint); overflow:hidden}
+.bar i{display:block; height:100%; border-radius:inherit; background:var(--matcha); transition:width .6s cubic-bezier(.2,.9,.3,1)}
+.stack{display:grid; gap:14px}
+.field{display:grid; gap:6px}
+.field label{font-weight:700; font-size:.92rem}
+.field small{color:var(--ink-soft); font-size:.82rem}
+.input, select.input, textarea.input{width:100%; padding:12px 14px; border-radius:12px; border:2px solid var(--line); background:var(--surface); font-size:1rem; transition:border-color .15s}
+.input:focus{outline:none; border-color:var(--indigo)}
+textarea.input{min-height:220px; resize:vertical; line-height:1.6}
+input[type=range]{width:100%; accent-color:var(--indigo)}
+.notice{display:flex; gap:12px; padding:14px 16px; border-radius:14px; background:var(--azure-tint); font-size:.95rem}
+.notice svg{width:22px; height:22px; flex:none; color:var(--indigo); margin-top:1px}
+.notice.good{background:var(--pist-tint); color:var(--forest)}
+.notice.good svg{color:var(--forest)}
+.notice.bad{background:var(--orchid-tint); color:var(--maroon)}
+.notice.bad svg{color:var(--maroon)}
+.tabs{display:flex; gap:6px; flex-wrap:wrap; padding:5px; border-radius:16px; background:var(--azure-tint); width:fit-content; max-width:100%}
+.tabs button{border:0; background:transparent; padding:9px 16px; border-radius:12px; font-weight:800; font-size:.9rem; color:var(--ink-soft)}
+.tabs button[aria-pressed="true"]{background:var(--surface); color:var(--ink); box-shadow:var(--shadow)}
 
-.panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); box-shadow:var(--shadow)}
+/* ---------- home ---------- */
+.hero{display:grid; grid-template-columns:1.25fr .75fr; gap:20px; margin-bottom:20px}
+.hero>*{min-width:0}
+.welcome{padding:clamp(24px,4vw,40px); border-radius:26px; background:var(--indigo); color:var(--azure); position:relative; overflow:hidden; display:grid; gap:14px; align-content:start}
+.welcome h1{color:#F7FAFA}
+.welcome h1 em{color:var(--peach); font-style:italic; font-weight:400}
+.welcome p{max-width:48ch; font-size:1.06rem}
+.welcome .btn-primary{background:var(--peach); color:var(--maroon); box-shadow:0 4px 0 #c98f66}
+.welcome .deco{position:absolute; right:-40px; bottom:-60px; width:240px; height:240px; opacity:.9; pointer-events:none}
+.welcome .acts{display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; position:relative}
+.welcome .btn-ghost{background:rgba(180,204,207,.14); color:#F7FAFA}
+.today{padding:22px; display:grid; gap:14px; align-content:start}
+.goal-big{display:flex; align-items:center; gap:16px}
+.goal-big svg{width:84px; height:84px; flex:none}
+.week{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; text-align:center; font-size:.72rem; font-weight:800; color:var(--ink-soft)}
+.week i{display:grid; place-items:center; width:100%; aspect-ratio:1; max-width:34px; margin:4px auto 0; border-radius:50%; background:var(--azure-tint); font-style:normal; color:var(--ink-soft)}
+.week i.on{background:var(--peach); color:var(--maroon)}
+.week i.today{outline:2px solid var(--indigo); outline-offset:2px}
+.continue{display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center; padding:20px 22px; margin-bottom:28px}
+.continue .badge-u{width:58px; height:58px; border-radius:18px; display:grid; place-items:center; font-family:var(--f-serif); font-size:1.4rem; font-weight:600}
+.continue>div{min-width:0}
+.tiles{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+.tile{border-radius:var(--r); padding:24px; text-decoration:none; display:grid; gap:10px; align-content:start; min-height:210px; position:relative; overflow:hidden; transition:transform .25s cubic-bezier(.2,.9,.3,1.3), box-shadow .25s}
+.tile:hover{transform:translateY(-4px); box-shadow:0 18px 30px -18px rgba(27,59,77,.5)}
+.tile h3{font-size:1.45rem}
+.tile p{font-size:.96rem; opacity:.9}
+.tile .go{margin-top:auto; font-weight:800; font-size:.9rem; display:flex; align-items:center; gap:6px}
+.tile svg.big{position:absolute; right:-10px; top:-10px; width:110px; height:110px; opacity:.28}
+.tipcard{margin-top:28px; padding:24px; display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center}
+.tipcard .k{font-family:var(--f-serif); font-size:2.6rem; font-weight:600; color:var(--indigo); line-height:1}
+.tipcard>div{min-width:0}
 
-/* ---------- hero ---------- */
-.hero{padding-block:48px 28px; display:grid; grid-template-columns:1.15fr .85fr; gap:40px; align-items:center}
-.hero > *{min-width:0}
-.hero h1{font-size:clamp(2.2rem,5.6vw,4.3rem); font-weight:800; letter-spacing:-.035em}
-.hero h1 .serif{font-size:1.12em; color:var(--primary); letter-spacing:-.01em}
-.hero .lede{font-size:1.15rem; color:var(--ink-soft); max-width:46ch; margin-top:18px}
-.hero .ctas{display:flex; gap:12px; flex-wrap:wrap; margin-top:28px}
-.hero .proof{display:flex; gap:22px; flex-wrap:wrap; margin-top:28px; color:var(--ink-soft); font-size:.9rem}
-.hero .proof b{display:block; font-family:var(--f-display); font-size:1.35rem; color:var(--ink)}
-
-/* pay stub */
-.stub-stage{position:relative; display:grid; place-items:center; padding:18px 0}
-.stub-stage .blob{position:absolute; inset:6% 4%; border-radius:44% 56% 52% 48%/50% 44% 56% 50%; background:var(--tint); animation:morph 12s ease-in-out infinite}
-@keyframes morph{50%{border-radius:56% 44% 46% 54%/44% 56% 44% 56%; transform:rotate(6deg)}}
-.stub{position:relative; width:min(360px,100%); background:#fffdf8; color:var(--galaxy); border-radius:6px; padding:22px 22px 18px; box-shadow:0 30px 50px -24px rgba(8,31,92,.45); transform:rotate(-3deg); animation:stubIn 1s cubic-bezier(.2,.9,.25,1.15) both, float 6s 1s ease-in-out infinite}
-.stub::before,.stub::after{content:""; position:absolute; left:0; right:0; height:10px; background:radial-gradient(circle at 7px 0, transparent 5px, #fffdf8 5.5px) 0 0/14px 10px repeat-x}
-.stub::before{top:-9px; transform:scaleY(-1)}
-.stub::after{bottom:-9px}
-@keyframes stubIn{from{transform:translateY(40px) rotate(-12deg); opacity:.001}}
-@keyframes float{50%{transform:translateY(-8px) rotate(-1.5deg)}}
-.stub-top{display:flex; justify-content:space-between; align-items:start; gap:10px; border-bottom:1.5px dashed rgba(8,31,92,.25); padding-bottom:12px; margin-bottom:12px}
-.stub-top b{font-family:var(--f-display); font-size:.95rem}
-.stub-top small{display:block; font-family:var(--f-mono); font-size:.7rem; color:#5a6690}
-.stamp{font-family:var(--f-display); font-size:.62rem; font-weight:800; letter-spacing:.08em; color:var(--maroon); border:2px solid var(--maroon); padding:4px 7px; border-radius:6px; transform:rotate(8deg); opacity:.85}
-.row{display:flex; justify-content:space-between; gap:12px; font-family:var(--f-mono); font-size:.84rem; padding:4px 0}
-.row.minus span:last-child{color:#a3244b}
-.row.total{border-top:1.5px solid rgba(8,31,92,.8); margin-top:8px; padding-top:10px; font-size:1rem; font-weight:500}
-.row.total span:last-child{font-family:var(--f-display); font-size:1.35rem}
-.stub-note{margin-top:10px; font-family:var(--f-serif); font-style:italic; font-size:1.05rem; color:var(--planetary)}
-
-/* marquee strip */
-.ticker{overflow:hidden; border-block:1px solid var(--line); background:var(--galaxy); color:var(--milky)}
-.ticker-track{display:flex; gap:44px; width:max-content; padding-block:14px; animation:tick 38s linear infinite}
-.ticker span{font-family:var(--f-display); font-weight:500; font-size:.92rem; white-space:nowrap; display:flex; align-items:center; gap:44px}
-.ticker span::after{content:""; width:8px; height:8px; border-radius:50%; background:var(--peach)}
-@keyframes tick{to{transform:translateX(-50%)}}
-
-/* unit cards */
-.units{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
-.unit{position:relative; text-align:left; border:0; border-radius:var(--r); padding:22px; min-height:200px; display:flex; flex-direction:column; gap:10px; overflow:hidden; transition:transform .25s cubic-bezier(.2,.9,.3,1.3), box-shadow .25s}
-.unit:hover{transform:translateY(-5px) rotate(-.6deg); box-shadow:0 20px 30px -18px rgba(8,31,92,.5)}
-.unit .lv{font-family:var(--f-mono); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; opacity:.8}
-.unit h3{font-size:1.35rem; font-weight:700}
-.unit p{font-size:.95rem; opacity:.85}
-.unit .foot{margin-top:auto; display:flex; align-items:center; justify-content:space-between; gap:10px; font-weight:700; font-size:.86rem}
-.unit .art{position:absolute; right:-18px; top:-18px; width:96px; height:96px; opacity:.35}
-.unit .done{display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.6); padding:4px 10px; border-radius:99px; font-size:.78rem}
-.c-peach{background:var(--peach); color:var(--maroon)}
-.c-orchid{background:var(--orchid); color:var(--maroon)}
-.c-pistachio{background:var(--pistachio); color:var(--forest)}
-.c-matcha{background:var(--matcha); color:var(--forest)}
-.c-azure{background:var(--azure); color:var(--deepblue)}
-.c-sky{background:var(--sky); color:var(--galaxy)}
-.c-indigo{background:var(--indigo); color:var(--azure)}
-
-/* how it works */
-.loop{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
-.loop .step{padding:24px; border-radius:var(--r); background:var(--surface-2); border:1px solid var(--line); display:grid; gap:8px; align-content:start}
-.loop .step b{font-family:var(--f-serif); font-style:italic; font-size:2.4rem; line-height:1; color:var(--primary)}
-.loop .step h3{font-size:1.08rem}
-.loop .step p{color:var(--ink-soft); font-size:.95rem}
-
-.fact{display:grid; grid-template-columns:auto 1fr auto; gap:20px; align-items:center; padding:24px; border-radius:var(--r); background:var(--indigo); color:var(--milky)}
-.fact .k{font-family:var(--f-display); font-size:clamp(2rem,5vw,3rem); font-weight:800; color:var(--peach)}
-.fact p{font-size:1.05rem; color:var(--azure); max-width:60ch}
-.fact p strong{color:var(--milky)}
-.fact button{background:transparent; border:1.5px solid rgba(180,204,207,.5); color:var(--milky); border-radius:12px; padding:10px 14px; font-weight:700}
+/* ---------- learn path ---------- */
+.learn-wrap{display:grid; grid-template-columns:1fr 300px; gap:26px; align-items:start}
+.learn-wrap>*{min-width:0}
+.unit{margin-bottom:38px}
+.unit-banner{border-radius:22px; padding:22px 24px; display:flex; justify-content:space-between; gap:16px; align-items:center; flex-wrap:wrap}
+.unit-banner .label{color:inherit; opacity:.75}
+.unit-banner h2{font-size:clamp(1.35rem,2.6vw,1.8rem); margin-top:4px}
+.unit-banner p{opacity:.88; font-size:.95rem; margin-top:4px; max-width:52ch}
+.unit-banner .prog{min-width:120px; text-align:right; font-weight:800; font-size:.86rem}
+.unit-banner .prog .bar{background:rgba(255,255,255,.45); margin-top:6px}
+.unit-banner.t-indigo .prog .bar i{background:var(--peach)}
+.path{display:grid; gap:14px; padding:26px 0 6px; justify-items:center}
+.node-row{display:flex; align-items:center; gap:16px; width:min(580px,100%)}
+.node-label{flex:1}
+.node{position:relative; width:72px; height:72px; border-radius:50%; border:0; display:grid; place-items:center; flex:none; box-shadow:0 6px 0 rgba(27,59,77,.22); transition:transform .15s}
+.node:hover:not([disabled]){transform:translateY(-2px)}
+.node:active:not([disabled]){transform:translateY(4px); box-shadow:0 2px 0 rgba(27,59,77,.22)}
+.node svg{width:30px; height:30px}
+.node[disabled]{background:var(--azure-tint)!important; color:var(--ink-soft)!important; box-shadow:0 6px 0 rgba(27,59,77,.1); cursor:not-allowed}
+.node.current::after{content:""; position:absolute; inset:-9px; border-radius:50%; border:3px solid var(--indigo); animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.07); opacity:.45}}
+.node .crown{position:absolute; bottom:-6px; right:-6px; width:26px; height:26px; border-radius:50%; background:var(--peach); color:var(--maroon); display:grid; place-items:center; font-size:.7rem; font-weight:800; border:2px solid var(--surface)}
+.node-label{min-width:0}
+.node-label b{display:block; font-family:var(--f-serif); font-size:1.08rem; font-weight:600; line-height:1.25}
+.node-label small{color:var(--ink-soft); font-size:.82rem; font-weight:600}
+.learn-side{position:sticky; top:calc(env(safe-area-inset-top,0px) + 86px); display:grid; gap:16px}
+.learn-side .card{padding:20px}
+.unit-jump{display:grid; gap:6px; margin-top:10px}
+.unit-jump a{display:flex; justify-content:space-between; gap:10px; padding:9px 12px; border-radius:12px; text-decoration:none; font-weight:700; font-size:.9rem}
+.unit-jump a:hover{background:var(--azure-tint)}
+.unit-jump a span{color:var(--ink-soft); font-variant-numeric:tabular-nums}
 
 /* ---------- lesson player ---------- */
-.player{max-width:760px; margin:0 auto}
-.player-top{display:flex; align-items:center; gap:14px; margin-bottom:18px}
-.icon-btn{width:42px; height:42px; border-radius:12px; border:1px solid var(--line); background:var(--surface); display:grid; place-items:center; flex:none}
-.icon-btn svg{width:20px; height:20px}
-.pbar{flex:1; height:12px; background:var(--tint); border-radius:99px; overflow:hidden}
-.pbar i{display:block; height:100%; width:0; background:var(--matcha); border-radius:inherit; transition:width .5s cubic-bezier(.2,.9,.3,1.2)}
-.lcard{padding:clamp(22px,4vw,40px); border-radius:24px; min-height:340px; display:flex; flex-direction:column; gap:16px}
-.lcard .eyebrow{color:inherit; opacity:.75}
-.lcard h2{font-size:clamp(1.5rem,3.6vw,2.3rem)}
-.lcard .body{font-size:1.12rem; max-width:58ch}
-.lcard .ex{margin-top:auto; background:rgba(255,255,255,.55); border-radius:14px; padding:14px 16px; font-family:var(--f-mono); font-size:.92rem; color:var(--galaxy)}
-.lcard .ex small{display:block; font-family:var(--f-body); font-weight:700; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; opacity:.7; margin-bottom:2px}
-.slide-in{animation:slideIn .45s cubic-bezier(.2,.9,.3,1.1)}
-@keyframes slideIn{from{opacity:.001; transform:translateX(40px) rotate(1.5deg)}}
-.player-actions{display:flex; justify-content:space-between; gap:12px; margin-top:18px; flex-wrap:wrap}
+.lesson{max-width:780px; margin:0 auto}
+.lesson-top{display:flex; align-items:center; gap:14px; margin-bottom:22px}
+.xbtn{width:44px; height:44px; border-radius:14px; border:1px solid var(--line); background:var(--surface); display:grid; place-items:center; flex:none; text-decoration:none}
+.xbtn svg{width:20px; height:20px}
+.lesson-top .bar{flex:1; height:14px}
+.lesson-top .bar i{background:var(--matcha)}
+.screen{padding:clamp(22px,4vw,40px); border-radius:26px; display:grid; gap:16px}
+.screen .label{color:inherit; opacity:.75}
+.screen h2{font-size:clamp(1.55rem,3.4vw,2.2rem)}
+.screen .body{display:grid; gap:12px; font-size:1.08rem; line-height:1.7; max-width:62ch}
+.screen ul{margin:0; padding-left:0; list-style:none; display:grid; gap:8px}
+.screen li{position:relative; padding-left:26px}
+.screen li::before{content:""; position:absolute; left:4px; top:.6em; width:10px; height:10px; border-radius:3px; background:currentColor; opacity:.55; transform:rotate(45deg)}
+.screen .ex{background:rgba(247,250,250,.72); border-radius:16px; padding:14px 18px; color:var(--deep)}
+.screen .ex b{display:block; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; margin-bottom:2px; opacity:.75}
+.screen .tipline{font-family:var(--f-serif); font-style:italic; font-size:1.12rem}
+.lesson-foot{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:20px; flex-wrap:wrap}
+.intro-list{display:grid; gap:8px; margin:6px 0 0; padding:0; list-style:none}
+.intro-list li{display:flex; gap:10px; align-items:baseline}
+.intro-list li::before{content:""; width:8px; height:8px; border-radius:50%; background:var(--matcha); flex:none; transform:translateY(-1px)}
 
-.quiz-q{font-family:var(--f-display); font-size:clamp(1.25rem,3vw,1.7rem); font-weight:700; line-height:1.2}
-.opts{display:grid; gap:10px; margin-top:6px}
-.opt{display:flex; align-items:center; gap:14px; text-align:left; padding:15px 16px; border-radius:14px; border:2px solid var(--line); background:var(--surface); font-weight:600; font-size:1.02rem; transition:border-color .15s, transform .15s, background .2s}
-.opt:hover:not([disabled]){border-color:var(--universe); transform:translateX(4px)}
-.opt kbd{font-family:var(--f-mono); font-size:.78rem; width:28px; height:28px; display:grid; place-items:center; border-radius:8px; background:var(--tint); flex:none}
-.opt.right{border-color:var(--good); background:var(--good-bg)}
-.opt.wrong{border-color:var(--bad); background:var(--bad-bg); animation:shake .4s}
-.opt[disabled]{cursor:default}
-@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.explain{padding:14px 16px; border-radius:14px; background:var(--surface-2); border:1px solid var(--line); font-size:.98rem}
-.explain b{font-family:var(--f-display); font-size:.9rem}
+/* questions */
+.q{padding:clamp(22px,4vw,36px); display:grid; gap:18px}
+.q .qtype{display:flex; gap:8px; align-items:center}
+.q .prompt{font-family:var(--f-serif); font-size:clamp(1.3rem,3vw,1.7rem); font-weight:600; line-height:1.3}
+.opts{display:grid; gap:10px}
+.opt{display:flex; align-items:center; gap:14px; text-align:left; padding:15px 16px; border-radius:16px; border:2px solid var(--line); background:var(--surface); font-weight:600; font-size:1.02rem; box-shadow:0 3px 0 var(--line); transition:border-color .15s, background .15s}
+.opt:hover:not([disabled]){border-color:var(--indigo)}
+.opt kbd{font-family:var(--f-sans); font-size:.78rem; font-weight:800; width:28px; height:28px; display:grid; place-items:center; border-radius:9px; border:2px solid var(--line); flex:none}
+.opt.sel{border-color:var(--indigo); background:var(--azure-tint)}
+.opt.right{border-color:var(--matcha); background:var(--pist-tint); color:var(--forest)}
+.opt.wrong{border-color:var(--orchid); background:var(--orchid-tint); color:var(--maroon)}
+.tf{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.tf .opt{justify-content:center; font-size:1.1rem; font-weight:800; padding:22px}
+.sentence{font-size:1.2rem; line-height:2.3; font-weight:600}
+.blank{display:inline-flex; min-width:110px; justify-content:center; padding:2px 12px; margin:0 4px; border-bottom:3px solid var(--indigo); border-radius:8px 8px 0 0; background:var(--azure-tint); font-weight:800; cursor:pointer; vertical-align:baseline; line-height:1.6}
+.blank.filled{background:var(--peach-tint); color:var(--maroon)}
+.blank input{border:0; background:transparent; width:150px; text-align:center; font-weight:800; padding:0; outline:none}
+.blank.right{background:var(--pist-tint); color:var(--forest); border-color:var(--matcha)}
+.blank.wrong{background:var(--orchid-tint); color:var(--maroon); border-color:var(--orchid)}
+.bank{display:flex; flex-wrap:wrap; gap:10px}
+.tilew{padding:10px 16px; border-radius:12px; border:2px solid var(--line); background:var(--surface); font-weight:700; box-shadow:0 3px 0 var(--line); touch-action:none; user-select:none; -webkit-user-select:none}
+.tilew:hover{border-color:var(--indigo)}
+.tilew.used{visibility:hidden}
+.tilew.dragging{opacity:.3}
+.ghost{position:fixed; z-index:200; pointer-events:none; transform:translate(-50%,-50%) rotate(-3deg); box-shadow:0 14px 28px -10px rgba(27,59,77,.5)}
+.answer-row{min-height:64px; padding:10px; border-radius:16px; border:2px dashed var(--azure); display:flex; flex-wrap:wrap; gap:10px; align-content:flex-start}
+.answer-row.over, .bucket.over{border-color:var(--indigo); background:var(--azure-tint)}
+.answer-row .tilew{counter-increment:ord}
+.answer-row{counter-reset:ord}
+.answer-row .tilew::before{content:counter(ord) ". "; color:var(--ink-soft)}
+.answer-row:empty::after{content:"Tap or drag the steps here in order"; color:var(--ink-soft); font-size:.9rem; padding:10px}
+.buckets{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px}
+.bucket{min-height:150px; border-radius:16px; border:2px dashed var(--azure); padding:12px; display:flex; flex-direction:column; gap:8px}
+.bucket h4{font-family:var(--f-sans); font-size:.85rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; text-align:center; padding:6px; border-radius:10px}
+.bucket .tilew{font-size:.92rem; padding:8px 12px}
+.tilew.right{border-color:var(--matcha); background:var(--pist-tint); color:var(--forest)}
+.tilew.wrong{border-color:var(--orchid); background:var(--orchid-tint); color:var(--maroon)}
+.match{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.match .col{display:grid; gap:10px; align-content:start}
+.match .tilew{text-align:left; font-size:.95rem; min-height:56px}
+.match .tilew.sel{border-color:var(--indigo); background:var(--azure-tint)}
+.match .tilew.done{border-color:var(--matcha); background:var(--pist-tint); color:var(--forest); opacity:.7}
+.match .tilew.bad{animation:shake .35s; border-color:var(--orchid)}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.numwrap{display:flex; align-items:center; gap:10px; max-width:320px}
+.numwrap .pre{font-weight:800; font-size:1.3rem}
+.numwrap .input{font-size:1.3rem; font-weight:800}
+.kw-list{display:grid; gap:8px}
+.kw{display:flex; gap:10px; align-items:flex-start; padding:10px 14px; border-radius:12px; font-size:.95rem}
+.kw.hit{background:var(--pist-tint); color:var(--forest)}
+.kw.miss{background:var(--orchid-tint); color:var(--maroon)}
+.kw.warn{background:var(--peach-tint); color:var(--maroon)}
+.kw b{flex:none}
 
-.result{text-align:center; padding:40px 24px; display:grid; gap:14px; justify-items:center}
-.result .big{font-family:var(--f-display); font-weight:800; font-size:clamp(3rem,9vw,5rem); line-height:1; color:var(--primary)}
-.result p{color:var(--ink-soft); max-width:46ch}
+.sheet{position:fixed; left:0; right:0; bottom:0; z-index:60; padding:18px var(--gr) calc(18px + env(safe-area-inset-bottom,0px)) var(--gl); animation:sheetUp .3s cubic-bezier(.2,.9,.3,1.1); border-top:1px solid var(--line)}
+.sheet .in{max-width:780px; margin:0 auto; display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap}
+.sheet .in>div{min-width:0; flex:1 1 300px}
+.sheet h3{font-size:1.3rem}
+.sheet p{font-size:.98rem; margin-top:4px}
+.sheet.good{background:var(--pist-tint); color:var(--forest)}
+.sheet.bad{background:var(--orchid-tint); color:var(--maroon)}
+.sheet.neutral{background:var(--surface)}
+@keyframes sheetUp{from{transform:translateY(100%)}}
+.checkbar{display:flex; justify-content:flex-end; margin-top:18px; gap:10px; flex-wrap:wrap}
 
-/* ---------- payday sim ---------- */
-.sim-grid{display:grid; grid-template-columns:300px 1fr; gap:20px; align-items:start}
-.sim-grid > *{min-width:0}
-.side{position:sticky; top:calc(env(safe-area-inset-top,0px) + 84px); padding:20px; display:grid; gap:16px}
-.side h3{font-size:1rem}
-.who{display:flex; gap:12px; align-items:center}
-.avatar{width:48px; height:48px; border-radius:14px; display:grid; place-items:center; font-family:var(--f-display); font-weight:800; font-size:1.1rem; flex:none}
+.result{text-align:center; padding:clamp(28px,5vw,48px) 22px; display:grid; gap:16px; justify-items:center}
+.result .medal{width:110px; height:110px}
+.result .stats{display:grid; grid-template-columns:repeat(3,minmax(0,140px)); gap:12px}
+.result .stat{border-radius:16px; padding:12px; border:2px solid}
+.result .stat small{display:block; font-size:.72rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase}
+.result .stat b{font-family:var(--f-serif); font-size:1.5rem}
+
+/* ---------- hubs (games / sim) ---------- */
+.hub{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+.hub a{border-radius:var(--r); padding:22px; text-decoration:none; display:grid; gap:8px; align-content:start; min-height:190px; transition:transform .25s cubic-bezier(.2,.9,.3,1.3), box-shadow .25s; position:relative; overflow:hidden}
+.hub a:hover{transform:translateY(-4px); box-shadow:0 18px 30px -18px rgba(27,59,77,.5)}
+.hub a .ico{width:50px; height:50px; border-radius:14px; display:grid; place-items:center; background:rgba(247,250,250,.6); margin-bottom:6px}
+.hub a .ico svg{width:26px; height:26px}
+.hub a h3{font-size:1.3rem}
+.hub a p{font-size:.94rem; opacity:.9}
+.hub a .meta{margin-top:auto; font-size:.8rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; opacity:.8; padding-top:8px}
+.hub a.feature{grid-column:span 2; min-height:220px}
+.panel{padding:clamp(20px,3.5vw,32px)}
+.setup{display:grid; gap:18px; max-width:760px}
+.choice-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:10px}
+.pick{border:2px solid var(--line); background:var(--surface); border-radius:14px; padding:12px 14px; text-align:left; font-weight:700; font-size:.94rem; display:grid; gap:2px}
+.pick small{font-weight:600; color:var(--ink-soft); font-size:.8rem}
+.pick[aria-pressed="true"]{border-color:var(--indigo); background:var(--azure-tint)}
+
+/* flashcards */
+.flash-stage{perspective:1400px; max-width:620px; margin:0 auto; width:100%}
+.flash{position:relative; width:100%; aspect-ratio:3/2; max-height:380px; cursor:pointer; transform-style:preserve-3d; transition:transform .6s cubic-bezier(.2,.8,.2,1); border:0; padding:0; background:none}
+.flash.flip{transform:rotateY(180deg)}
+.flash .face{position:absolute; inset:0; border-radius:24px; display:grid; place-items:center; padding:28px; backface-visibility:hidden; -webkit-backface-visibility:hidden; text-align:center; box-shadow:var(--shadow)}
+.flash .face h3{font-size:clamp(1.6rem,4vw,2.4rem)}
+.flash .face p{font-size:clamp(1rem,2.3vw,1.15rem); line-height:1.6; max-width:44ch}
+.flash .back{transform:rotateY(180deg)}
+.flash .face small{position:absolute; bottom:16px; left:0; right:0; font-size:.75rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; opacity:.6}
+
+/* memory */
+.memory{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
+.mcard{aspect-ratio:4/3; border-radius:16px; border:0; perspective:800px; background:none; padding:0}
+.mcard .inner{position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .45s}
+.mcard.open .inner,.mcard.done .inner{transform:rotateY(180deg)}
+.mcard .f,.mcard .b{position:absolute; inset:0; border-radius:16px; display:grid; place-items:center; padding:10px; backface-visibility:hidden; -webkit-backface-visibility:hidden; font-weight:700; font-size:clamp(.72rem,1.6vw,.92rem); line-height:1.3; text-align:center}
+.mcard .f{background:var(--indigo); color:var(--azure)}
+.mcard .f svg{width:34%; height:34%; opacity:.6}
+.mcard .b{transform:rotateY(180deg); background:var(--surface); border:2px solid var(--line); color:var(--ink)}
+.mcard .b.term{font-family:var(--f-serif); font-size:clamp(.9rem,2vw,1.15rem); font-weight:600}
+.mcard.done .b{background:var(--pist-tint); border-color:var(--matcha); color:var(--forest)}
+
+/* crossword */
+.cw-wrap{display:grid; grid-template-columns:1fr; gap:24px; align-items:start}
+.cw-wrap .cw{margin:0 auto}
+.cw-wrap>*{min-width:0}
+.cw-scroll{overflow-x:auto; max-width:100%; padding-bottom:6px}
+.cw{display:grid; gap:2px; width:max-content; background:transparent}
+.cw .cell{width:34px; height:34px; position:relative}
+.cw .cell.on{background:var(--surface); border:2px solid var(--indigo); border-radius:6px}
+.cw .cell input{width:100%; height:100%; border:0; background:transparent; text-align:center; font-weight:800; font-size:1.05rem; text-transform:uppercase; padding:0; color:var(--deep); border-radius:4px}
+.cw .cell input:focus{outline:none; background:var(--peach-tint)}
+.cw .cell.hl input{background:var(--azure-tint)}
+.cw .cell.right{border-color:var(--matcha); background:var(--pist-tint)}
+.cw .cell.wrong{border-color:var(--orchid); background:var(--orchid-tint)}
+.cw .cell sup{position:absolute; top:1px; left:3px; font-size:.58rem; font-weight:800; color:var(--ink-soft); pointer-events:none; line-height:1}
+.clues{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+.clues h4{font-family:var(--f-sans); font-size:.8rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; margin-bottom:8px}
+.clues ol{margin:0; padding:0; list-style:none; display:grid; gap:6px}
+.clues li{font-size:.92rem; padding:6px 10px; border-radius:10px; cursor:pointer}
+.clues li b{margin-right:6px}
+.clues li.act{background:var(--azure-tint)}
+.clues li.solved{color:var(--forest); text-decoration:line-through; text-decoration-color:var(--matcha)}
+
+/* speed */
+.speed-stage{border-radius:22px; background:var(--indigo); color:#F7FAFA; padding:28px; min-height:230px; display:grid; place-items:center; text-align:center; position:relative; overflow:hidden}
+.speed-stage .stmt{font-family:var(--f-serif); font-size:clamp(1.3rem,3.2vw,1.8rem); font-weight:500; max-width:30ch}
+.speed-stage .hud{position:absolute; top:14px; left:18px; right:18px; display:flex; justify-content:space-between; font-weight:800; font-size:.86rem; color:var(--azure)}
+.speed-stage .timer{position:absolute; left:18px; right:18px; top:42px; height:6px; border-radius:99px; background:rgba(180,204,207,.2); overflow:hidden}
+.speed-stage .timer i{display:block; height:100%; width:100%; background:var(--peach)}
+.speed-stage .fb{position:absolute; bottom:14px; left:18px; right:18px; font-size:.9rem; color:var(--pistachio)}
+.pop-in{animation:popIn .35s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes popIn{from{transform:scale(.92); opacity:.001}}
+
+/* simulator */
+.sim-grid{display:grid; grid-template-columns:290px 1fr; gap:20px; align-items:start}
+.sim-grid>*{min-width:0}
+.sim-side{position:sticky; top:calc(env(safe-area-inset-top,0px) + 86px); padding:20px; display:grid; gap:14px}
 .meter{display:grid; gap:6px}
-.meter .top{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; font-weight:600}
-.meter .top span:last-child{font-family:var(--f-mono)}
-.meter .bar{height:10px; border-radius:99px; background:var(--tint); overflow:hidden}
-.meter .bar i{display:block; height:100%; border-radius:inherit; transition:width .7s cubic-bezier(.2,.9,.3,1.1)}
-.months{display:flex; gap:6px}
-.months span{flex:1; height:6px; border-radius:99px; background:var(--tint)}
-.months span.on{background:var(--primary)}
-.debt{display:flex; justify-content:space-between; padding:10px 12px; border-radius:12px; background:var(--bad-bg); color:var(--bad); font-weight:700; font-size:.9rem}
-.debt.zero{background:var(--good-bg); color:var(--good)}
-
-.stage{padding:clamp(20px,3.5vw,32px); display:grid; gap:18px}
-.stage h2{font-size:clamp(1.4rem,3vw,2rem)}
-.stage .sub{color:var(--ink-soft)}
-.chars{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
-.char{text-align:left; border:0; border-radius:var(--r); padding:20px; display:grid; gap:10px; align-content:start; transition:transform .25s cubic-bezier(.2,.9,.3,1.3)}
-.char:hover{transform:translateY(-4px)}
-.char .avatar{background:rgba(255,255,255,.6)}
-.char h3{font-size:1.1rem}
-.char .meta{font-family:var(--f-mono); font-size:.8rem; opacity:.85}
-.char .goal{background:rgba(255,255,255,.55); border-radius:12px; padding:10px 12px; font-size:.9rem; font-weight:600}
-.diff{font-size:.72rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase}
-
-.paycheck{background:#fffdf8; color:var(--galaxy); border-radius:16px; padding:22px; border:1px dashed rgba(8,31,92,.3); max-width:520px}
-.paycheck .row{opacity:0; transform:translateY(6px); transition:opacity .35s, transform .35s}
-.paycheck .row.show{opacity:1; transform:none}
-.paycheck .row.total span:last-child{color:var(--planetary)}
-.reveal-note{font-size:.88rem; color:var(--ink-soft)}
-
-.bills{display:flex; flex-wrap:wrap; gap:8px}
-.bill{display:inline-flex; gap:8px; align-items:center; padding:8px 12px; border-radius:10px; background:var(--surface-2); border:1px solid var(--line); font-size:.88rem; font-weight:600}
-.bill span{font-family:var(--f-mono); color:var(--ink-soft)}
-.alloc{display:grid; gap:18px}
-.slider{display:grid; gap:8px}
-.slider .top{display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap}
-.slider label{font-weight:700}
-.slider label small{display:block; font-weight:500; color:var(--ink-soft); font-size:.84rem}
-.slider output{font-family:var(--f-display); font-weight:700; font-size:1.2rem}
-input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:12px; border-radius:99px; background:var(--tint); outline-offset:6px}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:26px; height:26px; border-radius:50%; background:var(--surface); border:4px solid var(--thumb,var(--primary)); box-shadow:0 2px 6px rgba(8,31,92,.3); cursor:grab}
-input[type=range]::-moz-range-thumb{width:20px; height:20px; border-radius:50%; background:var(--surface); border:4px solid var(--thumb,var(--primary)); cursor:grab}
-.stack{display:flex; height:22px; border-radius:8px; overflow:hidden; background:var(--tint)}
-.stack i{display:block; height:100%; transition:width .3s}
-.legend{display:flex; flex-wrap:wrap; gap:14px; font-size:.84rem; color:var(--ink-soft)}
+.meter .top{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; font-weight:700}
+.health{display:flex; align-items:center; gap:14px}
+.health svg{width:70px; height:70px; flex:none}
+.paystub{background:var(--surface-2); border:1px dashed var(--indigo); border-radius:16px; padding:18px 20px; max-width:520px}
+.paystub .r{display:flex; justify-content:space-between; gap:12px; padding:5px 0; font-variant-numeric:tabular-nums; opacity:0; transform:translateY(6px); transition:all .35s}
+.paystub .r.show{opacity:1; transform:none}
+.paystub .r.minus span:last-child{color:var(--maroon)}
+.paystub .r.total{border-top:2px solid var(--deep); margin-top:8px; padding-top:10px; font-weight:800; font-size:1.1rem}
+.paystub .r.total span:last-child{font-family:var(--f-serif); font-size:1.5rem}
+.alloc-row{display:grid; gap:6px}
+.alloc-row .top{display:flex; justify-content:space-between; gap:10px; align-items:baseline; flex-wrap:wrap}
+.alloc-row output{font-family:var(--f-serif); font-weight:600; font-size:1.25rem}
+.stackbar{display:flex; height:22px; border-radius:8px; overflow:hidden; background:var(--azure-tint)}
+.stackbar i{display:block; height:100%; transition:width .3s}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-size:.84rem; color:var(--ink-soft); font-weight:600}
 .legend span{display:inline-flex; align-items:center; gap:6px}
-.legend span::before{content:""; width:10px; height:10px; border-radius:3px; background:var(--sw)}
-.tip{display:flex; gap:12px; padding:14px 16px; border-radius:14px; background:var(--tint); font-size:.95rem}
-.tip svg{width:22px; height:22px; flex:none; color:var(--primary)}
-.fun-left{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 16px; border-radius:14px; background:var(--warn-bg); color:var(--maroon); font-weight:700}
-.fun-left b{font-family:var(--f-display); font-size:1.3rem}
+.legend span::before{content:""; width:11px; height:11px; border-radius:3px; background:var(--sw)}
+.event{border-radius:22px; padding:clamp(20px,3vw,28px); display:grid; gap:14px}
+.event .choices{display:grid; gap:10px}
+.event .ch{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 16px; border-radius:14px; border:0; background:rgba(247,250,250,.75); color:var(--deep); text-align:left; font-weight:700; transition:transform .15s, background .15s}
+.event .ch:hover:not([disabled]){transform:translateX(4px); background:var(--surface)}
+.event .ch span{font-weight:600; font-size:.88rem; white-space:nowrap; font-variant-numeric:tabular-nums}
+.linkl{display:inline-flex; align-items:center; gap:6px; font-weight:800; font-size:.88rem; color:var(--indigo)}
+.donut{width:180px; height:180px; flex:none}
+.calc-out{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+.calc-out>div{border-radius:16px; padding:14px 16px; background:var(--surface-2); border:1px solid var(--line)}
+.calc-out small{display:block; font-size:.78rem; font-weight:700; color:var(--ink-soft)}
+.calc-out b{font-family:var(--f-serif); font-size:1.4rem; font-weight:600; font-variant-numeric:tabular-nums}
+.calc-out>div.hl{background:var(--pistachio); border-color:transparent; color:var(--forest)}
+.calc-out>div.hl small{color:var(--forest)}
+canvas.chart{width:100%; height:240px; display:block}
+.exp-row{display:grid; grid-template-columns:1fr 130px 40px; gap:8px; align-items:center}
+.exp-row.exp4{grid-template-columns:1fr 96px 104px 40px}
+.sticky-panel{position:sticky; top:calc(env(safe-area-inset-top,0px) + 86px)}
+.iconbtn{width:40px; height:40px; border-radius:12px; border:1px solid var(--line); background:var(--surface); display:grid; place-items:center}
+.iconbtn svg{width:18px; height:18px}
 
-.event{border-radius:20px; padding:clamp(20px,3vw,28px); display:grid; gap:14px}
-.event .tag{font-family:var(--f-mono); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase}
-.event h3{font-size:clamp(1.25rem,2.8vw,1.6rem)}
-.event p{font-size:1.04rem}
-.choices{display:grid; gap:10px}
-.choice{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 16px; border-radius:14px; border:0; background:rgba(255,255,255,.7); color:var(--galaxy); text-align:left; font-weight:700; transition:transform .15s, background .15s}
-.choice:hover{transform:translateX(5px); background:#fff}
-.choice span{font-family:var(--f-mono); font-weight:500; font-size:.86rem; white-space:nowrap}
-.outcome{padding:16px; border-radius:14px; background:var(--surface-2); border:1px solid var(--line); display:grid; gap:6px}
-.outcome .verdict{font-family:var(--f-display); font-weight:700}
-.outcome.good .verdict{color:var(--good)}
-.outcome.bad .verdict{color:var(--bad)}
-.outcome ul{margin:4px 0 0; padding-left:18px; color:var(--ink-soft); font-size:.92rem}
+/* progress */
+.prof{display:grid; grid-template-columns:1.2fr .8fr; gap:18px; margin-bottom:26px}
+.prof>*{min-width:0}
+.prof-hero{background:var(--indigo); color:var(--azure); border-radius:26px; padding:28px; display:grid; gap:14px}
+.prof-hero h2{color:#F7FAFA}
+.prof-hero .bar{background:rgba(180,204,207,.2); height:12px}
+.prof-hero .bar i{background:var(--peach)}
+.prof-hero .mini{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
+.prof-hero .mini div{background:rgba(180,204,207,.12); border-radius:14px; padding:12px}
+.prof-hero .mini b{display:block; font-family:var(--f-serif); font-size:1.5rem; color:#F7FAFA; font-weight:600}
+.prof-hero .mini small{font-size:.76rem; font-weight:700}
+.badge-sec{margin-bottom:26px}
+.badge-sec h3{margin-bottom:12px}
+.badges{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px}
+.bdg{display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:center; padding:16px; border-radius:18px; background:var(--surface); border:1px solid var(--line)}
+.bdg>div{min-width:0}
+.bdg .med{width:58px; height:58px}
+.bdg h4{font-family:var(--f-sans); font-size:.95rem; font-weight:800}
+.bdg p{font-size:.8rem; color:var(--ink-soft); line-height:1.4}
+.bdg .bar{height:6px; margin-top:6px}
+.bdg.locked .med{opacity:.4; filter:grayscale(1)}
+.chartbox{padding:22px}
+.goalpick{display:grid; grid-template-columns:repeat(4,1fr); gap:8px}
 
-.recap{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
-.tile{padding:16px; border-radius:14px; background:var(--surface-2); border:1px solid var(--line)}
-.tile small{display:block; font-size:.78rem; color:var(--ink-soft); font-weight:600}
-.tile b{font-family:var(--f-display); font-size:1.3rem}
-.stars{display:flex; gap:10px; justify-content:center}
-.stars svg{width:64px; height:64px}
-.stars svg.on{animation:starIn .6s cubic-bezier(.2,.9,.3,1.5) both}
-@keyframes starIn{from{transform:scale(0) rotate(-90deg)}}
-.checks{display:grid; gap:8px; text-align:left; width:100%; max-width:460px}
-.checks div{display:flex; gap:10px; align-items:center; padding:10px 14px; border-radius:12px; background:var(--surface-2); font-weight:600}
-.checks div.ok{background:var(--good-bg); color:var(--good)}
-.checks div.no{background:var(--bad-bg); color:var(--bad)}
-
-/* ---------- arcade ---------- */
-.arcade{display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start}
-.arcade > *{min-width:0}
-.game{padding:24px; display:grid; gap:16px}
-.game h3{font-size:1.3rem}
-.nw-stage{position:relative; min-height:200px; display:grid; place-items:center; border-radius:18px; background:var(--galaxy); color:var(--milky); overflow:hidden; padding:20px}
-.nw-item{font-family:var(--f-display); font-weight:700; font-size:clamp(1.3rem,3.4vw,1.9rem); text-align:center; text-wrap:balance}
-.nw-item.in{animation:dropIn .35s cubic-bezier(.2,.9,.3,1.3)}
-@keyframes dropIn{from{transform:translateY(-30px) scale(.9); opacity:.001}}
-.nw-hud{position:absolute; top:12px; left:14px; right:14px; display:flex; justify-content:space-between; font-family:var(--f-mono); font-size:.82rem; color:var(--venus)}
-.nw-flash{position:absolute; bottom:12px; left:0; right:0; text-align:center; font-size:.85rem; color:var(--azure); padding-inline:12px}
-.nw-btns{display:grid; grid-template-columns:1fr 1fr; gap:10px}
-.nw-btns .btn{font-family:var(--f-display); font-size:1rem}
-.btn-need{background:var(--matcha); color:var(--forest); box-shadow:0 4px 0 #5d8a5d}
-.btn-want{background:var(--orchid); color:var(--maroon); box-shadow:0 4px 0 #c97890}
-.timer{height:6px; border-radius:99px; background:rgba(255,255,255,.15); position:absolute; left:14px; right:14px; top:38px; overflow:hidden}
-.timer i{display:block; height:100%; background:var(--peach); width:100%}
-
-.ci-out{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
-.ci-out .tile b{font-size:1.1rem}
-.ci-out .tile.hl{background:var(--pistachio); color:var(--forest); border-color:transparent}
-.ci-out .tile.hl small{color:var(--forest)}
-canvas#ci{width:100%; height:220px; display:block}
-.ci-compare{font-size:.98rem; color:var(--ink-soft)}
-.ci-compare strong{color:var(--ink)}
-
-/* ---------- badges ---------- */
-.badges{display:grid; grid-template-columns:repeat(5,1fr); gap:14px}
-.badge{padding:18px 14px; border-radius:var(--r); text-align:center; display:grid; gap:8px; justify-items:center; background:var(--surface); border:1px solid var(--line)}
-.badge .medal{width:68px; height:68px; border-radius:50%; display:grid; place-items:center; font-family:var(--f-display); font-weight:800; font-size:1.3rem}
-.badge h4{font-size:.88rem}
-.badge p{font-size:.8rem; color:var(--ink-soft)}
-.badge.locked .medal{background:var(--tint)!important; color:var(--ink-soft)!important; filter:grayscale(1)}
-.badge.locked h4{color:var(--ink-soft)}
-.profile{display:grid; grid-template-columns:1.3fr 1fr; gap:20px; margin-bottom:28px}
-.profile > *{min-width:0}
-.card-hero{padding:26px; border-radius:24px; background:var(--planetary); color:var(--milky); display:grid; gap:12px}
-.card-hero .eyebrow{color:var(--venus)}
-.card-hero h2{font-size:clamp(1.5rem,3.5vw,2.2rem)}
-.card-hero .xpbar{background:rgba(255,255,255,.2); height:12px}
-.card-hero .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:6px}
-.card-hero .grid div{background:rgba(255,255,255,.12); border-radius:12px; padding:12px}
-.card-hero .grid b{display:block; font-family:var(--f-display); font-size:1.3rem}
-.card-hero .grid small{color:var(--venus); font-size:.78rem}
-.settings{padding:22px; display:grid; gap:14px; align-content:start}
-.settings label{font-weight:700; display:grid; gap:6px}
-.settings select{font:inherit; padding:10px 12px; border-radius:12px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink)}
-.confirm{display:flex; gap:8px; flex-wrap:wrap; align-items:center; padding:12px; border-radius:12px; background:var(--bad-bg); color:var(--bad); font-weight:600}
-
-/* ---------- toast & confetti ---------- */
-.toasts{position:fixed; left:50%; transform:translateX(-50%); bottom:calc(24px + env(safe-area-inset-bottom,0px)); z-index:80; display:grid; gap:8px; justify-items:center; pointer-events:none}
-.toast{background:var(--galaxy); color:var(--milky); padding:12px 18px; border-radius:14px; font-weight:700; display:flex; gap:10px; align-items:center; box-shadow:0 14px 30px -10px rgba(0,0,0,.4); animation:toastIn .4s cubic-bezier(.2,.9,.3,1.3), toastOut .4s 2.6s forwards; border:1px solid rgba(208,227,255,.2)}
-.toast b{color:var(--peach); font-family:var(--f-display)}
-@keyframes toastIn{from{transform:translateY(20px) scale(.9); opacity:.001}}
-@keyframes toastOut{to{transform:translateY(10px); opacity:0}}
-#confetti{position:fixed; inset:0; pointer-events:none; z-index:90; width:100%; height:100%}
-
-footer{border-top:1px solid var(--line); padding-block:28px; color:var(--ink-soft); font-size:.88rem}
-footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+/* toast + confetti */
+.toasts{position:fixed; left:50%; transform:translateX(-50%); bottom:calc(24px + env(safe-area-inset-bottom,0px)); z-index:90; display:grid; gap:8px; justify-items:center; pointer-events:none; width:max-content; max-width:calc(100% - 32px)}
+.toast{background:var(--deep); color:#F7FAFA; padding:12px 18px; border-radius:14px; font-weight:700; box-shadow:0 14px 30px -10px rgba(27,59,77,.5); animation:tIn .4s cubic-bezier(.2,.9,.3,1.3), tOut .4s 2.8s forwards; font-size:.95rem}
+.toast b{color:var(--peach)}
+@keyframes tIn{from{transform:translateY(20px) scale(.9); opacity:.001}}
+@keyframes tOut{to{transform:translateY(10px); opacity:0}}
+#confetti{position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:95}
 
 /* ---------- responsive ---------- */
-@media (max-width:1000px){
-  .badges{grid-template-columns:repeat(4,1fr)}
-  .recap{grid-template-columns:repeat(2,1fr)}
+@media (max-width:1100px){
+  .learn-wrap{grid-template-columns:1fr}
+  .learn-side{position:static; order:-1}
+  .learn-side .unit-jump{display:none}
 }
-@media (max-width:860px){
-  .hero{grid-template-columns:1fr; gap:24px; padding-top:30px}
-  .units,.chars{grid-template-columns:1fr 1fr}
-  .loop{grid-template-columns:1fr}
-  .sim-grid,.arcade,.profile{grid-template-columns:1fr}
-  .side{position:static}
-  .badges{grid-template-columns:repeat(3,1fr)}
-  .xpbox{display:none}
+@media (max-width:980px){
+  :root{--side-w:84px}
+  .logo b,.nav a span,.side-card{display:none}
+  .logo{justify-content:center; padding:0 0 22px}
+  .nav a{justify-content:center; padding:13px}
+  .hero,.prof{grid-template-columns:1fr}
+  .tiles,.hub,.grid3{grid-template-columns:1fr 1fr}
+  .hub a.feature{grid-column:span 2}
+  .sim-grid,.cw-wrap{grid-template-columns:1fr}
+  .sim-side,.sticky-panel{position:static}
 }
-@media (max-width:760px){
-  .hud{backdrop-filter:none; -webkit-backdrop-filter:none; background:var(--bg)}
-  .nav{position:fixed; left:0; right:0; bottom:0; margin:0; z-index:55; justify-content:space-around; gap:0; background:var(--surface); border-top:1px solid var(--line); padding:6px var(--gutter-r) calc(6px + env(safe-area-inset-bottom,0px)) var(--gutter-l)}
-  .nav a{flex-direction:column; gap:3px; font-size:.7rem; padding:7px 6px; border-radius:12px; flex:1}
+@media (max-width:720px){
+  .side{top:auto; width:auto; right:0; height:auto; flex-direction:row; padding:6px var(--gr) calc(6px + env(safe-area-inset-bottom,0px)) var(--gl); background:var(--indigo)}
+  .side .logo{display:none}
+  .nav{grid-auto-flow:column; grid-auto-columns:1fr; width:100%; gap:2px}
+  .nav a{flex-direction:column; gap:3px; padding:8px 4px; font-size:.68rem; border-radius:12px}
+  .nav a span{display:block}
   .nav a svg{width:22px; height:22px}
-  main{padding-bottom:110px}
-  footer{padding-bottom:100px}
-  .toasts{bottom:calc(90px + env(safe-area-inset-bottom,0px))}
-  .fact{grid-template-columns:1fr}
+  .shell{margin-left:0; padding-bottom:84px}
+  .mobile-logo{display:flex; align-items:center; gap:8px; text-decoration:none; color:var(--ink); font-family:var(--f-serif); font-weight:600; font-size:1.1rem}
+  .mobile-logo svg{width:30px; height:30px}
+  .crumbs{display:none}
+  .chip.xp span.lbl{display:none}
+  .grid2,.tiles,.hub,.grid3,.clues,.calc-out{grid-template-columns:1fr}
+  .hub a.feature{grid-column:auto}
+  .continue{grid-template-columns:auto 1fr}
+  .continue .btn{grid-column:1/-1}
+  .tipcard{grid-template-columns:1fr}
+  .memory{grid-template-columns:repeat(3,1fr)}
+  .prof-hero .mini{grid-template-columns:1fr 1fr}
+  .goalpick{grid-template-columns:1fr 1fr}
+  .sheet{bottom:calc(68px + env(safe-area-inset-bottom,0px))}
+  .toasts{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  .exp-row{grid-template-columns:1fr 100px 40px}
+  .exp-row.exp4{grid-template-columns:1fr 1fr 40px}
+  .exp-row.exp4 input[data-f="0"]{grid-column:1/-1}
+  .result .stats{grid-template-columns:repeat(3,1fr)}
+  .page{padding-top:22px}
 }
-@media (max-width:560px){
-  .units,.chars{grid-template-columns:1fr}
-  .badges{grid-template-columns:1fr 1fr}
-  .ci-out{grid-template-columns:1fr}
-  .card-hero .grid{grid-template-columns:1fr 1fr 1fr}
-  .stats .chip.streak{display:none}
-  .brand b{font-size:.92rem}
-  .section{padding-block:32px}
-  .unit{min-height:0}
+@media (max-width:420px){
+  .match{grid-template-columns:1fr 1fr; gap:8px}
+  .match .tilew{font-size:.84rem; padding:8px 10px}
+  .chip.goal{display:none}
 }
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important}
-  .ticker-track{animation:none}
-  html{scroll-behavior:auto}
 }
 </style>
 </head>
 <body>
 
-<!-- ============ HUD ============ -->
-<header class="hud">
-  <div class="wrap">
-    <a class="brand" href="#home" aria-label="Payday Quest home">
-      <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="11" fill="#334EAC"/><circle cx="20" cy="20" r="10.5" fill="#FFC49B"/><circle cx="20" cy="20" r="7" fill="none" stroke="#7a1a38" stroke-width="1.6" stroke-dasharray="2 2"/><path d="M20 14.5v11M17.3 17.4c0-1.2 1.2-1.9 2.7-1.9s2.7.7 2.7 1.8c0 2.6-5.4 1.3-5.4 4 0 1.1 1.2 1.9 2.7 1.9s2.7-.7 2.7-1.9" fill="none" stroke="#7a1a38" stroke-width="1.6" stroke-linecap="round"/></svg>
-      <b>Payday Quest</b>
-    </a>
-    <nav class="nav" aria-label="Main">
-      <a href="#home" data-route="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
-      <a href="#learn" data-route="learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 7h6"/></svg>Learn</a>
-      <a href="#payday" data-route="payday"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2"/><circle cx="12" cy="12.5" r="2.5"/><path d="M6 10v5M18 10v5"/></svg>Payday</a>
-      <a href="#arcade" data-route="arcade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 11v3M5.5 12.5h3M15 12h.01M18 13.5h.01"/></svg>Arcade</a>
-      <a href="#badges" data-route="badges"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/></svg>Badges</a>
-    </nav>
-    <div class="stats">
-      <div class="lvl" title="Your level">
-        <div class="lvl-badge" id="hudLvl">1</div>
-        <div class="xpbox"><small id="hudTitle">Piggy Bank Rookie</small><div class="xpbar"><i id="hudXp"></i></div></div>
-      </div>
-      <span class="chip" id="hudCoins" title="Total XP"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FFC49B"/><path d="M12 7v10M9.5 9.5c0-1 1-1.6 2.5-1.6s2.5.6 2.5 1.5c0 2.3-5 1.2-5 3.6 0 1 1.1 1.6 2.5 1.6s2.5-.6 2.5-1.6" fill="none" stroke="#7a1a38" stroke-width="1.6" stroke-linecap="round"/></svg><span id="hudXpNum">0</span> XP</span>
-      <span class="chip streak" title="Day streak"><svg viewBox="0 0 24 24"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-6 0 2 1 3 2 3 0-4-1-6 1-9z" fill="#F3A5BC"/><path d="M12 13c1 1.5 2.5 2.4 2.5 4.3a2.5 2.5 0 0 1-5 0c0-1.2.8-2 1.5-2.6 0 .8.4 1.3 1 1.3 0-1.2-.4-2 0-3z" fill="#7a1a38"/></svg><span id="hudStreak">1</span> day streak</span>
-    </div>
+<aside class="side">
+  <a class="logo" href="#home" aria-label="Payday Quest home">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#CBE6C7"/><circle cx="20" cy="20" r="11" fill="#FFC49B"/><circle cx="20" cy="20" r="7.6" fill="none" stroke="#7A1E3A" stroke-width="1.4" stroke-dasharray="2 2.2"/><path d="M20 14.6v10.8M17.4 17.6c0-1.2 1.1-1.9 2.6-1.9s2.6.7 2.6 1.8c0 2.5-5.2 1.3-5.2 3.9 0 1.1 1.1 1.9 2.6 1.9s2.6-.7 2.6-1.9" fill="none" stroke="#7A1E3A" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <b>Payday <i>Quest</i></b>
+  </a>
+  <nav class="nav" aria-label="Main">
+    <a href="#home" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></a>
+    <a href="#learn" data-nav="learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7l10-4 10 4-10 4z"/><path d="M6 9v5c0 1.7 2.7 3 6 3s6-1.3 6-3V9M22 7v6"/></svg><span>Learn</span></a>
+    <a href="#sim" data-nav="sim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg><span>Simulator</span></a>
+    <a href="#games" data-nav="games"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><path d="M17.5 14v7M14 17.5h7"/></svg><span>Games</span></a>
+    <a href="#progress" data-nav="progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg><span>Progress</span></a>
+  </nav>
+  <div class="side-card">
+    <div class="row"><span>Level <b id="sLvl">1</b></span><span id="sXp">0 XP</span></div>
+    <div class="bar"><i id="sBar"></i></div>
+    <div class="row" style="font-size:.8rem" id="sTitle">Piggy Bank Rookie</div>
   </div>
-</header>
+</aside>
 
-<main>
-<!-- ============ HOME ============ -->
-<section class="view" data-view="home">
-  <div class="wrap hero">
-    <div>
-      <p class="eyebrow">Money skills for teens · Learn it, then live it</p>
-      <h1 style="margin-top:14px">Your first paycheck just <span class="serif">landed.</span> Now what?</h1>
-      <p class="lede">Payday Quest drops you into real money situations. Get paid, build a budget, survive a month of surprise costs, and hit your goal. Every smart call earns XP.</p>
-      <div class="ctas">
-        <a class="btn btn-primary" href="#payday"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Play your first payday</a>
-        <a class="btn btn-ghost" href="#learn">Start learning</a>
-      </div>
-      <div class="proof">
-        <div><b>6</b>skill levels</div>
-        <div><b>3</b>payday stories</div>
-        <div><b>10</b>badges to earn</div>
+<div class="shell">
+  <header class="topbar">
+    <div class="in">
+      <a class="mobile-logo" href="#home" aria-label="Payday Quest home"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#28536B"/><circle cx="20" cy="20" r="11" fill="#FFC49B"/><path d="M20 14.6v10.8M17.4 17.6c0-1.2 1.1-1.9 2.6-1.9s2.6.7 2.6 1.8c0 2.5-5.2 1.3-5.2 3.9 0 1.1 1.1 1.9 2.6 1.9s2.6-.7 2.6-1.9" fill="none" stroke="#7A1E3A" stroke-width="1.5" stroke-linecap="round"/></svg>Payday Quest</a>
+      <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+      <div class="chips">
+        <span class="chip streak" id="cStreak" title="Day streak"><svg viewBox="0 0 24 24"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-6 0 2 1 3 2 3 0-4-1-6 1-9z" fill="#F3A5BC"/><path d="M12 13c1 1.5 2.5 2.4 2.5 4.3a2.5 2.5 0 0 1-5 0c0-1.2.8-2 1.5-2.6 0 .8.4 1.3 1 1.3 0-1.2-.4-2 0-3z" fill="#7A1E3A"/></svg><span id="cStreakN">0</span></span>
+        <span class="chip xp" id="cXp" title="Total XP"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 6.3 6.4.6-4.9 4.3 1.5 6.6L12 16.4 6.4 19.8l1.5-6.6L3 8.9l6.4-.6z" fill="#8FB78F" stroke="#1E3D1F" stroke-width="1.2" stroke-linejoin="round"/></svg><span id="cXpN">0</span><span class="lbl">XP</span></span>
+        <span class="chip goal" id="cGoal" title="Daily goal"><svg class="ring" viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" fill="none" stroke="#DCE8E9" stroke-width="5"/><circle id="cGoalArc" cx="18" cy="18" r="14" fill="none" stroke="#8FB78F" stroke-width="5" stroke-linecap="round" stroke-dasharray="88" stroke-dashoffset="88" transform="rotate(-90 18 18)" style="transition:stroke-dashoffset .6s"/></svg><span id="cGoalTxt">0/30</span></span>
       </div>
     </div>
-    <div class="stub-stage" aria-label="Example pay stub">
-      <div class="blob" aria-hidden="true"></div>
-      <div class="stub">
-        <div class="stub-top">
-          <div><b>Bean There Café</b><small>PAY PERIOD 01 OCT – 31 OCT</small><small>EMPLOYEE · MAYA R. · BARISTA</small></div>
-          <div class="stamp">PAID</div>
-        </div>
-        <div class="row"><span>60.0 hrs × <span class="cur">$</span>13.00</span><span data-cur="780">$780.00</span></div>
-        <div class="row minus"><span>Income tax (5%)</span><span data-cur="-39">−$39.00</span></div>
-        <div class="row minus"><span>Social insurance (7.65%)</span><span data-cur="-59.67">−$59.67</span></div>
-        <div class="row total"><span>NET PAY</span><span id="heroNet">$681.33</span></div>
-        <p class="stub-note">…so where should it go?</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker-track">
-      <span>Pay yourself first</span><span>Needs before wants</span><span>The 50/30/20 rule</span><span>Minimum payments cost the most</span><span>Start early, let interest work</span><span>Wait 30 days before big buys</span><span>Build a safety net</span>
-      <span>Pay yourself first</span><span>Needs before wants</span><span>The 50/30/20 rule</span><span>Minimum payments cost the most</span><span>Start early, let interest work</span><span>Wait 30 days before big buys</span><span>Build a safety net</span>
-    </div>
-  </div>
-
-  <div class="wrap section">
-    <div class="sec-head">
-      <div><p class="eyebrow">Your quest map</p><h2 style="margin-top:6px">Six levels from <span class="serif">paycheck</span> to investor</h2></div>
-      <p>Each level is a two-minute lesson and a quick quiz. Do them in order or jump to what you need.</p>
-    </div>
-    <div class="units" id="homeUnits"></div>
-  </div>
-
-  <div class="wrap section" style="padding-top:0">
-    <div class="sec-head"><div><p class="eyebrow">How it works</p><h2 style="margin-top:6px">Learn. Play. Level up.</h2></div></div>
-    <div class="loop">
-      <div class="step"><b>i.</b><h3>Learn the move</h3><p>Short, swipeable lesson cards explain one idea at a time, with real numbers.</p></div>
-      <div class="step"><b>ii.</b><h3>Use it on payday</h3><p>Pick a character, get their paycheck and make the calls. Surprise costs will test your plan.</p></div>
-      <div class="step"><b>iii.</b><h3>Earn XP and badges</h3><p>Smart decisions earn stars and XP. Climb from Piggy Bank Rookie to Money Master.</p></div>
-    </div>
-  </div>
-
-  <div class="wrap section" style="padding-top:0">
-    <div class="fact" id="fact">
-      <div class="k" id="factK">2×</div>
-      <p id="factP"></p>
-      <button type="button" id="factNext">Next fact</button>
-    </div>
-  </div>
-</section>
-
-<!-- ============ LEARN ============ -->
-<section class="view" data-view="learn">
-  <div class="wrap section" id="learnList">
-    <div class="sec-head">
-      <div><p class="eyebrow">Learn</p><h2 style="margin-top:6px">Pick a level, <span class="serif">any</span> level</h2></div>
-      <p>Lessons take about two minutes. Ace the quiz to collect up to 80 XP per level.</p>
-    </div>
-    <div class="units" id="learnUnits"></div>
-  </div>
-  <div class="wrap section" id="player" hidden></div>
-</section>
-
-<!-- ============ PAYDAY ============ -->
-<section class="view" data-view="payday">
-  <div class="wrap section">
-    <div class="sec-head">
-      <div><p class="eyebrow">Payday simulator</p><h2 style="margin-top:6px">Three months. One goal. <span class="serif">Your call.</span></h2></div>
-      <p>Every month you get paid, set a budget, then handle what life throws at you. Reach the goal without going into debt.</p>
-    </div>
-    <div id="sim"></div>
-  </div>
-</section>
-
-<!-- ============ ARCADE ============ -->
-<section class="view" data-view="arcade">
-  <div class="wrap section">
-    <div class="sec-head">
-      <div><p class="eyebrow">Arcade</p><h2 style="margin-top:6px">Quick games, <span class="serif">real</span> skills</h2></div>
-      <p>Sort needs from wants against the clock, or watch what compound interest does with a few dollars a month.</p>
-    </div>
-    <div class="arcade">
-      <div class="panel game">
-        <div><p class="eyebrow">30-second sprint</p><h3 style="margin-top:4px">Need or Want?</h3></div>
-        <div class="nw-stage" id="nwStage">
-          <div class="nw-hud"><span id="nwScore">Score 0</span><span id="nwBest">Best 0</span></div>
-          <div class="timer"><i id="nwTimer"></i></div>
-          <div class="nw-item" id="nwItem">Sort as many as you can in 30 seconds</div>
-          <div class="nw-flash" id="nwFlash">Use the buttons, or ← and → on a keyboard</div>
-        </div>
-        <div class="nw-btns" id="nwBtns">
-          <button class="btn btn-primary" id="nwStart" type="button" style="grid-column:1/-1">Start sprint</button>
-        </div>
-      </div>
-
-      <div class="panel game">
-        <div><p class="eyebrow">Sandbox</p><h3 style="margin-top:4px">Compound Interest Machine</h3></div>
-        <div class="alloc">
-          <div class="slider"><div class="top"><label for="ciMonthly">Save each month</label><output id="ciMonthlyOut">$50</output></div><input type="range" id="ciMonthly" min="10" max="500" step="10" value="50"></div>
-          <div class="slider"><div class="top"><label for="ciAge">Start at age</label><output id="ciAgeOut">16</output></div><input type="range" id="ciAge" min="14" max="45" step="1" value="16"></div>
-          <div class="slider"><div class="top"><label for="ciRate">Yearly return<small>Stock market long-run average is roughly 7%</small></label><output id="ciRateOut">7%</output></div><input type="range" id="ciRate" min="1" max="12" step="0.5" value="7"></div>
-        </div>
-        <canvas id="ci" aria-label="Growth of savings until age 65"></canvas>
-        <div class="legend"><span style="--sw:var(--universe)">What you put in</span><span style="--sw:var(--matcha)">Interest earned</span></div>
-        <div class="ci-out">
-          <div class="tile"><small>You put in</small><b class="mono" id="ciIn">$0</b></div>
-          <div class="tile"><small>Interest earned</small><b class="mono" id="ciGain">$0</b></div>
-          <div class="tile hl"><small>At age 65</small><b class="mono" id="ciTotal">$0</b></div>
-        </div>
-        <p class="ci-compare" id="ciCompare"></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ BADGES ============ -->
-<section class="view" data-view="badges">
-  <div class="wrap section">
-    <div class="profile">
-      <div class="card-hero">
-        <p class="eyebrow">Your profile</p>
-        <h2 id="pTitle">Piggy Bank Rookie</h2>
-        <div><div class="xpbar"><i id="pXp"></i></div><p style="margin-top:6px; font-size:.88rem; color:var(--venus)" id="pXpTxt"></p></div>
-        <div class="grid">
-          <div><b id="pLessons">0/6</b><small>levels cleared</small></div>
-          <div><b id="pStars">0</b><small>best payday stars</small></div>
-          <div><b id="pBadges">0</b><small>badges</small></div>
-        </div>
-      </div>
-      <div class="panel settings">
-        <h3 style="font-size:1.05rem">Settings</h3>
-        <label for="curSel">Currency symbol
-          <select id="curSel">
-            <option value="$">$ Dollar</option><option value="£">£ Pound</option><option value="€">€ Euro</option><option value="₹">₹ Rupee</option><option value="A$">A$ Australian dollar</option><option value="C$">C$ Canadian dollar</option>
-          </select>
-        </label>
-        <p style="font-size:.86rem; color:var(--ink-soft)">Progress is saved in this browser only.</p>
-        <div id="resetBox"><button class="btn btn-ghost" type="button" id="resetBtn">Reset my progress</button></div>
-      </div>
-    </div>
-    <div class="sec-head"><div><p class="eyebrow">Collection</p><h2 style="margin-top:6px">Badges</h2></div></div>
-    <div class="badges" id="badgeGrid"></div>
-  </div>
-</section>
-</main>
-
-<footer><div class="wrap"><span>Payday Quest · financial literacy for teens</span><span>Tax rates are simplified examples. Real rates depend on where you live.</span></div></footer>
+  </header>
+  <main class="page" id="app" tabindex="-1"></main>
+</div>
 
 <div class="toasts" id="toasts" aria-live="polite"></div>
 <canvas id="confetti" aria-hidden="true"></canvas>
 
-<script>
-(function(){
-"use strict";
-const $ = (s, r=document) => r.querySelector(s);
-const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-/* ================= DATA ================= */
-const UNITS = [
- {id:'pay', title:'Your Paycheck', sub:'Gross pay, net pay and what gets taken out', color:'c-peach', cards:[
-  {h:'Gross pay is the headline number', b:'Gross pay is everything you earned before anything comes out. For hourly work it is your rate multiplied by your hours.', ex:['Example','{13}/hr × 15 hrs × 4 weeks = {780} gross']},
-  {h:'Net pay is what actually lands', b:'Before you see a cent, your employer withholds income tax and social insurance (called social security, national insurance or pension contributions depending on your country). What is left is your net, or take-home, pay.', ex:['Example','{780} gross − {99} withheld = {681} net']},
-  {h:'Read your pay stub every time', b:'A pay stub (or payslip) lists the pay period, hours, rate, gross pay, each deduction and your year-to-date totals. Mistakes happen. Spotting a missing hour is free money.', ex:['Check','Pay period · Hours · Rate · Gross · Deductions · Net · YTD']},
-  {h:'Budget from net, never gross', b:'Plan your spending around take-home pay. If you budget from the gross number, you are planning to spend money you will never receive.', ex:['Rule','Plan with {681}, not {780}']}
- ], quiz:[
-  {q:'You work 20 hours at {15} an hour. What is your gross pay?', o:['{250}','{300}','{350}','{275}'], a:1, e:'Gross = rate × hours = {15} × 20 = {300}, before any deductions.', money:true},
-  {q:'Which number should you build your budget around?', o:['Gross pay','Net pay','Your hourly rate','Year-to-date total'], a:1, e:'Net pay is the money you actually receive, so it is the only money you can plan to spend.'},
-  {q:'Why is net pay lower than gross pay?', o:['The bank takes a cut','Taxes and contributions are withheld','Your boss keeps a share','It is a printing error'], a:1, e:'Employers withhold income tax and social insurance and pass it to the government for you.'}
- ]},
- {id:'budget', title:'Budgeting', sub:'Give every dollar a job before you spend it', color:'c-pistachio', cards:[
-  {h:'A budget is a plan, not a punishment', b:'A budget decides where your money goes before it arrives, so you are not left wondering where it went. It is how you afford the things you actually care about.', ex:['Think of it as','A to-do list for your money']},
-  {h:'Try the 50/30/20 rule', b:'A simple starting split: 50% of take-home pay on needs, 30% on wants and 20% on savings or paying off debt. Teens living at home can often save far more than 20%.', ex:['On 680 net','{340} needs · {204} wants · {136} savings']},
-  {h:'Needs vs wants', b:'Needs keep you safe, healthy, housed and able to get to school or work. Wants make life more fun. A phone plan can be a need; the newest phone model is a want.', ex:['Quick test','Would life or work actually break without it?']},
-  {h:'Track one month for real', b:'Write down every purchase for 30 days. Most people are shocked by small repeat spending, like snacks, delivery fees and subscriptions. You cannot fix what you cannot see.', ex:['Example','A {5} coffee × 20 school days = {100} a month']}
- ], quiz:[
-  {q:'In the 50/30/20 rule, what does the 20% go to?', o:['Wants','Needs','Savings or debt payoff','Taxes'], a:2, e:'20% goes to your future self: savings, investing, or paying off what you owe.'},
-  {q:'Which of these is a need?', o:['Concert tickets','A bus pass to get to work','A gaming subscription','New sneakers when your old ones fit'], a:1, e:'Getting to work is what keeps the paycheck coming, so transport counts as a need.'},
-  {q:'You spend {3} on a snack every school day (20 days). What is the monthly cost?', o:['{30}','{45}','{60}','{90}'], a:2, e:'{3} × 20 = {60} a month, or about {720} a year. Small repeats add up.', money:true}
- ]},
- {id:'save', title:'Saving & Goals', sub:'Pay yourself first and plan for surprises', color:'c-sky', cards:[
-  {h:'Pay yourself first', b:'Move money into savings the moment you get paid, before you spend anything. Saving what is left at the end of the month usually means saving nothing.', ex:['Habit','Payday → transfer to savings → then spend']},
-  {h:'Build an emergency fund', b:'An emergency fund covers surprises like a broken phone, a dentist bill or a lost bus pass. Start with a small target, then grow it toward three months of expenses as your life gets more expensive.', ex:['Starter goal','{100}–{500} for a teen with a part-time job']},
-  {h:'Make goals SMART', b:'Specific, Measurable, Achievable, Relevant, Time-bound. "Save money" is a wish. "Save {600} for a laptop by March" is a plan you can divide into monthly steps.', ex:['Math','{600} ÷ 3 months = {200} a month']},
-  {h:'The 30-day rule', b:'Want something that is not in your budget? Wait 30 days. If you still want it and can afford it, buy it guilt-free. Most impulse wants fade within the month.', ex:['Bonus','Write it on a list with the date you saw it']}
- ], quiz:[
-  {q:'What does "pay yourself first" mean?', o:['Buy yourself a treat every payday','Save before you spend','Ask for a raise','Pay your bills late'], a:1, e:'Saving first makes it automatic. Whatever is left is yours to spend.'},
-  {q:'What is an emergency fund for?', o:['Holiday shopping','Unexpected, necessary costs','Investing in crypto','Lending to friends'], a:1, e:'It covers surprises you cannot avoid, so they do not wreck your goals or push you into debt.'},
-  {q:'You want {450} for a trip in 6 months. How much should you save each month?', o:['{45}','{60}','{75}','{90}'], a:2, e:'{450} ÷ 6 = {75} a month. Breaking it down makes big goals doable.', money:true}
- ]},
- {id:'bank', title:'Banking', sub:'Accounts, interest and the fees to dodge', color:'c-azure', cards:[
-  {h:'Two accounts, two jobs', b:'A checking (current) account is for everyday spending through a debit card. A savings account is for money you are keeping, and it usually pays you interest.', ex:['Setup','Paycheck → checking → auto-transfer to savings']},
-  {h:'Interest and APY', b:'Banks pay you interest for keeping money with them. APY (or AER) is the yearly rate including compounding. A higher rate means your savings grow faster without you doing anything.', ex:['Example','{1000} at 4% APY ≈ {40} after a year']},
-  {h:'Debit vs credit cards', b:'A debit card spends your own money right away. A credit card borrows the bank\'s money, and you owe it back. If you do not pay the full balance, you are charged interest.', ex:['Remember','Debit = your money · Credit = a loan']},
-  {h:'Watch the fees', b:'Overdraft fees, monthly account fees and ATM fees eat into your money. Many banks have no-fee accounts for students. Turn on low-balance alerts so you never spend money that is not there.', ex:['Ouch','A {5} purchase + a {35} overdraft fee = a {40} snack']}
- ], quiz:[
-  {q:'Which card spends money you already have?', o:['Credit card','Debit card','Store card','Gift card from a friend'], a:1, e:'A debit card pulls straight from your checking account. A credit card is borrowing.'},
-  {q:'What does APY tell you?', o:['Your account fee','How much interest you earn in a year','Your credit score','Your tax rate'], a:1, e:'APY is the yearly return on your savings, including interest earned on interest.'},
-  {q:'How can you avoid overdraft fees?', o:['Spend faster','Turn on low-balance alerts and track spending','Use two debit cards','Ignore your bank app'], a:1, e:'Alerts and tracking stop you spending money that is not in the account.'}
- ]},
- {id:'credit', title:'Credit & Debt', sub:'Borrowed money always costs extra', color:'c-orchid', cards:[
-  {h:'Borrowing has a price: APR', b:'APR is the yearly interest rate on what you owe. Credit cards often charge 20–30% APR. Carrying a balance means everything you bought on credit costs more than its price tag.', ex:['Example','At 24% APR, {1000} of debt costs about {20} a month in interest']},
-  {h:'The minimum payment trap', b:'Paying only the minimum keeps you in debt for years. A {500} balance at 24% APR, paid at {15} a month, takes about 4 years 8 months to clear and costs roughly {330} extra in interest.', ex:['Rule','Pay the full balance every month']},
-  {h:'Your credit score', b:'A credit score is a number lenders use to judge how likely you are to pay back. Paying on time, keeping balances low and not opening lots of accounts all help. A good score means cheaper loans later.', ex:['Biggest factor','Paying on time, every time']},
-  {h:'Buy now, pay later', b:'Splitting a purchase into four payments feels free, but missed payments bring late fees and can hurt your credit. Stacking several plans at once makes it easy to lose track.', ex:['Ask yourself','Could I pay for this in full today?']}
- ], quiz:[
-  {q:'You have a {500} credit card balance. Which choice costs the least?', o:['Pay the minimum','Pay the full balance','Pay nothing this month','Open a second card'], a:1, e:'Paying the full balance means zero interest. Anything less and the interest keeps growing.', money:true},
-  {q:'What helps your credit score the most?', o:['Having lots of cards','Paying on time','Checking your balance often','Using cash only'], a:1, e:'Payment history is the biggest part of most credit scores.'},
-  {q:'What is a risk of buy now, pay later?', o:['It is always illegal','Late fees and losing track of payments','It lowers prices','It pays you interest'], a:1, e:'BNPL is still debt. Missed payments bring fees and several plans add up fast.'}
- ]},
- {id:'invest', title:'Investing', sub:'Let time and compound interest do the work', color:'c-matcha', cards:[
-  {h:'Compound interest is interest on interest', b:'When your money earns a return and you leave it invested, next year you earn returns on the original money and on last year\'s gains. The longer you wait, the faster it snowballs.', ex:['Rule of 72','72 ÷ 8% return = money doubles in about 9 years']},
-  {h:'Start early beats start big', b:'Investing {50} a month from age 16 to 65 at a 7% average return grows to about {254000}. Start the same plan at 26 and you end with about {122000}. Ten years early roughly doubles the result.', ex:['Try it','Play with the Compound Interest Machine in the Arcade']},
-  {h:'Risk and reward', b:'Investments that can grow more can also fall more. Savings accounts are very safe but grow slowly. Shares grow more over decades but go up and down along the way.', ex:['Rule','Only invest money you will not need for 5+ years']},
-  {h:'Diversify with index funds', b:'An index fund buys a small piece of hundreds of companies at once, so one company failing does not sink you. It is a simple, low-cost way most people start investing.', ex:['Red flag','Anyone promising guaranteed 10× returns']}
- ], quiz:[
-  {q:'Using the rule of 72, roughly how long does money take to double at 6%?', o:['6 years','8 years','12 years','20 years'], a:2, e:'72 ÷ 6 = 12 years.'},
-  {q:'Why do index funds lower your risk?', o:['They are guaranteed by banks','They spread money across many companies','They never lose value','They pay a fixed rate'], a:1, e:'Diversifying means no single company can wipe you out.'},
-  {q:'A stranger online promises your money will 10× in a week. What is it?', o:['A great deal','Probably a scam','An index fund','A savings account'], a:1, e:'Guaranteed huge, fast returns are the classic sign of a scam.'}
- ]}
-];
-
-const CHARS = [
- {id:'maya', name:'Maya', age:16, job:'Café barista', init:'M', color:'c-peach', diff:'Easy',
-  rate:13, hours:60, tax:.05, bills:[['Phone plan',35],['Bus pass',40]],
-  goal:{name:'New laptop for school', target:600}, safety:100,
-  story:'Maya works weekends at a café. Her old laptop just died and school projects are piling up.'},
- {id:'jordan', name:'Jordan', age:17, job:'Grocery stocker', init:'J', color:'c-pistachio', diff:'Medium',
-  rate:15, hours:80, tax:.08, bills:[['Car insurance share',90],['Gas',60],['Phone plan',40]],
-  goal:{name:'Used-car repair fund', target:900}, safety:200,
-  story:'Jordan drives to work and school. The mechanic says the car needs 900 of repairs before winter.'},
- {id:'sam', name:'Sam', age:18, job:'Retail assistant', init:'S', color:'c-orchid', diff:'Hard',
-  rate:16, hours:120, tax:.10, bills:[['Rent share',700],['Groceries',220],['Utilities',60],['Phone plan',40],['Transport',70]],
-  goal:{name:'Moving-out deposit', target:600}, safety:300,
-  story:'Sam just moved into a shared flat. Next lease needs a 600 deposit, and rent is due every month.'}
-];
-
-/* event choices: cost (spend), gain (income), kind: want|emergency|income, credit (goes on card), to (where gains go), wise */
-const EVENTS = [
- {id:'phone', tag:'Emergency', color:'c-orchid', h:'Your phone screen shatters.', p:'You still need it for work shifts and school. A repair shop quotes {90}.', choices:[
-  {l:'Repair it', cost:90, kind:'emergency', wise:1, msg:'Fixing what you have is the cheapest real solution.'},
-  {l:'Buy the newest model on a credit card', cost:700, credit:true, kind:'want', wise:-2, msg:'You turned a {90} problem into {700} of debt charging 24% APR.'},
-  {l:'Keep using it cracked + a {10} screen protector', cost:10, kind:'emergency', wise:1, msg:'Cheap fix. It works, though it might not last forever.'}]},
- {id:'concert', tag:'Social', color:'c-sky', h:'Friends are going to a concert.', p:'Tickets are {75}. Everyone is going and the group chat is buzzing.', choices:[
-  {l:'Buy a ticket', cost:75, kind:'want', wise:0, msg:'Fun is part of a budget. It is fine as long as your fun money covers it.'},
-  {l:'Skip it and host a movie night', cost:15, kind:'want', wise:1, msg:'You kept the hangout and most of the money.'}]},
- {id:'sneakers', tag:'Temptation', color:'c-peach', h:'Limited sneaker drop.', p:'The pair everyone wants is {180}. Your current sneakers are fine.', choices:[
-  {l:'Buy them now', cost:180, kind:'want', wise:-1, msg:'Big unplanned want. Check what it took from your plan.'},
-  {l:'Split it into 4 payments with buy-now-pay-later', cost:180, credit:true, kind:'want', wise:-1, msg:'It still costs {180}. Now it is debt too.'},
-  {l:'Use the 30-day rule', cost:0, kind:'want', wise:2, msg:'Nice. If you still want them in a month, you can plan for it.'}]},
- {id:'shift', tag:'Opportunity', color:'c-matcha', h:'Your manager offers an extra shift.', p:'It pays {65} after tax this Saturday.', choices:[
-  {l:'Take it and put it toward your goal', gain:65, to:'goal', kind:'income', wise:2, msg:'Extra income straight to the goal speeds everything up.'},
-  {l:'Take it and add it to fun money', gain:65, to:'fun', kind:'income', wise:1, msg:'More income is good. Fun money can absorb surprises too.'},
-  {l:'Pass and rest', cost:0, kind:'want', wise:0, msg:'Rest matters. No money gained, no money lost.'}]},
- {id:'gift', tag:'Bonus', color:'c-pistachio', h:'Grandma sends {50} for your birthday.', p:'Unexpected money. What do you do with it?', choices:[
-  {l:'Put it all toward your goal', gain:50, to:'goal', kind:'income', wise:2, msg:'Windfalls are the easiest money to save, because you never planned to spend it.'},
-  {l:'Half to your safety net, half to fun', gain:50, to:'split', kind:'income', wise:1, msg:'A balanced choice.'},
-  {l:'Spend it all on a treat', gain:50, to:'fun', kind:'income', wise:0, msg:'Enjoy it. Just know it could have moved your goal.'}]},
- {id:'trial', tag:'Sneaky cost', color:'c-azure', h:'A free trial is about to renew.', p:'The streaming app will start charging {13} a month tomorrow. You barely use it.', choices:[
-  {l:'Cancel it now', cost:0, kind:'want', wise:2, msg:'You just saved about {156} a year.'},
-  {l:'Keep it', cost:13, kind:'want', wise:-1, msg:'Subscriptions you forget about are the sneakiest budget leaks.'}]},
- {id:'dentist', tag:'Emergency', color:'c-orchid', h:'Toothache. The dentist visit costs {60}.', p:'Your tooth really hurts. Waiting could make it worse and more expensive.', choices:[
-  {l:'Go to the dentist', cost:60, kind:'emergency', wise:1, msg:'Health first. This is exactly what a safety net is for.'},
-  {l:'Put it off', cost:0, kind:'want', wise:-2, msg:'Delaying health costs usually makes them bigger later.', later:150}]},
- {id:'coin', tag:'Scam alert', color:'c-indigo', h:'"This coin will 10× by Friday!!"', p:'An influencer you follow says it is guaranteed. The minimum buy-in is {100}.', choices:[
-  {l:'Put {100} in', cost:100, kind:'want', wise:-2, msg:'The coin crashed. Guaranteed fast riches are the classic scam signal.'},
-  {l:'Ignore it', cost:0, kind:'want', wise:2, msg:'Good instinct. If it sounds too good to be true, it is.'}]},
- {id:'buspass', tag:'Emergency', color:'c-orchid', h:'You lost your bus pass.', p:'A replacement costs {40}. You need it to get to work.', choices:[
-  {l:'Replace it', cost:40, kind:'emergency', wise:1, msg:'Annoying but necessary. Getting to work protects your income.'},
-  {l:'Take rideshares instead this month', cost:120, kind:'want', wise:-1, msg:'Convenient, but three times the cost.'}]},
- {id:'jacket', tag:'Sale', color:'c-peach', h:'40% off a jacket you did not plan to buy.', p:'It is {60} on sale. You already have a warm coat.', choices:[
-  {l:'It is a deal, buy it', cost:60, kind:'want', wise:-1, msg:'A discount on something you did not need is still spending.'},
-  {l:'Walk away', cost:0, kind:'want', wise:1, msg:'Saving 100% beats saving 40%.'}]},
- {id:'laptopfix', tag:'Emergency', color:'c-orchid', h:'Your bike gets a flat tyre.', p:'It is how you get around. The repair is {25}.', choices:[
-  {l:'Fix it', cost:25, kind:'emergency', wise:1, msg:'Small, necessary, done.'},
-  {l:'Buy a whole new bike on credit', cost:350, credit:true, kind:'want', wise:-2, msg:'A {25} fix became {350} of debt.'}]},
- {id:'lunch', tag:'Habit check', color:'c-sky', h:'Lunch delivery, again.', p:'It is {18} with fees. You have food at home.', choices:[
-  {l:'Order it', cost:18, kind:'want', wise:-1, msg:'Delivery fees and markups quietly double the price of food.'},
-  {l:'Pack lunch this week', cost:5, kind:'want', wise:1, msg:'Easy win. Do that every week and it adds up to hundreds a year.'}]}
-];
-
-const NW = [
- ['Rent','need'],['Groceries','need'],['Takeout delivery','want'],['Bus pass for work','need'],['Concert tickets','want'],
- ['Prescription medicine','need'],['Streaming subscription','want'],['School textbooks','need'],['In-game skins','want'],['Car insurance','need'],
- ['Fourth pair of sneakers','want'],['Work uniform','need'],['Winter coat (you have none)','need'],['Designer coat','want'],['Phone plan','need'],
- ['Newest phone upgrade','want'],['Electricity bill','need'],['Daily iced latte','want'],['Toothpaste and soap','need'],['Dentist visit','need'],
- ['Wireless earbuds','want'],['Gym membership','want'],['Internet for homework','need'],['Holiday trip','want'],['Basic haircut for a job interview','need'],
- ['Movie tickets','want'],['Bike repair to get to school','need'],['Candles and room decor','want'],['Water bill','need'],['Limited-edition hoodie','want']
-];
-
-const FACTS = [
- ['2×','Starting to invest <strong>10 years earlier</strong> can roughly double what you have at retirement, even with the same monthly amount.'],
- ['4 yrs','Paying only the minimum on a <strong>500 card balance</strong> at 24% APR takes almost 5 years and costs about 330 in interest.'],
- ['72','<strong>The rule of 72:</strong> divide 72 by your yearly return to see how many years it takes your money to double.'],
- ['20%','The 50/30/20 rule sends <strong>a fifth of your take-home pay</strong> to savings or paying down debt.'],
- ['30 days','Waiting <strong>30 days</strong> before an unplanned purchase is one of the easiest ways to stop impulse spending.'],
- ['7.65%','In the US, <strong>7.65% of every paycheck</strong> goes to Social Security and Medicare before you see it.']
-];
-
-const BADGES = [
- {id:'first-lesson', t:'First Steps', d:'Finish your first level', k:'1', c:'c-pistachio'},
- {id:'perfect', t:'Perfect Score', d:'Get every quiz question right', k:'A+', c:'c-sky'},
- {id:'scholar', t:'Scholar', d:'Clear all six levels', k:'6', c:'c-azure'},
- {id:'first-payday', t:'First Payday', d:'Finish a payday story', k:'$', c:'c-peach'},
- {id:'goal', t:'Goal Getter', d:'Reach a payday goal', k:'★', c:'c-matcha'},
- {id:'three-stars', t:'Three Stars', d:'Earn 3 stars in a payday story', k:'3★', c:'c-orchid'},
- {id:'hard', t:'Hard Mode', d:'Finish Sam\'s story with 2+ stars', k:'H', c:'c-indigo'},
- {id:'sorter', t:'Quick Sort', d:'Score 12+ in Need or Want', k:'⚡', c:'c-peach'},
- {id:'compound', t:'Compound Kid', d:'Try the Compound Interest Machine', k:'%', c:'c-matcha'},
- {id:'streak', t:'On a Roll', d:'Play 3 days in a row', k:'3d', c:'c-orchid'}
-];
-const TITLES = ['Piggy Bank Rookie','Budget Apprentice','Savings Strategist','Smart Spender','Credit Captain','Investing Ace','Money Master'];
-const XP_PER_LEVEL = 250;
-
-/* ================= STATE ================= */
-const KEY = 'payday-quest-v1';
-const blank = () => ({xp:0, streak:1, lastDay:'', lessons:{}, badges:[], bestStars:{}, nwBest:0, cur:'$'});
-let S = blank();
-try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch(e) {}
-function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} }
-
-(function streak(){
-  const today = new Date().toISOString().slice(0,10);
-  if (S.lastDay !== today){
-    const y = new Date(Date.now()-864e5).toISOString().slice(0,10);
-    S.streak = (S.lastDay === y) ? S.streak + 1 : 1;
-    S.lastDay = today; save();
-  }
-})();
-
-const fmt = (n, dp=0) => {
-  const neg = n < 0; n = Math.abs(n);
-  const s = n.toLocaleString('en-US', {minimumFractionDigits:dp, maximumFractionDigits:dp});
-  return (neg ? '−' : '') + S.cur + s;
-};
-const money = str => str.replace(/\{(\d+)\}/g, (_, n) => fmt(+n));
-
-/* ================= HUD / XP ================= */
-const level = () => Math.floor(S.xp / XP_PER_LEVEL) + 1;
-const title = () => TITLES[Math.min(level()-1, TITLES.length-1)];
-function renderHud(){
-  const into = (S.xp % XP_PER_LEVEL) / XP_PER_LEVEL * 100;
-  $('#hudLvl').textContent = level();
-  $('#hudTitle').textContent = title();
-  $('#hudXp').style.width = into + '%';
-  $('#hudXpNum').textContent = S.xp.toLocaleString();
-  $('#hudStreak').textContent = S.streak;
-  $('#heroNet').textContent = fmt(681.33, 2);
-  $$('[data-cur]').forEach(el => { const v = +el.dataset.cur; el.textContent = fmt(v, 2); });
-  $$('.cur').forEach(el => el.textContent = S.cur);
-}
-function addXP(n, why){
-  const before = level();
-  S.xp += n; save(); renderHud();
-  const c = $('#hudCoins'); c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop');
-  toast(`<b>+${n} XP</b> ${why}`);
-  if (level() > before){ setTimeout(() => { toast(`<b>Level ${level()}!</b> You are now a ${title()}`); confetti(); }, 600); }
-}
-function award(id){
-  if (S.badges.includes(id)) return;
-  S.badges.push(id); save();
-  const b = BADGES.find(x => x.id === id);
-  setTimeout(() => toast(`<b>Badge unlocked</b> ${b.t}`), 900);
-  confetti();
-}
-function toast(html){
-  const t = document.createElement('div'); t.className = 'toast'; t.innerHTML = html;
-  $('#toasts').appendChild(t); setTimeout(() => t.remove(), 3100);
-}
-
-/* ================= CONFETTI ================= */
-const cv = $('#confetti'), cx = cv.getContext('2d'); let parts = [], raf = 0;
-function confetti(){
-  if (reduce) return;
-  cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio;
-  const cols = ['#8FB78F','#CBE6C7','#F3A5BC','#FFC49B','#334EAC','#7096D1','#BAD6EB'];
-  for (let i=0;i<120;i++) parts.push({x:innerWidth/2 + (Math.random()-.5)*200, y:innerHeight*.35, vx:(Math.random()-.5)*14, vy:-Math.random()*12-4, r:Math.random()*6+4, c:cols[i%cols.length], a:Math.random()*6, va:(Math.random()-.5)*.4, life:0, sq:Math.random()>.5});
-  if (!raf) raf = requestAnimationFrame(step);
-}
-function step(){
-  cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-  cx.clearRect(0,0,innerWidth,innerHeight);
-  parts.forEach(p => { p.vy += .35; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.a += p.va; p.life++;
-    cx.save(); cx.translate(p.x,p.y); cx.rotate(p.a); cx.fillStyle = p.c;
-    if (p.sq) cx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2); else { cx.beginPath(); cx.arc(0,0,p.r/2.4,0,7); cx.fill(); }
-    cx.restore(); });
-  parts = parts.filter(p => p.y < innerHeight + 40 && p.life < 240);
-  if (parts.length) raf = requestAnimationFrame(step); else { raf = 0; cx.clearRect(0,0,innerWidth,innerHeight); }
-}
-
-/* ================= ROUTER ================= */
-const ROUTES = ['home','learn','payday','arcade','badges'];
-function route(){
-  let r = location.hash.replace('#','');
-  if (!ROUTES.includes(r)) r = 'home';
-  $$('.view').forEach(v => v.classList.toggle('on', v.dataset.view === r));
-  $$('.nav a').forEach(a => { if (a.dataset.route === r) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
-  if (r === 'learn'){ if (pendingUnit){ openPlayer(pendingUnit); pendingUnit = null; } else closePlayer(); }
-  if (r === 'badges') renderBadges();
-  if (r === 'arcade') drawCI();
-  scrollTo({top:0, behavior: reduce ? 'auto' : 'instant'});
-}
-addEventListener('hashchange', route);
-
-/* ================= UNITS ================= */
-const ART = `<svg viewBox="0 0 100 100" class="art" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" stroke-width="6" stroke-dasharray="4 8"/><circle cx="50" cy="50" r="24" fill="currentColor"/></svg>`;
-function unitCards(container){
-  container.innerHTML = UNITS.map((u, i) => {
-    const best = S.lessons[u.id];
-    const status = best != null ? `<span class="done">✓ ${best}/3 correct</span>` : `<span>2 min · 80 XP</span>`;
-    return `<button class="unit ${u.color}" type="button" data-unit="${u.id}">${ART}<span class="lv">Level ${i+1}</span><h3>${u.title}</h3><p>${u.sub}</p><span class="foot">${status}<span aria-hidden="true">→</span></span></button>`;
-  }).join('');
-  $$('[data-unit]', container).forEach(b => b.addEventListener('click', () => { if (location.hash !== '#learn'){ pendingUnit = b.dataset.unit; location.hash = 'learn'; } else openPlayer(b.dataset.unit); }));
-}
-
-/* ================= LESSON PLAYER ================= */
-let P = null, pendingUnit = null;
-function openPlayer(id){
-  const u = UNITS.find(x => x.id === id);
-  P = {u, i:0, phase:'cards', correct:0, qi:0};
-  $('#learnList').hidden = true; $('#player').hidden = false;
-  renderPlayer();
-  scrollTo({top:0});
-}
-function closePlayer(){ P = null; $('#learnList').hidden = false; $('#player').hidden = true; unitCards($('#learnUnits')); }
-function renderPlayer(){
-  const {u} = P, el = $('#player');
-  const total = u.cards.length + u.quiz.length;
-  const done = P.phase === 'cards' ? P.i : P.phase === 'quiz' ? u.cards.length + P.qi : total;
-  let html = `<div class="player"><div class="player-top"><button class="icon-btn" type="button" id="pClose" aria-label="Back to levels"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button><div class="pbar"><i style="width:${done/total*100}%"></i></div><span class="mono" style="font-size:.85rem">${Math.min(done+1,total)}/${total}</span></div>`;
-  if (P.phase === 'cards'){
-    const c = u.cards[P.i];
-    html += `<article class="lcard ${u.color} slide-in"><p class="eyebrow">${u.title} · Card ${P.i+1} of ${u.cards.length}</p><h2>${c.h}</h2><p class="body">${money(c.b)}</p><div class="ex"><small>${c.ex[0]}</small>${money(c.ex[1])}</div></article>
-    <div class="player-actions"><button class="btn btn-ghost" type="button" id="pPrev" ${P.i===0?'disabled':''}>Back</button><button class="btn btn-primary" type="button" id="pNext">${P.i === u.cards.length-1 ? 'Start the quiz' : 'Next card'}</button></div>`;
-  } else if (P.phase === 'quiz'){
-    const q = u.quiz[P.qi];
-    const opts = q.o.map(money);
-    html += `<div class="panel stage slide-in"><p class="eyebrow">Quiz · Question ${P.qi+1} of ${u.quiz.length}</p><p class="quiz-q">${money(q.q)}</p>
-      <div class="opts">${opts.map((o,i) => `<button class="opt" type="button" data-i="${i}"><kbd>${'ABCD'[i]}</kbd>${o}</button>`).join('')}</div><div id="qFeedback"></div></div>`;
-  } else {
-    const perfect = P.correct === u.quiz.length;
-    html += `<div class="panel result slide-in"><p class="eyebrow">Level complete</p><div class="big">${P.correct}/${u.quiz.length}</div><h2 style="font-size:1.5rem">${perfect ? 'Flawless. You know this cold.' : P.correct >= 2 ? 'Nice work. Level cleared.' : 'Cleared, with room to grow.'}</h2><p>${perfect ? 'Every answer right.' : 'Review the cards and try again any time to improve your score.'} Put it into practice in the payday simulator.</p>
-      <div class="ctas" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center"><button class="btn btn-ghost" type="button" id="pAgain">Try again</button><a class="btn btn-primary" href="#payday">Play a payday</a><button class="btn btn-ghost" type="button" id="pNextUnit">Next level</button></div></div>`;
-  }
-  el.innerHTML = html + '</div>';
-  $('#pClose').onclick = closePlayer;
-  if (P.phase === 'cards'){
-    $('#pPrev').onclick = () => { P.i--; renderPlayer(); };
-    $('#pNext').onclick = () => { if (P.i < u.cards.length-1) P.i++; else P.phase = 'quiz'; renderPlayer(); };
-  } else if (P.phase === 'quiz'){
-    $$('.opt', el).forEach(b => b.onclick = () => answer(+b.dataset.i));
-  } else {
-    $('#pAgain').onclick = () => openPlayer(u.id);
-    const idx = UNITS.indexOf(u);
-    $('#pNextUnit').onclick = () => openPlayer(UNITS[(idx+1)%UNITS.length].id);
-  }
-}
-function answer(i){
-  const q = P.u.quiz[P.qi], btns = $$('.opt');
-  if (btns[0].disabled) return;
-  btns.forEach(b => b.disabled = true);
-  const ok = i === q.a;
-  btns[q.a].classList.add('right');
-  if (!ok) btns[i].classList.add('wrong'); else P.correct++;
-  const e = money(q.e);
-  $('#qFeedback').innerHTML = `<div class="explain slide-in"><b>${ok ? 'Correct!' : 'Not quite.'}</b> ${e}</div><div class="player-actions"><span></span><button class="btn btn-primary" type="button" id="qNext">${P.qi === P.u.quiz.length-1 ? 'See results' : 'Next question'}</button></div>`;
-  $('#qNext').onclick = () => {
-    if (P.qi < P.u.quiz.length-1){ P.qi++; renderPlayer(); }
-    else finishLesson();
-  };
-  $('#qNext').focus();
-}
-function finishLesson(){
-  const u = P.u, prev = S.lessons[u.id];
-  P.phase = 'done'; renderPlayer();
-  const gainedCorrect = Math.max(0, P.correct - (prev || 0));
-  const xp = (prev == null ? 20 : 0) + gainedCorrect * 20;
-  S.lessons[u.id] = Math.max(prev || 0, P.correct); save();
-  if (xp) addXP(xp, `${u.title} cleared`); else toast('Already earned. Replay for practice.');
-  if (P.correct === u.quiz.length) { confetti(); award('perfect'); }
-  award('first-lesson');
-  if (UNITS.every(x => S.lessons[x.id] != null)) award('scholar');
-  unitCards($('#homeUnits'));
-}
-addEventListener('keydown', e => {
-  if (!P || P.phase !== 'quiz' || !$('.view[data-view="learn"]').classList.contains('on')) return;
-  const k = 'abcd'.indexOf(e.key.toLowerCase()); if (k >= 0 && k < P.u.quiz[P.qi].o.length) answer(k);
-});
-
-/* ================= PAYDAY SIM ================= */
-let G = null;
-const simEl = $('#sim');
-function pickEvents(){
-  const pool = EVENTS.slice().sort(() => Math.random() - .5);
-  const emerg = pool.filter(e => e.choices.some(c => c.kind === 'emergency'));
-  const out = [emerg[0], emerg[1]];
-  pool.forEach(e => { if (!out.includes(e) && out.length < 6) out.push(e); });
-  return [out[0], out[2], out[3], out[1], out[4], out[5]];
-}
-function simStart(){
-  simEl.innerHTML = `<div class="panel stage"><div><p class="eyebrow">Choose your story</p><h2 style="margin-top:6px">Who are you playing as?</h2></div>
-  <div class="chars">${CHARS.map(c => `<button class="char ${c.color}" type="button" data-char="${c.id}"><div style="display:flex; justify-content:space-between; align-items:center"><div class="avatar">${c.init}</div><span class="diff">${c.diff}${S.bestStars[c.id] ? ' · best ' + '★'.repeat(S.bestStars[c.id]) : ''}</span></div><h3>${c.name}, ${c.age}</h3><p class="meta">${c.job} · ${fmt(c.rate)}/hr · ${c.hours} hrs/mo</p><p style="font-size:.92rem">${money(c.story.replace(/(\d{3})/,'{$1}'))}</p><div class="goal">Goal: ${c.goal.name}, ${fmt(c.goal.target)} in 3 months</div></button>`).join('')}</div></div>`;
-  $$('[data-char]', simEl).forEach(b => b.onclick = () => {
-    const c = CHARS.find(x => x.id === b.dataset.char);
-    G = {c, month:1, goal:0, safety:0, fun:0, card:0, wise:0, events:pickEvents(), ev:0, pendingLater:0};
-    payday();
-  });
-}
-function grossNet(c){
-  const gross = c.rate * c.hours, tax = gross * c.tax, soc = gross * .0765;
-  return {gross, tax, soc, net: gross - tax - soc, bills: c.bills.reduce((s,b)=>s+b[1],0)};
-}
-function sideHtml(){
-  const c = G.c, gp = Math.min(100, G.goal / c.goal.target * 100), sp = Math.min(100, G.safety / c.safety * 100);
-  return `<aside class="panel side">
-    <div class="who"><div class="avatar ${c.color}">${c.init}</div><div><h3>${c.name}, ${c.age}</h3><p style="font-size:.85rem; color:var(--ink-soft)">${c.job}</p></div></div>
-    <div><p class="eyebrow" style="margin-bottom:6px">Month ${Math.min(G.month,3)} of 3</p><div class="months">${[1,2,3].map(m => `<span class="${m<=G.month?'on':''}"></span>`).join('')}</div></div>
-    <div class="meter"><div class="top"><span>${c.goal.name}</span><span>${fmt(G.goal)} / ${fmt(c.goal.target)}</span></div><div class="bar"><i style="width:${gp}%; background:var(--matcha)"></i></div></div>
-    <div class="meter"><div class="top"><span>Safety net</span><span>${fmt(G.safety)} / ${fmt(c.safety)}</span></div><div class="bar"><i style="width:${sp}%; background:var(--universe)"></i></div></div>
-    <div class="meter"><div class="top"><span>Fun money left</span><span>${fmt(G.fun)}</span></div></div>
-    <div class="debt ${G.card>0?'':'zero'}"><span>Credit card debt</span><span class="mono">${fmt(G.card)}</span></div>
-    <div class="meter"><div class="top"><span>Smart-move points</span><span>${G.wise}</span></div></div>
-  </aside>`;
-}
-function layout(inner){ simEl.innerHTML = `<div class="sim-grid">${sideHtml()}<div class="panel stage">${inner}</div></div>`; }
-
-function payday(){
-  const c = G.c, m = grossNet(c);
-  layout(`<div><p class="eyebrow">Month ${G.month} · Payday</p><h2 style="margin-top:6px">Your paycheck is in.</h2><p class="sub" style="margin-top:6px">Watch what happens between gross pay and what actually lands in your account.</p></div>
-    <div class="paycheck" id="pc">
-      <div class="row"><span>${c.hours} hrs × ${fmt(c.rate,2)}</span><span>${fmt(m.gross,2)}</span></div>
-      <div class="row minus"><span>Income tax (${Math.round(c.tax*100)}%)</span><span>−${fmt(m.tax,2)}</span></div>
-      <div class="row minus"><span>Social insurance (7.65%)</span><span>−${fmt(m.soc,2)}</span></div>
-      <div class="row total"><span>NET PAY</span><span>${fmt(m.net,2)}</span></div>
-    </div>
-    <p class="reveal-note">You keep about <strong>${Math.round(m.net/m.gross*100)}%</strong> of your gross pay. Rates here are simplified examples.</p>
-    <div><button class="btn btn-primary" type="button" id="toBudget">Deposit and plan my budget</button></div>`);
-  $$('#pc .row').forEach((r,i) => setTimeout(() => r.classList.add('show'), reduce ? 0 : 250 + i*380));
-  $('#toBudget').onclick = budget;
-}
-
-function budget(){
-  const c = G.c, m = grossNet(c);
-  const free = Math.floor(m.net - m.bills - G.pendingLater);
-  const later = G.pendingLater; G.pendingLater = 0;
-  const step = 5;
-  const remainingGoal = Math.max(0, c.goal.target - G.goal);
-  layout(`<div><p class="eyebrow">Month ${G.month} · Budget</p><h2 style="margin-top:6px">Give every ${S.cur} a job.</h2></div>
-    <div><p style="font-weight:700; margin-bottom:8px">Bills paid automatically (needs)</p><div class="bills">${c.bills.map(b => `<span class="bill">${b[0]} <span>${fmt(b[1])}</span></span>`).join('')}${later ? `<span class="bill" style="background:var(--bad-bg); color:var(--bad)">Dental bill (you put it off) <span>${fmt(later)}</span></span>` : ''}</div></div>
-    <div class="tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg><span>After bills you have <strong>${fmt(free)}</strong> to plan. You need about <strong>${fmt(Math.ceil(remainingGoal / (4-G.month)))}</strong> a month to hit your goal on time.${G.card>0 ? ' You have card debt growing at 2% a month. Pay it down first.' : ''}</span></div>
-    <div class="alloc">
-      ${G.card>0 ? `<div class="slider"><div class="top"><label for="aCard">Pay off credit card<small>Balance ${fmt(G.card)} · 24% APR</small></label><output id="oCard"></output></div><input type="range" id="aCard" min="0" max="${Math.min(free, Math.ceil(G.card))}" step="1" value="0" style="--thumb:var(--orchid)"></div>` : ''}
-      <div class="slider"><div class="top"><label for="aGoal">${c.goal.name}<small>Pay yourself first</small></label><output id="oGoal"></output></div><input type="range" id="aGoal" min="0" max="${free}" step="${step}" value="0" style="--thumb:var(--matcha)"></div>
-      <div class="slider"><div class="top"><label for="aSafe">Safety net<small>Target ${fmt(c.safety)} for surprises</small></label><output id="oSafe"></output></div><input type="range" id="aSafe" min="0" max="${free}" step="${step}" value="0" style="--thumb:var(--universe)"></div>
-      <div><div class="stack" aria-hidden="true"><i id="sCard" style="background:var(--orchid)"></i><i id="sGoal" style="background:var(--matcha)"></i><i id="sSafe" style="background:var(--universe)"></i><i id="sFun" style="background:var(--peach)"></i></div>
-      <div class="legend" style="margin-top:8px">${G.card>0?'<span style="--sw:var(--orchid)">Card</span>':''}<span style="--sw:var(--matcha)">Goal</span><span style="--sw:var(--universe)">Safety</span><span style="--sw:var(--peach)">Fun money</span></div></div>
-      <div class="fun-left"><span>Fun money (what's left)</span><b id="oFun"></b></div>
-    </div>
-    <div><button class="btn btn-primary" type="button" id="lock">Lock in my budget</button></div>`);
-  const ids = ['aCard','aGoal','aSafe'].filter(id => $('#'+id));
-  function upd(changed){
-    let vals = Object.fromEntries(ids.map(id => [id, +$('#'+id).value]));
-    let sum = ids.reduce((s,id) => s + vals[id], 0);
-    if (sum > free && changed){ const el = $('#'+changed); el.value = Math.max(0, vals[changed] - (sum - free)); vals[changed] = +el.value; sum = ids.reduce((s,id)=>s+vals[id],0); }
-    const fun = free - sum;
-    if ($('#oCard')) $('#oCard').textContent = fmt(vals.aCard);
-    $('#oGoal').textContent = fmt(vals.aGoal); $('#oSafe').textContent = fmt(vals.aSafe); $('#oFun').textContent = fmt(fun);
-    $('#sCard').style.width = ((vals.aCard||0)/free*100)+'%'; $('#sGoal').style.width = (vals.aGoal/free*100)+'%';
-    $('#sSafe').style.width = (vals.aSafe/free*100)+'%'; $('#sFun').style.width = (fun/free*100)+'%';
-    return {vals, fun};
-  }
-  ids.forEach(id => $('#'+id).addEventListener('input', () => upd(id)));
-  // sensible starting point so the page shows a working plan
-  const startGoal = Math.min(free, Math.round(Math.ceil(remainingGoal/(4-G.month))*0.6/5)*5);
-  $('#aGoal').value = startGoal; upd('aGoal');
-  $('#lock').onclick = () => {
-    const {vals, fun} = upd();
-    const pay = vals.aCard || 0;
-    G.card = Math.max(0, G.card - pay); G.goal += vals.aGoal; G.safety += vals.aSafe; G.fun += fun;
-    if (pay > 0) G.wise += 1;
-    if (vals.aGoal >= free * .2) G.wise += 1;
-    eventScreen();
-  };
-}
-
-function spend(cost, kind, notes){
-  let rem = cost;
-  const take = (k, label) => { if (rem <= 0) return; const t = Math.min(G[k], rem); if (t > 0){ G[k] -= t; rem -= t; notes.push(`${fmt(t)} came from ${label}`); return t; } };
-  take('fun','fun money');
-  if (kind === 'emergency'){
-    if (take('safety','your safety net')) notes.push('Your safety net did its job.');
-    if (take('goal','your goal fund')) { G.wise -= 1; notes.push('You had to raid your goal fund.'); }
-  } else {
-    if (take('goal','your goal fund')) { G.wise -= 1; notes.push('That want ate into your goal.'); }
-    if (take('safety','your safety net')) { G.wise -= 1; notes.push('Using your safety net on a want leaves you exposed.'); }
-  }
-  if (rem > 0){ G.card += rem; G.wise -= 1; notes.push(`${fmt(rem)} went on your credit card. That is debt now.`); }
-}
-
-function eventScreen(){
-  const e = G.events[G.ev];
-  layout(`<div><p class="eyebrow">Month ${G.month} · Life happens · ${G.ev % 2 + 1} of 2</p></div>
-    <article class="event ${e.color} slide-in"><span class="tag">${e.tag}</span><h3>${money(e.h)}</h3><p>${money(e.p)}</p>
-    <div class="choices">${e.choices.map((c,i) => `<button class="choice" type="button" data-c="${i}">${money(c.l)}<span>${c.gain ? '+' + fmt(c.gain) : c.cost ? (c.credit ? 'on credit ' : '−') + fmt(c.cost) : 'free'}</span></button>`).join('')}</div></article>
-    <div id="outcome"></div>`);
-  $$('.choice').forEach(b => b.onclick = () => choose(e, e.choices[+b.dataset.c]));
-}
-function choose(e, ch){
-  $$('.choice').forEach(b => b.disabled = true);
-  const notes = [];
-  if (ch.gain){
-    if (ch.to === 'split'){ G.safety += ch.gain/2; G.fun += ch.gain/2; } else G[ch.to] += ch.gain;
-  } else if (ch.cost){
-    if (ch.credit){ G.card += ch.cost; notes.push(`${fmt(ch.cost)} added to your card at 24% APR.`); }
-    else spend(ch.cost, ch.kind, notes);
-  }
-  if (ch.later){ G.pendingLater += ch.later; notes.push(`The problem got worse. Next month brings a ${fmt(ch.later)} bill.`); }
-  G.wise += ch.wise;
-  const good = ch.wise > 0, bad = ch.wise < 0;
-  const isLastMonthEvent = G.ev % 2 === 1;
-  $$('.choice').forEach(b => { if (+b.dataset.c !== e.choices.indexOf(ch)) b.style.opacity = .45; });
-  const side = $('.side'); side.outerHTML = sideHtml();
-  $('#outcome').innerHTML = `<div class="outcome ${good?'good':bad?'bad':''} slide-in"><span class="verdict">${good ? 'Smart move' : bad ? 'Risky move' : 'Fair enough'} · ${ch.wise>0?'+':''}${ch.wise} pts</span><p>${money(ch.msg)}</p>${notes.length?`<ul>${notes.map(n=>`<li>${n}</li>`).join('')}</ul>`:''}</div>
-    <div style="margin-top:14px"><button class="btn btn-primary" type="button" id="evNext">${isLastMonthEvent ? 'End of month' : 'Next'}</button></div>`;
-  $('#evNext').focus({preventScroll:true});
-  $('#evNext').onclick = () => { G.ev++; if (isLastMonthEvent) monthEnd(); else eventScreen(); };
-}
-
-function monthEnd(){
-  const interest = G.card > 0 ? Math.round(G.card * .02 * 100)/100 : 0;
-  G.card += interest;
-  const c = G.c;
-  layout(`<div><p class="eyebrow">Month ${G.month} · Recap</p><h2 style="margin-top:6px">${G.month < 3 ? 'Month done. Here is where you stand.' : 'Three months down.'}</h2></div>
-    <div class="recap">
-      <div class="tile"><small>Goal fund</small><b class="mono">${fmt(G.goal)}</b></div>
-      <div class="tile"><small>Safety net</small><b class="mono">${fmt(G.safety)}</b></div>
-      <div class="tile"><small>Fun money carried over</small><b class="mono">${fmt(G.fun)}</b></div>
-      <div class="tile"><small>Card debt</small><b class="mono" style="color:${G.card>0?'var(--bad)':'var(--good)'}">${fmt(G.card)}</b></div>
-    </div>
-    ${interest ? `<div class="tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg><span>Your card charged <strong>${fmt(interest,2)}</strong> in interest this month. Debt grows while you wait.</span></div>` : ''}
-    <div><button class="btn btn-primary" type="button" id="nextMonth">${G.month < 3 ? 'Next payday' : 'See my results'}</button></div>`);
-  $('#nextMonth').onclick = () => { if (G.month < 3){ G.month++; payday(); } else results(); };
-}
-
-function results(){
-  const c = G.c;
-  const goalOk = G.goal >= c.goal.target, safeOk = G.safety >= c.safety, debtOk = G.card < 1;
-  const stars = [goalOk, safeOk, debtOk].filter(Boolean).length;
-  const xp = 40 + stars * 30 + Math.max(0, G.wise) * 5;
-  const star = on => `<svg viewBox="0 0 24 24" class="${on?'on':''}"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.6 5.8 21.1l1.4-7L2 9.3l7-.8z" fill="${on?'#FFC49B':'none'}" stroke="${on?'#7a1a38':'currentColor'}" stroke-width="1.4" stroke-linejoin="round" opacity="${on?1:.35}"/></svg>`;
-  simEl.innerHTML = `<div class="panel result"><p class="eyebrow">${c.name}'s story · Final report</p>
-    <div class="stars">${[0,1,2].map(i => star(i < stars)).join('')}</div>
-    <h2 style="font-size:clamp(1.5rem,4vw,2.2rem)">${stars===3 ? 'Money master move.' : stars===2 ? 'Solid. Almost perfect.' : stars===1 ? 'You survived. Now sharpen it.' : 'Tough months. Try a new plan.'}</h2>
-    <div class="checks">
-      <div class="${goalOk?'ok':'no'}">${goalOk?'✓':'✕'} ${c.goal.name}: ${fmt(G.goal)} of ${fmt(c.goal.target)}</div>
-      <div class="${safeOk?'ok':'no'}">${safeOk?'✓':'✕'} Safety net: ${fmt(G.safety)} of ${fmt(c.safety)}</div>
-      <div class="${debtOk?'ok':'no'}">${debtOk?'✓':'✕'} Debt-free: ${fmt(G.card)} owed</div>
-      <div>Smart-move points: ${G.wise}</div>
-    </div>
-    <p>${!goalOk ? 'Try moving more to your goal on payday, before the fun money. Pay yourself first.' : !safeOk ? 'Your safety net was thin. Even a small buffer stops surprises from hitting your goal.' : !debtOk ? 'Debt cost you. Paying the card off first saves the 24% interest.' : 'You hit the goal, kept a safety net and stayed debt-free. Try a harder story next.'}</p>
-    <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center"><button class="btn btn-primary" type="button" id="again">Play another story</button><a class="btn btn-ghost" href="#learn">Review lessons</a></div></div>`;
-  $('#again').onclick = simStart;
-  const prev = S.bestStars[c.id] || 0;
-  S.bestStars[c.id] = Math.max(prev, stars); save();
-  addXP(xp, `${c.name}'s story`);
-  award('first-payday');
-  if (goalOk) award('goal');
-  if (stars === 3) award('three-stars');
-  if (c.id === 'sam' && stars >= 2) award('hard');
-  if (stars >= 2) confetti();
-  scrollTo({top:0, behavior:'smooth'});
-}
-
-/* ================= NEED OR WANT ================= */
-let NWG = null;
-function nwStart(){
-  const deck = NW.slice().sort(() => Math.random() - .5);
-  NWG = {deck, i:0, score:0, combo:0, t0:performance.now(), dur:30000, over:false};
-  $('#nwBtns').innerHTML = `<button class="btn btn-need" type="button" data-a="need">← Need</button><button class="btn btn-want" type="button" data-a="want">Want →</button>`;
-  $$('#nwBtns [data-a]').forEach(b => b.onclick = () => nwAnswer(b.dataset.a));
-  nwShow(); nwTick();
-}
-function nwShow(){
-  const it = NWG.deck[NWG.i % NWG.deck.length];
-  const el = $('#nwItem'); el.textContent = it[0]; el.classList.remove('in'); void el.offsetWidth; el.classList.add('in');
-}
-function nwTick(){
-  if (!NWG || NWG.over) return;
-  const left = Math.max(0, 1 - (performance.now() - NWG.t0) / NWG.dur);
-  $('#nwTimer').style.width = left*100 + '%';
-  if (left <= 0) return nwEnd();
-  requestAnimationFrame(nwTick);
-}
-function nwAnswer(a){
-  if (!NWG || NWG.over) return;
-  const it = NWG.deck[NWG.i % NWG.deck.length];
-  if (a === it[1]){ NWG.combo++; NWG.score += NWG.combo >= 5 ? 2 : 1; $('#nwFlash').textContent = NWG.combo >= 5 ? `Combo ×${NWG.combo}! Double points` : 'Correct'; }
-  else { NWG.combo = 0; $('#nwFlash').textContent = `"${it[0]}" is a ${it[1]}`; $('#nwStage').animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'none'}],{duration:250}); }
-  $('#nwScore').textContent = 'Score ' + NWG.score;
-  NWG.i++; nwShow();
-}
-function nwEnd(){
-  NWG.over = true;
-  const sc = NWG.score;
-  $('#nwItem').textContent = `Time! You scored ${sc}.`;
-  $('#nwFlash').textContent = sc >= 12 ? 'Lightning fast sorting.' : 'Tip: ask "would life or work break without it?"';
-  if (sc > S.nwBest){ S.nwBest = sc; save(); }
-  $('#nwBest').textContent = 'Best ' + S.nwBest;
-  $('#nwBtns').innerHTML = `<button class="btn btn-primary" type="button" id="nwStart" style="grid-column:1/-1">Play again</button>`;
-  $('#nwStart').onclick = nwStart;
-  if (sc > 0) addXP(Math.min(60, sc * 3), 'Need or Want');
-  if (sc >= 12) award('sorter');
-}
-$('#nwStart').onclick = nwStart;
-$('#nwBest').textContent = 'Best ' + S.nwBest;
-addEventListener('keydown', e => {
-  if (!NWG || NWG.over || !$('.view[data-view="arcade"]').classList.contains('on')) return;
-  if (e.key === 'ArrowLeft'){ e.preventDefault(); nwAnswer('need'); }
-  if (e.key === 'ArrowRight'){ e.preventDefault(); nwAnswer('want'); }
-});
-
-/* ================= COMPOUND MACHINE ================= */
-let ciTouched = false;
-function fv(monthly, rate, years){
-  const r = rate/100/12; let bal = 0; const pts = [{y:0, bal:0, inv:0}];
-  for (let m=1; m<=years*12; m++){ bal = bal*(1+r) + monthly; if (m%12===0) pts.push({y:m/12, bal, inv: monthly*m}); }
-  return pts;
-}
-function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
-function drawCI(){
-  const monthly = +$('#ciMonthly').value, age = +$('#ciAge').value, rate = +$('#ciRate').value;
-  const years = 65 - age;
-  $('#ciMonthlyOut').textContent = fmt(monthly); $('#ciAgeOut').textContent = age; $('#ciRateOut').textContent = rate + '%';
-  const pts = fv(monthly, rate, years), last = pts[pts.length-1];
-  $('#ciIn').textContent = fmt(last.inv); $('#ciGain').textContent = fmt(last.bal - last.inv); $('#ciTotal').textContent = fmt(last.bal);
-  const late = age + 10 <= 64 ? fv(monthly, rate, years - 10).pop() : null;
-  $('#ciCompare').innerHTML = late ? `Wait 10 years and start at ${age+10} instead? You would end with <strong>${fmt(late.bal)}</strong>. Starting now earns you <strong>${fmt(last.bal - late.bal)}</strong> more.` : 'Starting later leaves less time for interest to grow.';
-
-  const cvs = $('#ci'), dpr = devicePixelRatio || 1, w = cvs.clientWidth, h = cvs.clientHeight;
-  if (!w) return;
-  cvs.width = w*dpr; cvs.height = h*dpr;
-  const g = cvs.getContext('2d'); g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,w,h);
-  const padL = 52, padB = 26, padT = 10, padR = 10;
-  const max = last.bal || 1;
-  const X = y => padL + (y/years) * (w - padL - padR), Y = v => padT + (1 - v/max) * (h - padT - padB);
-  g.font = '11px "DM Mono", monospace'; g.fillStyle = css('--ink-soft'); g.strokeStyle = css('--line'); g.lineWidth = 1;
-  for (let i=0;i<=4;i++){ const v = max*i/4, yy = Y(v); g.beginPath(); g.moveTo(padL, yy); g.lineTo(w-padR, yy); g.stroke();
-    const lab = v >= 1e6 ? (v/1e6).toFixed(1)+'M' : v >= 1e3 ? Math.round(v/1e3)+'k' : Math.round(v);
-    g.textAlign = 'right'; g.fillText(S.cur + lab, padL-6, yy+4); }
-  g.textAlign = 'center';
-  const tickEvery = years > 30 ? 10 : 5;
-  for (let y=0; y<=years; y+=tickEvery) g.fillText('age ' + (age+y), X(y), h-8);
-  const area = (key, color) => { g.beginPath(); g.moveTo(X(0), Y(0)); pts.forEach(p => g.lineTo(X(p.y), Y(p[key]))); g.lineTo(X(years), Y(0)); g.closePath(); g.fillStyle = color; g.fill(); };
-  area('bal', css('--matcha')); area('inv', css('--universe'));
-  g.beginPath(); pts.forEach((p,i) => i ? g.lineTo(X(p.y), Y(p.bal)) : g.moveTo(X(p.y), Y(p.bal))); g.strokeStyle = css('--forest'); g.lineWidth = 2; g.stroke();
-  g.beginPath(); g.arc(X(years), Y(last.bal), 5, 0, 7); g.fillStyle = css('--surface'); g.fill(); g.strokeStyle = css('--forest'); g.lineWidth = 2.5; g.stroke();
-}
-['ciMonthly','ciAge','ciRate'].forEach(id => $('#'+id).addEventListener('input', () => { drawCI(); if (!ciTouched){ ciTouched = true; award('compound'); addXP(15, 'Explored compound interest'); } }));
-addEventListener('resize', () => { if ($('.view[data-view="arcade"]').classList.contains('on')) drawCI(); });
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawCI);
-
-/* ================= BADGES / PROFILE ================= */
-function renderBadges(){
-  if (S.streak >= 3 && !S.badges.includes('streak')) award('streak');
-  $('#badgeGrid').innerHTML = BADGES.map(b => { const on = S.badges.includes(b.id);
-    return `<div class="badge ${on?'':'locked'}"><div class="medal ${b.c}">${b.k}</div><h4>${b.t}</h4><p>${b.d}</p></div>`; }).join('');
-  $('#pTitle').textContent = title();
-  $('#pXp').style.width = (S.xp % XP_PER_LEVEL)/XP_PER_LEVEL*100 + '%';
-  $('#pXpTxt').textContent = `Level ${level()} · ${S.xp % XP_PER_LEVEL} / ${XP_PER_LEVEL} XP to level ${level()+1}`;
-  $('#pLessons').textContent = Object.keys(S.lessons).length + '/6';
-  $('#pStars').textContent = Math.max(0, ...Object.values(S.bestStars), 0) + '★';
-  $('#pBadges').textContent = S.badges.length + '/' + BADGES.length;
-  $('#curSel').value = S.cur;
-}
-$('#curSel').addEventListener('change', e => { S.cur = e.target.value; save(); renderHud(); unitCards($('#homeUnits')); renderFact(); toast('Currency updated'); });
-function bindReset(){
-  $('#resetBtn').onclick = () => {
-    $('#resetBox').innerHTML = `<div class="confirm">Erase all XP, badges and scores? <button class="btn btn-primary" type="button" id="rYes" style="padding:8px 14px">Erase</button><button class="btn btn-ghost" type="button" id="rNo" style="padding:8px 14px">Cancel</button></div>`;
-    $('#rNo').onclick = () => { $('#resetBox').innerHTML = '<button class="btn btn-ghost" type="button" id="resetBtn">Reset my progress</button>'; bindReset(); };
-    $('#rYes').onclick = () => { const cur = S.cur; S = blank(); S.cur = cur; S.lastDay = new Date().toISOString().slice(0,10); save(); renderHud(); renderBadges(); unitCards($('#homeUnits')); $('#resetBox').innerHTML = '<button class="btn btn-ghost" type="button" id="resetBtn">Reset my progress</button>'; bindReset(); toast('Progress reset'); };
-  };
-}
-bindReset();
-
-/* ================= FACTS ================= */
-let fi = Math.floor(Math.random()*FACTS.length);
-function renderFact(){ const f = FACTS[fi]; $('#factK').textContent = f[0]; $('#factP').innerHTML = f[1].replace(/(\d{3})(?= card| in)/g, m => fmt(+m)); }
-$('#factNext').onclick = () => { fi = (fi+1) % FACTS.length; renderFact(); };
-
-/* ================= BOOT ================= */
-renderHud(); unitCards($('#homeUnits')); unitCards($('#learnUnits')); renderFact(); simStart(); route();
-})();
-</script>
+<script src="js/data-learn-1.js"></script>
+<script src="js/data-learn-2.js"></script>
+<script src="js/data-learn-3.js"></script>
+<script src="js/data-extra.js"></script>
+<script src="js/core.js"></script>
+<script src="js/learn.js"></script>
+<script src="js/games.js"></script>
+<script src="js/sim.js"></script>
+<script src="js/progress.js"></script>
 </body>
 </html>
