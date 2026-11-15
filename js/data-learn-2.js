@@ -24,7 +24,7 @@ PQ.UNITS.push({
       qs: [
         { t: "match", q: "Match each account to its job.", pairs: [["Checking / current account", "Everyday spending"], ["Savings account", "Money you are keeping"], ["Debit card", "Spends from your checking account"]], e: "Separate accounts for spending and saving make both easier." },
         { t: "tf", q: "Deposit protection schemes can protect your money if a bank fails.", a: true, e: "Schemes like FDIC and FSCS protect deposits up to a limit." },
-        { t: "mcq", q: "Which matters most when choosing a first bank account?", o: ["The colour of the card", "Low fees, protection and a good app", "A free gift for signing up", "The bank with the biggest adverts"], a: 1, e: "Fees and features affect you every month. A gift is a one-off." },
+        { t: "mcq", q: "Which matters most when choosing a first bank account?", o: ["The color of the card", "Low fees, protection and a good app", "A free gift for signing up", "The bank with the biggest adverts"], a: 1, e: "Fees and features affect you every month. A gift is a one-off." },
         { t: "fill", q: "Choose the missing words.", s: "Spend from your ___ account, and keep money you are saving in a ___ account.", a: ["checking", "savings"], bank: ["checking", "savings", "loan", "credit"], e: "Keeping them separate stops you accidentally spending your savings." },
         { t: "sort", q: "Sort these into things that cost you and things that help you.", groups: ["Costs you", "Helps you"], items: [["Monthly account fee", 0], ["Spending alerts", 1], ["ATM fees", 0], ["Savings interest", 1], ["Overdraft charges", 0]], e: "Look for helpful features and avoid accounts with high fees." }
       ]
@@ -73,7 +73,7 @@ PQ.UNITS.push({
         { t: "tf", q: "Paying with your phone wallet is not real money.", a: false, e: "A phone wallet uses your real card. It is real money." },
         { t: "mcq", q: "What is an overdraft?", o: ["Free extra money from the bank", "A loan that lets your balance go below zero", "A type of savings account", "A cash machine"], a: 1, e: "An overdraft is borrowing, often with fees." },
         { t: "num", q: "You buy a {6} drink, which takes you overdrawn, and the bank charges a {25} fee. What did the drink really cost?", a: 31, money: true, e: "{6} + {25} = {31}." },
-        { t: "order", q: "Put these in order from best to worst way to handle a low balance.", items: ["Check your balance before buying", "Wait until payday to buy", "Dip into an arranged overdraft", "Go overdrawn without arranging it"], e: "Checking first costs nothing. Unarranged overdrafts are usually the most expensive." }
+        { t: "order", q: "Put these in order from best to worst way to handle a low balance.", items: ["Check your balance before buying", "Wait until payday to buy", "Use an overdraft you agreed with your bank", "Go overdrawn without agreeing it first"], e: "Checking first costs nothing. Going overdrawn without an agreed overdraft is usually the most expensive." }
       ]
     },
     {
@@ -126,7 +126,7 @@ PQ.UNITS.push({
       qs: [
         { t: "match", q: "Match each borrowing term.", pairs: [["Principal", "The amount you borrow"], ["Interest", "The price of borrowing"], ["APR", "Yearly cost, including most fees"], ["Term", "How long you have to repay"]], e: "These four words describe every loan." },
         { t: "num", q: "You owe {500} at 20% APR and pay nothing for a year. Roughly how much interest builds up?", a: 100, money: true, e: "20% of {500} = {100} (before compounding)." },
-        { t: "mcq", q: "Two loans have the same APR. One lasts 2 years and the other 5 years. Which costs more in total?", o: ["The 2-year loan", "The 5-year loan", "They cost the same", "It depends on the colour of the card"], a: 1, e: "Paying interest for longer means paying more in total." },
+        { t: "mcq", q: "Two loans have the same APR. One lasts 2 years and the other 5 years. Which costs more in total?", o: ["The 2-year loan", "The 5-year loan", "They cost the same", "It depends on the color of the card"], a: 1, e: "Paying interest for longer means paying more in total." },
         { t: "tf", q: "A lower APR means cheaper borrowing.", a: true, e: "APR is the yearly cost, so lower is better for borrowers." },
         { t: "fill", q: "Choose the missing words.", s: "Always compare the ___ amount repayable, not just the ___ payment.", a: ["total", "monthly"], bank: ["total", "monthly", "minimum", "first"], e: "Small monthly payments can hide a big total cost." }
       ]
@@ -147,7 +147,7 @@ PQ.UNITS.push({
       ],
       qs: [
         { t: "mcq", q: "You have a {500} credit card balance. Which payment costs you the least?", o: ["The minimum payment", "The full balance", "Nothing this month", "Half the balance"], a: 1, e: "Paying in full means no interest at all." },
-        { t: "tf", q: "Paying only the minimum is a smart way to manage credit card debt.", a: false, e: "Minimum payments keep you in debt for years and maximise interest." },
+        { t: "tf", q: "Paying only the minimum is a smart way to manage credit card debt.", a: false, e: "Minimum payments keep you in debt for years and maximize interest." },
         { t: "fill", q: "Type the missing words.", s: "If you pay the full balance by the due date, you usually pay ___ interest.", a: ["no"], alt: [["zero", "none", "0"]], e: "That interest-free period is the grace period." },
         { t: "num", q: "You bought {500} of things and paid {330} in interest by only paying the minimum. What did the shopping really cost?", a: 830, money: true, e: "{500} + {330} = {830}." },
         { t: "sort", q: "Sort these credit card habits.", groups: ["Safe", "Risky"], items: [["Paying the full balance", 0], ["Cash withdrawals", 1], ["Automatic full payment", 0], ["Maxing out the limit", 1], ["Paying only the minimum", 1]], e: "Pay in full, automatically, and keep balances low." }
@@ -163,7 +163,7 @@ PQ.UNITS.push({
         { h: "What affects your score",
           pts: ["Payment history: paying on time is the biggest factor", "How much of your limits you use: lower is better, ideally under 30%", "Length of history: older accounts help", "Applications: lots of credit applications in a short time can lower your score", "Mix of credit: having handled different types well"],
           b: ["The exact formula varies by country and agency, but paying on time and keeping balances low matter everywhere."],
-          ex: ["Utilisation", "Using {300} of a {1000} limit is 30% utilisation."] },
+          ex: ["Utilization", "Using {300} of a {1000} limit is 30% utilization."] },
         { h: "Building credit from nothing",
           b: ["At 18 you usually have no credit history, which can make borrowing harder. You can build it slowly: register to vote where that helps, keep a phone contract paid on time, and if you get a credit card, use it for small planned purchases and pay it off in full.",
               "Check your credit report for free once a year through official services. Errors happen and can be fixed."],
@@ -174,7 +174,7 @@ PQ.UNITS.push({
         { t: "num", q: "You have a {2000} credit limit and owe {500}. What percentage of your limit are you using?", a: 25, suf: "%", e: "{500} ÷ {2000} = 25%." },
         { t: "tf", q: "Applying for lots of credit in a short time can lower your score.", a: true, e: "Many applications can look like you are struggling." },
         { t: "sort", q: "Sort these by their effect on your credit score.", groups: ["Helps", "Hurts"], items: [["Paying bills on time", 0], ["Missing a payment", 1], ["Low balances", 0], ["Maxed-out card", 1], ["Many applications at once", 1]], e: "On-time payments and low balances build a strong score." },
-        { t: "write", q: "Explain what a credit score is and give two ways to build a good one.", keys: [{ label: "A number showing how trustworthy you are as a borrower", any: ["number", "trust", "lender", "borrow", "reputation", "history", "report"] }, { label: "Pay on time", any: ["on time", "pay bills", "never miss", "pay in full", "pay off"] }, { label: "Keep balances or utilisation low / avoid too many applications", any: ["low balance", "utilisation", "utilization", "under 30", "below", "limit", "applications", "don't max", "not max"] }], need: 2, model: "A credit score is a number, based on your credit report, that shows lenders how reliable you are at repaying. You build a good one by paying every bill on time and keeping balances low compared to your limits." }
+        { t: "write", q: "Explain what a credit score is and give two ways to build a good one.", keys: [{ label: "A number showing how trustworthy you are as a borrower", any: ["number", "trust", "lender", "borrow", "reputation", "history", "report"] }, { label: "Pay on time", any: ["on time", "pay bills", "never miss", "pay in full", "pay off"] }, { label: "Keep balances or utilization low / avoid too many applications", any: ["low balance", "utilization", "utilization", "under 30", "below", "limit", "applications", "don't max", "not max"] }], need: 2, model: "A credit score is a number, based on your credit report, that shows lenders how reliable you are at repaying. You build a good one by paying every bill on time and keeping balances low compared to your limits." }
       ]
     },
     {
@@ -185,15 +185,15 @@ PQ.UNITS.push({
           b: ["Student loans help pay for university or college. Their rules vary a lot by country: some are repaid only once you earn above a certain amount, while others work like normal loans with interest from day one. Read the terms carefully.",
               "Car loans spread the cost of a car over a few years. The car loses value quickly, so a big loan on an expensive car can leave you owing more than the car is worth."] },
         { h: "Good debt vs bad debt",
-          b: ["Some people call debt “good” when it helps you build value or earn more later, like education or training, at a reasonable rate. “Bad” debt pays for things that lose value quickly or are gone, like holidays, clothes or takeaways, especially at high interest.",
+          b: ["Some people call debt “good” when it helps you build value or earn more later, like education or training, at a reasonable rate. “Bad” debt pays for things that lose value quickly or are gone, like vacations, clothes or takeout, especially at high interest.",
               "Even “good” debt is still debt. Borrow only what you need, and know how you will repay it."] },
         { h: "BNPL and payday loans",
-          b: ["Buy now, pay later (BNPL) splits a purchase into instalments. It can feel free, but missed payments bring late fees, can be reported to credit agencies, and several plans at once are easy to lose track of.",
+          b: ["Buy now, pay later (BNPL) splits a purchase into installments. It can feel free, but missed payments bring late fees, can be reported to credit agencies, and several plans at once are easy to lose track of.",
               "Payday loans are short-term loans with extremely high costs. They often trap people in a cycle of borrowing again to repay the last loan. Talk to your bank, family or a free debt advice service first."],
           tip: "Ask yourself: could I pay for this in full today? If not, can I really afford it?" }
       ],
       qs: [
-        { t: "sort", q: "Sort these into debt that might help you build value, and debt for things that lose value fast.", groups: ["Can build value", "Loses value fast"], items: [["Training course", 0], ["Holiday on a credit card", 1], ["University loan", 0], ["Designer clothes on BNPL", 1], ["Takeaway on credit", 1]], e: "Even debt that builds value should be borrowed carefully." },
+        { t: "sort", q: "Sort these into debt that might help you build value, and debt for things that lose value fast.", groups: ["Can build value", "Loses value fast"], items: [["Training course", 0], ["Vacation on a credit card", 1], ["University loan", 0], ["Designer clothes on BNPL", 1], ["Takeout on credit", 1]], e: "Even debt that builds value should be borrowed carefully." },
         { t: "mcq", q: "What is a major risk of buy now, pay later?", o: ["It is always illegal", "Late fees and losing track of several plans", "It pays you interest", "It improves your credit instantly"], a: 1, e: "BNPL is still debt, with fees if you miss payments." },
         { t: "tf", q: "Payday loans are a cheap way to cover a gap until payday.", a: false, e: "Payday loans are among the most expensive forms of credit." },
         { t: "mcq", q: "A friend has three BNPL plans and is struggling. What is the best first step?", o: ["Take a payday loan to cover them", "List every payment and due date, then get free debt advice", "Ignore the reminders", "Open a fourth plan"], a: 1, e: "Seeing everything clearly and getting free advice is the safest start." },

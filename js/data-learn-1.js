@@ -12,7 +12,7 @@ PQ.UNITS.push({
       screens: [
         { h: "Where teen money comes from",
           b: ["Most teens get money from a mix of four sources: an allowance or pocket money from family, a part-time job, side hustles, and gifts.",
-              "A part-time job (retail, food service, lifeguarding, tutoring centres) gives you a steady paycheck and real work experience you can put on a CV. Side hustles like babysitting, pet sitting, tutoring, reselling clothes or making content are flexible, but the money can be up one month and down the next."],
+              "A part-time job (retail, food service, lifeguarding, tutoring centers) gives you a steady paycheck and real work experience you can put on a CV. Side hustles like babysitting, pet sitting, tutoring, reselling clothes or making content are flexible, but the money can be up one month and down the next."],
           pts: ["Allowance: regular, but usually small and controlled by someone else", "Job: steady income, set hours, experience and references", "Side hustle: flexible and creative, but irregular", "Gifts: nice, but impossible to plan around"],
           tip: "Irregular income is harder to budget. Plan around your lowest normal month, not your best one." },
         { h: "Hourly, salary, tips and commission",
@@ -21,7 +21,7 @@ PQ.UNITS.push({
           ex: ["Example", "{12} an hour × 10 hours a week = {120} a week, or about {520} a month (52 weeks ÷ 12 months ≈ 4.33 weeks)."] },
         { h: "What is your time really worth?",
           b: ["The headline rate is not the whole story. To find your real hourly rate, subtract your costs (bus fares, uniform, equipment) and include the time you spend getting there.",
-              "Babysitting for 3 hours at {40} sounds like about {13} an hour. If you spend {6} on bus fares and an hour travelling, you made {34} for 4 hours, which is {8.50} an hour."],
+              "Babysitting for 3 hours at {40} sounds like about {13} an hour. If you spend {6} on bus fares and an hour traveling, you made {34} for 4 hours, which is {8.50} an hour."],
           pts: ["Real hourly rate = (pay − work costs) ÷ (hours worked + travel time)", "Thinking in hours of work helps you decide what to buy: {90} sneakers cost 7.5 hours of work at {12} an hour"],
           tip: "Before a big purchase, ask yourself: is this worth that many hours of my time?" }
       ],
@@ -101,7 +101,7 @@ PQ.UNITS.push({
           tip: "“I turned down a raise because it puts me in a higher bracket” is a myth. Take the raise." },
         { h: "Sales tax and VAT",
           b: ["In some places the price tag already includes tax (common with VAT in the UK and Europe). In others, like most of the US, sales tax is added at the checkout, so the price you pay is higher than the tag.",
-              "When budgeting for a purchase, check which system applies so you are not caught short at the till."] }
+              "When budgeting for a purchase, check which system applies so you are not caught short at checkout."] }
       ],
       qs: [
         { t: "tf", q: "Getting a raise can push you into a higher bracket and make you take home less money overall.", a: false, e: "Only the income above the bracket line is taxed at the higher rate, so you always keep more." },
@@ -120,7 +120,7 @@ PQ.UNITS.push({
               "When you ask for a raise, be specific. Point to what you have done, such as covering shifts, training new staff or getting good customer feedback, and ask at a calm moment."],
           ex: ["Overtime", "{12} an hour × 1.5 = {18} an hour for overtime."] },
         { h: "Skills are an investment",
-          b: ["Skills and qualifications raise what your time is worth for years. A first-aid or lifeguard certificate, a food-hygiene certificate, coding, design, a second language or a driving licence can all open better-paid work.",
+          b: ["Skills and qualifications raise what your time is worth for years. A first-aid or lifeguard certificate, a food-hygiene certificate, coding, design, a second language or a driving license can all open better-paid work.",
               "Your first job also builds things money cannot buy directly: references, confidence and a work history."] },
         { h: "Starting a side hustle",
           b: ["Start small with something you are already good at and that costs little to begin. Tell a trusted adult where you are going and who you are meeting, and use safe payment methods.",
@@ -168,12 +168,12 @@ PQ.UNITS.push({
     },
     {
       id: "u2l2", title: "Needs vs wants", mins: 4,
-      goals: ["The difference between needs and wants", "The grey areas in between", "The upgrade trap"],
+      goals: ["The difference between needs and wants", "The gray areas in between", "The upgrade trap"],
       screens: [
         { h: "Needs keep life running",
           b: ["Needs are things you must have to stay safe, healthy, housed and able to get to school or work: food, housing, basic clothing, medicine, transport to work, and essential bills.",
-              "Wants make life more enjoyable but are not essential: eating out, concert tickets, the latest trainers, gaming add-ons and most subscriptions."] },
-        { h: "The grey areas",
+              "Wants make life more enjoyable but are not essential: eating out, concert tickets, the latest sneakers, gaming add-ons and most subscriptions."] },
+        { h: "The gray areas",
           b: ["Many things are partly a need and partly a want. A phone plan can be a need if you use it for work and safety. The newest flagship phone on a premium plan is mostly a want.",
               "Food is a need. A {15} delivery order is a need wrapped in a want."],
           pts: ["Basic version = need", "Upgrade, brand or convenience = want"],
@@ -184,15 +184,15 @@ PQ.UNITS.push({
       ],
       qs: [
         { t: "sort", q: "Sort these into needs and wants.", groups: ["Need", "Want"], items: [["Groceries", 0], ["Concert tickets", 1], ["Bus pass for work", 0], ["Gaming skins", 1], ["Prescription medicine", 0], ["Designer hoodie", 1]], e: "Needs keep you safe, healthy and working. Wants are extras." },
-        { t: "mcq", q: "Which is the best example of a grey area?", o: ["Rent", "A phone plan", "Concert tickets", "Medicine"], a: 1, e: "A basic phone plan can be a need. A premium plan and new phone are wants." },
+        { t: "mcq", q: "Which is the best example of a gray area?", o: ["Rent", "A phone plan", "Concert tickets", "Medicine"], a: 1, e: "A basic phone plan can be a need. A premium plan and new phone are wants." },
         { t: "tf", q: "Upgrading things that still work is a common budget leak.", a: true, e: "Upgrades are wants dressed up as needs." },
-        { t: "fill", q: "Choose the missing words.", s: "The basic version is a ___; the upgrade is a ___.", a: ["need", "want"], bank: ["need", "want", "bill", "loan"], e: "This simple test sorts most grey-area purchases." },
-        { t: "write", q: "Explain how you would decide whether something is a need or a want. Give an example.", keys: [{ label: "Needs are essential: safety, health, housing, food, work or school", any: ["essential", "survive", "health", "safe", "food", "housing", "work", "school", "must"] }, { label: "Wants are extras that make life more enjoyable", any: ["extra", "fun", "enjoy", "nice to have", "luxury", "not essential", "not necessary"] }, { label: "Gives an example", any: ["for example", "e.g", "such as", "like", "phone", "food", "trainers", "sneakers", "rent", "bus"] }], need: 2, model: "A need is something essential for safety, health, housing or getting to school or work, like groceries. A want is an extra that makes life more fun, like concert tickets. I would ask whether my life or work would actually break without it." }
+        { t: "fill", q: "Choose the missing words.", s: "The basic version is a ___; the upgrade is a ___.", a: ["need", "want"], bank: ["need", "want", "bill", "loan"], e: "This simple test sorts most gray-area purchases." },
+        { t: "write", q: "Explain how you would decide whether something is a need or a want. Give an example.", keys: [{ label: "Needs are essential: safety, health, housing, food, work or school", any: ["essential", "survive", "health", "safe", "food", "housing", "work", "school", "must"] }, { label: "Wants are extras that make life more enjoyable", any: ["extra", "fun", "enjoy", "nice to have", "luxury", "not essential", "not necessary"] }, { label: "Gives an example", any: ["for example", "e.g", "such as", "like", "phone", "food", "sneakers", "trainers", "rent", "bus"] }], need: 2, model: "A need is something essential for safety, health, housing or getting to school or work, like groceries. A want is an extra that makes life more fun, like concert tickets. I would ask whether my life or work would actually break without it." }
       ]
     },
     {
       id: "u2l3", title: "The 50/30/20 rule", mins: 5,
-      goals: ["How the 50/30/20 split works", "Doing the maths", "Adapting it when you live at home"],
+      goals: ["How the 50/30/20 split works", "Doing the math", "Adapting it when you live at home"],
       screens: [
         { h: "A simple starting split",
           b: ["The 50/30/20 rule is a popular starting point for a budget. It splits your net pay into three parts."],
@@ -223,12 +223,12 @@ PQ.UNITS.push({
               "It forces you to make decisions up front, which stops money disappearing on small things."],
           ex: ["Example", "{500} income: {60} phone, {40} transport, {150} savings, {100} goal fund, {150} fun = {500}. Nothing left without a job."] },
         { h: "Envelopes and pots",
-          b: ["The envelope method splits money into labelled envelopes (or digital “pots” or “spaces” in banking apps): food, fun, gifts, transport. When an envelope is empty, spending in that category stops until next payday.",
+          b: ["The envelope method splits money into labeled envelopes (or digital “pots” or “spaces” in banking apps): food, fun, gifts, transport. When an envelope is empty, spending in that category stops until next payday.",
               "It works because you can see exactly what is left, which makes it harder to overspend without noticing."] },
         { h: "Track it and find the leaks",
           b: ["For one month, write down everything you spend, using a notes app, a spreadsheet or your bank's spending view. Most people are surprised by small repeat purchases.",
               "These small repeat costs are called budget leaks: snacks, delivery fees, in-app purchases and forgotten subscriptions."],
-          ex: ["Leak maths", "A {4} drink every school day = {80} a month, or almost {1000} a year."],
+          ex: ["Leak math", "A {4} drink every school day = {80} a month, or almost {1000} a year."],
           tip: "Review your budget every week for the first month, then monthly. Budgets are meant to change." }
       ],
       qs: [
@@ -278,7 +278,7 @@ PQ.UNITS.push({
           b: ["An emergency fund is money kept only for unexpected, necessary costs: a broken phone you need for work, a dentist bill, a lost bus pass, a car repair, or losing your job.",
               "Without one, surprises go on a credit card or force you to raid your goals. With one, they are just a bump in the road."] },
         { h: "What is and is not an emergency",
-          pts: ["Emergency: urgent, necessary and unexpected", "Not an emergency: a sale, concert tickets, a holiday or a new game", "Planned costs like birthdays and holidays are not emergencies either: save for them separately"],
+          pts: ["Emergency: urgent, necessary and unexpected", "Not an emergency: a sale, concert tickets, a vacation or a new game", "Planned costs like birthdays and vacations are not emergencies either: save for them separately"],
           b: ["If you use your emergency fund, your next job is to refill it."] },
         { h: "How much, and where",
           b: ["For a teen living at home, a starter fund of {300} to {500} covers most surprises. Adults living independently usually aim for three to six months of essential expenses.",
@@ -286,7 +286,7 @@ PQ.UNITS.push({
           tip: "Build the fund in stages: first {100}, then {300}, then one month of expenses." }
       ],
       qs: [
-        { t: "sort", q: "Which of these are real emergencies?", groups: ["Emergency", "Not an emergency"], items: [["Dentist bill for a toothache", 0], ["Limited sneaker drop", 1], ["Car repair to get to work", 0], ["Concert presale", 1], ["Replacing a lost bus pass", 0], ["Holiday flights", 1]], e: "Emergencies are urgent, necessary and unexpected." },
+        { t: "sort", q: "Which of these are real emergencies?", groups: ["Emergency", "Not an emergency"], items: [["Dentist bill for a toothache", 0], ["Limited sneaker drop", 1], ["Car repair to get to work", 0], ["Concert presale", 1], ["Replacing a lost bus pass", 0], ["Vacation flights", 1]], e: "Emergencies are urgent, necessary and unexpected." },
         { t: "mcq", q: "How many months of essential expenses do adults usually aim to keep in an emergency fund?", o: ["One week", "3 to 6 months", "5 years", "None"], a: 1, e: "Three to six months is the common guideline." },
         { t: "mcq", q: "Where is the best place to keep an emergency fund?", o: ["In cash under the bed", "In a separate, easy-to-reach savings account", "In risky shares", "Lent to a friend"], a: 1, e: "It should be safe and reachable quickly, but separate from daily spending." },
         { t: "tf", q: "After using your emergency fund, you should rebuild it.", a: true, e: "Refilling it gets your safety net back." },
@@ -300,7 +300,7 @@ PQ.UNITS.push({
         { h: "Make your goal SMART",
           b: ["“Save money” is a wish. A SMART goal is a plan you can follow."],
           pts: ["Specific: what exactly? A laptop for school", "Measurable: how much? {600}", "Achievable: is {600} realistic with your income?", "Relevant: does it matter to you?", "Time-bound: by when? In 4 months"],
-          ex: ["Do the maths", "{600} ÷ 4 months = {150} a month, or about {35} a week."] },
+          ex: ["Do the math", "{600} ÷ 4 months = {150} a month, or about {35} a week."] },
         { h: "Short, medium and long term",
           pts: ["Short term (under a year): a game, a festival ticket, new headphones", "Medium term (1 to 5 years): a car, a gap year, moving out", "Long term (5+ years): university costs, a home deposit, retirement"],
           b: ["Different time frames suit different places to keep money. Short-term money should be safe and easy to reach. Long-term money can be invested to grow, which you will learn about in the Investing unit."] },

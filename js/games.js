@@ -4,7 +4,7 @@
 const PQ = window.PQ, $ = PQ.$, $$ = PQ.$$, M = PQ.money, esc = PQ.esc;
 
 const GAMES = [
-  { id: "quiz", t: "Mixed Quiz", c: "pistachio", feature: true, d: "Questions from any unit in every format: multiple choice, fill in the blank, drag and drop, matching, maths and written answers.", meta: "5–15 questions · up to 45 XP", ico: '<path d="M9 9a3 3 0 1 1 4 2.8c-.6.3-1 .9-1 1.5V14"/><path d="M12 17.5v.5"/><circle cx="12" cy="12" r="10"/>' },
+  { id: "quiz", t: "Mixed Quiz", c: "pistachio", feature: true, d: "Questions from any unit in every format: multiple choice, fill in the blank, drag and drop, matching, math and written answers.", meta: "5–15 questions · up to 45 XP", ico: '<path d="M9 9a3 3 0 1 1 4 2.8c-.6.3-1 .9-1 1.5V14"/><path d="M12 17.5v.5"/><circle cx="12" cy="12" r="10"/>' },
   { id: "blurt", t: "Blurt It", c: "peach", feature: true, d: "Write down everything you remember about a topic. We check it for key ideas and common mistakes, then show you exactly what to revise.", meta: "Active recall · up to 25 XP", ico: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>' },
   { id: "flash", t: "Flashcards", c: "azure", d: "Flip through key terms and sort them into “got it” and “still learning”.", meta: `${PQ.GLOSSARY.length} terms`, ico: '<rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 2h12a2 2 0 0 1 2 2v12"/>' },
   { id: "match", t: "Memory Match", c: "orchid", d: "Flip cards to pair each term with its meaning in as few moves as you can.", meta: "6 pairs · 15 XP", ico: '<rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/><path d="M13 7h8M3 17h8"/>' },

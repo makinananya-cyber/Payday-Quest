@@ -43,8 +43,8 @@ PQ.GLOSSARY = [
   { t: "Credit card", d: "A card that lets you borrow money up to a limit", u: "u5", w: "CREDIT" },
   { t: "Minimum payment", d: "The smallest amount you must pay on a credit card each month", u: "u5", w: "MINIMUM" },
   { t: "Credit score", d: "A number showing how reliable you are at repaying debt", u: "u5", w: "SCORE" },
-  { t: "Credit utilisation", d: "How much of your credit limit you are using", u: "u5", w: "UTILISATION" },
-  { t: "BNPL", d: "Buy now, pay later: splitting a purchase into instalments", u: "u5", w: "BNPL" },
+  { t: "Credit utilization", d: "How much of your credit limit you are using", u: "u5", w: "UTILIZATION" },
+  { t: "BNPL", d: "Buy now, pay later: splitting a purchase into installments", u: "u5", w: "BNPL" },
   { t: "Payday loan", d: "A short-term loan with extremely high costs", u: "u5" },
   { t: "Debt", d: "Money that you owe", u: "u5", w: "DEBT" },
   { t: "Inflation", d: "The general rise in prices over time", u: "u6", w: "INFLATION" },
@@ -56,7 +56,7 @@ PQ.GLOSSARY = [
   { t: "Rule of 72", d: "Divide 72 by the yearly return to estimate years to double", u: "u6" },
   { t: "Employer match", d: "Money your employer adds when you save into a workplace pension", u: "u6", w: "MATCH" },
   { t: "Pension", d: "Long-term savings for retirement", u: "u6", w: "PENSION" },
-  { t: "Unit price", d: "The cost per item, per 100 g or per litre", u: "u7" },
+  { t: "Unit price", d: "The cost per item, per 100 g or per liter", u: "u7" },
   { t: "Subscription", d: "A recurring payment for ongoing access to something", u: "u7", w: "SUBSCRIPTION" },
   { t: "Total cost of ownership", d: "Every cost of owning something over its life", u: "u7" },
   { t: "Warranty", d: "A promise to repair or replace a product if it breaks", u: "u7", w: "WARRANTY" },
@@ -120,7 +120,7 @@ PQ.BLURT = [
       { label: "The 30-day rule", any: ["30 day", "30-day", "thirty day", "wait"] }
     ],
     wrong: [
-      { re: "emergency.{0,40}(holiday|concert|sale|shopping)", fix: "Emergencies are urgent, necessary and unexpected. Holidays and sales are not emergencies." },
+      { re: "emergency.{0,40}(holiday|vacation|concert|sale|shopping)", fix: "Emergencies are urgent, necessary and unexpected. Vacations and sales are not emergencies." },
       { re: "save (whatever|what).{0,10}left", fix: "Saving what's left usually leaves nothing. Pay yourself first." }
     ] },
   { u: "u4", title: "Banking & safety", prompt: "Write everything you know about bank accounts, interest, cards, overdrafts and staying safe from scams.",
@@ -146,7 +146,7 @@ PQ.BLURT = [
       { label: "Pay the full balance to avoid interest", any: ["full balance", "pay in full", "pay it off", "grace"] },
       { label: "The minimum payment trap", any: ["minimum"] },
       { label: "Credit score: pay on time", any: ["on time", "payment history"] },
-      { label: "Keep utilisation low", any: ["utilisation", "utilization", "30%", "low balance", "limit"] },
+      { label: "Keep utilization low", any: ["utilization", "utilization", "30%", "low balance", "limit"] },
       { label: "BNPL risks", any: ["bnpl", "buy now", "pay later"] },
       { label: "Payday loans are very expensive", any: ["payday"] }
     ],
@@ -174,7 +174,7 @@ PQ.BLURT = [
   { u: "u7", title: "Smart spending", prompt: "Write everything you know about spending smartly: comparing prices, unit price, subscriptions, big purchases and consumer rights.",
     concepts: [
       { label: "Compare prices in several places", any: ["compare", "comparison"] },
-      { label: "Unit price = price ÷ quantity", any: ["unit price", "per 100", "per litre", "per item"] },
+      { label: "Unit price = price ÷ quantity", any: ["unit price", "per 100", "per liter", "per item"] },
       { label: "Cost per use", any: ["cost per use", "per wear", "per use", "last"] },
       { label: "Subscriptions add up yearly", any: ["subscription"] },
       { label: "Free-trial traps and reminders", any: ["trial", "reminder", "cancel"] },
@@ -205,7 +205,7 @@ PQ.BLURT = [
 
 /* Sorting game sets */
 PQ.SORTS = [
-  { id: "needwant", title: "Need or want?", groups: ["Need", "Want"], items: [["Rent", 0], ["Groceries", 0], ["Takeout delivery", 1], ["Bus pass for work", 0], ["Concert tickets", 1], ["Prescription medicine", 0], ["Streaming service", 1], ["School textbooks", 0], ["In-game skins", 1], ["Winter coat (you have none)", 0], ["Fourth pair of trainers", 1], ["Electricity bill", 0], ["Daily iced coffee", 1], ["Toothpaste and soap", 0], ["Newest phone upgrade", 1], ["Internet for homework", 0], ["Designer hoodie", 1], ["Work uniform", 0]] },
+  { id: "needwant", title: "Need or want?", groups: ["Need", "Want"], items: [["Rent", 0], ["Groceries", 0], ["Takeout delivery", 1], ["Bus pass for work", 0], ["Concert tickets", 1], ["Prescription medicine", 0], ["Streaming service", 1], ["School textbooks", 0], ["In-game skins", 1], ["Winter coat (you have none)", 0], ["Fourth pair of sneakers", 1], ["Electricity bill", 0], ["Daily iced coffee", 1], ["Toothpaste and soap", 0], ["Newest phone upgrade", 1], ["Internet for homework", 0], ["Designer hoodie", 1], ["Work uniform", 0]] },
   { id: "assetliab", title: "Asset or liability?", groups: ["Asset", "Liability"], items: [["Savings account", 0], ["Credit card balance", 1], ["Index fund", 0], ["Car loan", 1], ["Student loan", 1], ["Shares in a company", 0], ["BNPL plan", 1], ["Emergency fund", 0], ["Money you lent a friend", 0], ["Overdraft", 1], ["Pension", 0], ["Phone on finance", 1]] },
   { id: "fixedvar", title: "Fixed or variable?", groups: ["Fixed", "Variable"], items: [["Rent", 0], ["Groceries", 1], ["Phone plan", 0], ["Eating out", 1], ["Gym membership", 0], ["Clothes", 1], ["Insurance premium", 0], ["Gifts", 1], ["Streaming subscription", 0], ["Fuel", 1], ["Loan repayment", 0], ["Entertainment", 1]] },
   { id: "scamsafe", title: "Scam sign or safe?", groups: ["Scam sign", "Safe"], items: [["“Guaranteed 10x returns”", 0], ["Bank app login alert you triggered", 1], ["Text asking for your one-time code", 0], ["Calling the number on your card", 1], ["“Earn by moving money through your account”", 0], ["Two-factor authentication", 1], ["“Act now or lose your account”", 0], ["Regulated investment firm", 1], ["Pay a fee to claim a prize", 0], ["Strong, unique passwords", 1]] }
@@ -250,7 +250,7 @@ PQ.SIM = {
   ],
   homes: [
     { id: "home", name: "Living at home", bills: [["Phone plan", 30], ["Transport", 45], ["Contribution to family", 50]], note: "Low costs, big chance to save" },
-    { id: "shared", name: "Shared flat", bills: [["Rent share", 550], ["Bills share", 70], ["Groceries", 180], ["Phone plan", 30], ["Transport", 60]], note: "Independent, but expensive" }
+    { id: "shared", name: "Shared apartment", bills: [["Rent share", 550], ["Bills share", 70], ["Groceries", 180], ["Phone plan", 30], ["Transport", 60]], note: "Independent, but expensive" }
   ],
   goals: [
     { id: "laptop", name: "Laptop for school", target: 700 },

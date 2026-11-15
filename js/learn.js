@@ -145,7 +145,7 @@ PQ.views.learn = (p, app) => {
     const d = u.lessons.filter(l => (S.lessons[l.id] || {}).done).length;
     return `<section class="unit" id="unit-${u.id}">
       <div class="unit-banner t-${u.color}"><div style="min-width:0"><p class="label">Unit ${ui + 1}</p><h2>${esc(u.title)}</h2><p>${esc(u.desc)}</p></div>
-      <div class="prog">${d}/${u.lessons.length} done<div class="bar"><i style="width:${d / u.lessons.length * 100}%"></i></div><a class="btn btn-sm" style="margin-top:10px; background:rgba(247,250,250,.55); color:inherit" href="#game-quiz" data-unitquiz="${u.id}">Practise unit</a></div></div>
+      <div class="prog">${d}/${u.lessons.length} done<div class="bar"><i style="width:${d / u.lessons.length * 100}%"></i></div><a class="btn btn-sm" style="margin-top:10px; background:rgba(247,250,250,.55); color:inherit" href="#game-quiz" data-unitquiz="${u.id}">Practice unit</a></div></div>
       <div class="path">${u.lessons.map((l, li) => {
         const st = S.lessons[l.id] || {}, open = PQ.isUnlocked(l), cur = next && next.id === l.id;
         const [bg, ink] = PQ.COLORS[u.color];
@@ -211,7 +211,7 @@ PQ.views.lesson = (id, app) => {
     const secs = Math.round((Date.now() - st.t0) / 1000), acc = Math.round(st.firstOk / n * 100);
     const nextL = PQ.LESSONS[PQ.LESSONS.indexOf(l) + 1];
     const medal = PQ.medal({ c: perfect ? "peach" : acc >= 60 ? "matcha" : "azure", i: perfect ? "★" : "✓" }, "medal");
-    shell(`<div class="card result pop-in">${medal}<p class="label">Lesson complete</p><h1>${perfect ? "Perfect lesson!" : acc >= 60 ? "Lesson complete!" : "Lesson complete. Keep practising!"}</h1>
+    shell(`<div class="card result pop-in">${medal}<p class="label">Lesson complete</p><h1>${perfect ? "Perfect lesson!" : acc >= 60 ? "Lesson complete!" : "Lesson complete. Keep practicing!"}</h1>
       <div class="stats"><div class="stat" style="border-color:var(--peach)"><small style="color:var(--maroon)">XP earned</small><b>+${xp}</b></div><div class="stat" style="border-color:var(--matcha)"><small style="color:var(--forest)">Accuracy</small><b>${acc}%</b></div><div class="stat" style="border-color:var(--azure)"><small style="color:var(--deep)">Time</small><b>${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, "0")}</b></div></div>
       <p class="muted" style="max-width:46ch">${perfect ? "Every question right on the first try." : `You got ${st.firstOk} of ${n} right on the first try. Mistakes came back for a second chance.`}</p>
       <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center"><a class="btn btn-line" href="#learn">Back to the course</a>${nextL ? `<a class="btn btn-primary" href="#lesson-${nextL.id}">Next lesson ${PQ.ICON.arrow}</a>` : `<a class="btn btn-primary" href="#games">Play a game</a>`}</div></div>`);

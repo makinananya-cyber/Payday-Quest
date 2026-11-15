@@ -15,7 +15,7 @@ PQ.UNITS.push({
               "Include everything in the comparison: delivery, fees, return costs and how long it will take to arrive."],
           pts: ["Check at least three places", "Look at second-hand or refurbished options", "Use price history tools to spot fake “sales”", "Use student discounts where you can"] },
         { h: "Unit price: the fair comparison",
-          b: ["Bigger packs are not always cheaper. Unit price is the cost per item, per 100 g or per litre, and it lets you compare different sizes fairly. Many shop labels show it in small print.",
+          b: ["Bigger packs are not always cheaper. Unit price is the cost per item, per 100 g or per liter, and it lets you compare different sizes fairly. Many shop labels show it in small print.",
               "To work it out yourself, divide the price by the quantity."],
           ex: ["Example", "500 g for {2.50} = {0.50} per 100 g. 1 kg for {4.50} = {0.45} per 100 g. The big bag is cheaper per gram, if you will actually use it all."] },
         { h: "When cheap costs more",
@@ -85,7 +85,7 @@ PQ.UNITS.push({
           b: ["Most countries have consumer protection laws. Goods usually must be as described, of reasonable quality and fit for purpose. If something is faulty, you are often entitled to a repair, replacement or refund, even after the shop's own return window.",
               "Online purchases often come with extra rights, such as a cooling-off period to return items you changed your mind about. Details vary, so check the rules where you live."] },
         { h: "Warranties and receipts",
-          b: ["A warranty or guarantee is a promise to repair or replace a product if it breaks within a set time. Many products come with one for free. Extended warranties sold at the till are often poor value.",
+          b: ["A warranty or guarantee is a promise to repair or replace a product if it breaks within a set time. Many products come with one for free. Extended warranties sold at checkout are often poor value.",
               "Keep receipts or order confirmations, at least digitally. They prove what you bought, when and for how much."] },
         { h: "How to complain well",
           pts: ["Stay calm and polite, and be clear about what went wrong", "Say what you want: repair, replacement or refund", "Have your receipt or order number ready", "Put it in writing if you are not getting anywhere", "If you paid by card, your bank may be able to help with a chargeback"],
@@ -138,14 +138,14 @@ PQ.UNITS.push({
         { h: "Protect your details",
           pts: ["Don't post your full date of birth, address or school details publicly", "Use strong, unique passwords and a password manager", "Turn on two-factor authentication everywhere you can", "Shred or destroy documents with personal details", "Be careful on public Wi-Fi: avoid banking on it", "Think before entering details on quizzes and giveaways"] },
         { h: "Spot it and act fast",
-          b: ["Warning signs include letters about accounts you didn't open, unexpected bank transactions, login alerts you don't recognise, or being refused credit for no clear reason.",
+          b: ["Warning signs include letters about accounts you didn't open, unexpected bank transactions, login alerts you don't recognize, or being refused credit for no clear reason.",
               "If it happens: tell a trusted adult, contact your bank, change your passwords, report it to the police or your national fraud reporting service, and check your credit report."],
           tip: "Checking your bank app regularly is the fastest way to spot fraud." }
       ],
       qs: [
         { t: "sort", q: "Sort these into safe and risky habits.", groups: ["Safe", "Risky"], items: [["Password manager", 0], ["Posting your full birthday publicly", 1], ["Two-factor authentication", 0], ["Banking on café Wi-Fi", 1], ["Same password everywhere", 1], ["Shredding old bank letters", 0]], e: "Protect the details that unlock your accounts." },
         { t: "tf", q: "Teens are rarely targeted for identity theft.", a: false, e: "Teens are targeted because their empty credit files make fraud hard to spot." },
-        { t: "mcq", q: "You get a letter about a loan you never applied for. What should you do first?", o: ["Ignore it", "Contact the lender and your bank, and tell a trusted adult", "Pay it to make it go away", "Post about it online"], a: 1, e: "Act quickly and get help from the organisations involved." },
+        { t: "mcq", q: "You get a letter about a loan you never applied for. What should you do first?", o: ["Ignore it", "Contact the lender and your bank, and tell a trusted adult", "Pay it to make it go away", "Post about it online"], a: 1, e: "Act quickly and get help from the organizations involved." },
         { t: "order", q: "Put these steps in order after discovering identity theft.", items: ["Tell a trusted adult and contact your bank", "Change your passwords", "Report it to the police or fraud service", "Check your credit report"], e: "Stop the damage first, then report and check." },
         { t: "write", q: "List three things you can do to protect your identity online.", keys: [{ label: "Strong, unique passwords or a password manager", any: ["password", "passphrase"] }, { label: "Two-factor authentication", any: ["two-factor", "two factor", "2fa", "authenticat", "verification"] }, { label: "Limit what personal details you share", any: ["share", "post", "birthday", "address", "personal", "details", "private", "public"] }, { label: "Be careful with links, Wi-Fi or scams", any: ["link", "wi-fi", "wifi", "phishing", "scam", "click"] }], need: 3, model: "Use a strong, unique password for each account, ideally in a password manager. Turn on two-factor authentication. Avoid posting details like your full birthday or address, and be careful with links and public Wi-Fi." }
       ]
@@ -160,7 +160,7 @@ PQ.UNITS.push({
           pts: ["Scholarships and grants usually don't need to be repaid", "Apply early: deadlines come before you think", "Compare total cost, not just tuition"] },
         { h: "Moving out: the real costs",
           b: ["Moving out usually needs upfront money as well as monthly costs. Many people underestimate the upfront part."],
-          pts: ["Upfront: deposit (often a month or more of rent), first month's rent, furniture and kitchen basics", "Monthly: rent, utilities (energy, water), internet, phone, food, transport, insurance", "Sometimes: council tax or local fees, depending on where you live"],
+          pts: ["Upfront: deposit (often a month or more of rent), first month's rent, furniture and kitchen basics", "Monthly: rent, utilities (energy, water), internet, phone, food, transport, insurance", "Sometimes: local taxes or fees, depending on where you live"],
           ex: ["Example first month", "Deposit {800} + first rent {800} + basics {400} = {2000} before you even buy groceries."] },
         { h: "Earnings over time",
           b: ["Different paths pay off at different times. A degree or apprenticeship can raise lifetime earnings, while starting work straight away gives you income sooner.",
