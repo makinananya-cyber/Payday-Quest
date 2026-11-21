@@ -10,6 +10,14 @@ A free, game-style financial literacy course for teens. Live site: https://makin
 
 Progress is saved in the browser (localStorage). No sign-up or server needed.
 
+## Install as an app
+Payday Quest is an installable web app (PWA). Tap **Get app** / **Add to Home Screen** on the site:
+- **Android** (Chrome, Edge, Samsung Internet) and **desktop** Chrome or Edge show an install prompt.
+- **iPhone / iPad**: Share → Add to Home Screen (Safari, or other browsers on iOS 16.4+).
+- **Mac Safari**: File → Add to Dock.
+
+Once opened, it works offline (`sw.js`). Icons are in `icons/`.
+
 ## Structure
 - `index.html`: page shell and all styles
 - `js/data-learn-*.js`: lesson content

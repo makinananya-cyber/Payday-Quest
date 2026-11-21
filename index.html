@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#28536B">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Payday Quest">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Payday Quest</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Payday Quest: a free, game-style money course for teens with lessons, quizzes, games and a life simulator.">
@@ -75,7 +83,7 @@ a{color:inherit}
 .ring{width:30px; height:30px}
 .chip.bump{animation:bump .5s}
 @keyframes bump{40%{transform:scale(1.15)}}
-.mobile-logo{display:none}
+.mobile-logo{display:none; white-space:nowrap}
 
 .page{max-width:1120px; margin:0 auto; padding:30px var(--gr) 70px var(--gl)}
 .view-enter{animation:enter .4s cubic-bezier(.2,.8,.2,1)}
@@ -423,6 +431,26 @@ canvas.chart{width:100%; height:240px; display:block}
 .chartbox{padding:22px}
 .goalpick{display:grid; grid-template-columns:repeat(4,1fr); gap:8px}
 
+
+/* install */
+.inst-btn{display:flex; align-items:center; gap:12px; margin-top:18px; padding:13px 14px; border-radius:14px; border:2px solid var(--peach); background:var(--peach); color:var(--maroon); font-weight:800; font-size:.95rem; width:100%; box-shadow:0 4px 0 #c98f66; transition:transform .15s}
+.inst-btn:hover{transform:translateY(-1px)}
+.inst-btn svg{width:22px; height:22px; flex:none}
+.inst-top{display:none}
+.install-card{display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center; padding:20px 22px; margin-bottom:28px; background:var(--pist-tint); border-color:var(--matcha)}
+.install-card>div{min-width:0}
+.install-card .btn svg{width:20px; height:20px}
+.inst-ico img,.inst-ico span{display:block; border-radius:14px; box-shadow:0 6px 14px -8px rgba(27,59,77,.5)}
+.inst-ico span{width:56px; height:56px; background:var(--indigo); color:var(--peach); display:grid; place-items:center}
+.inst-ico span svg{width:28px; height:28px}
+.inst-modal{position:fixed; inset:0; z-index:100; background:rgba(27,59,77,.55); display:grid; place-items:center; padding:20px max(16px, env(safe-area-inset-right,0px)) 20px max(16px, env(safe-area-inset-left,0px))}
+.inst-box{position:relative; background:var(--surface); border-radius:24px; padding:30px 26px 24px; width:min(460px,100%); display:grid; gap:14px; justify-items:start; box-shadow:0 30px 60px -20px rgba(0,0,0,.4); max-height:90vh; overflow:auto}
+.inst-x{position:absolute; top:14px; right:14px}
+.inst-steps{margin:0; padding-left:22px; display:grid; gap:10px; font-size:1rem}
+.inst-steps li::marker{font-family:var(--f-serif); font-weight:600; color:var(--indigo)}
+.inst-link{display:flex; gap:8px; align-items:center; flex-wrap:wrap; width:100%}
+.inst-link code{flex:1 1 200px; min-width:0; overflow-wrap:anywhere; background:var(--azure-tint); padding:8px 10px; border-radius:10px; font-size:.85rem}
+
 /* toast + confetti */
 .toasts{position:fixed; left:50%; transform:translateX(-50%); bottom:calc(24px + env(safe-area-inset-bottom,0px)); z-index:90; display:grid; gap:8px; justify-items:center; pointer-events:none; width:max-content; max-width:calc(100% - 32px)}
 .toast{background:var(--deep); color:#F7FAFA; padding:12px 18px; border-radius:14px; font-weight:700; box-shadow:0 14px 30px -10px rgba(27,59,77,.5); animation:tIn .4s cubic-bezier(.2,.9,.3,1.3), tOut .4s 2.8s forwards; font-size:.95rem}
@@ -439,7 +467,8 @@ canvas.chart{width:100%; height:240px; display:block}
 }
 @media (max-width:980px){
   :root{--side-w:84px}
-  .logo b,.nav a span,.side-card{display:none}
+  .logo b,.nav a span,.side-card,.inst-btn span{display:none}
+  .inst-btn{justify-content:center; padding:12px}
   .logo{justify-content:center; padding:0 0 22px}
   .nav a{justify-content:center; padding:13px}
   .hero,.prof{grid-template-columns:1fr}
@@ -450,7 +479,12 @@ canvas.chart{width:100%; height:240px; display:block}
 }
 @media (max-width:720px){
   .side{top:auto; width:auto; right:0; height:auto; flex-direction:row; padding:6px var(--gr) calc(6px + env(safe-area-inset-bottom,0px)) var(--gl); background:var(--indigo)}
-  .side .logo{display:none}
+  .side .logo,.side .inst-btn{display:none}
+  .inst-top{display:inline-flex; align-items:center; gap:6px; padding:7px 12px; border-radius:99px; border:0; background:var(--indigo); color:#F7FAFA; font-weight:800; font-size:.82rem; white-space:nowrap}
+  .inst-top{margin:0; width:auto; box-shadow:none}
+  .inst-top svg{width:16px; height:16px}
+  .install-card{grid-template-columns:auto 1fr}
+  .install-card .btn{grid-column:1/-1}
   .nav{grid-auto-flow:column; grid-auto-columns:1fr; width:100%; gap:2px}
   .nav a{flex-direction:column; gap:3px; padding:8px 4px; font-size:.68rem; border-radius:12px}
   .nav a span{display:block}
@@ -477,6 +511,8 @@ canvas.chart{width:100%; height:240px; display:block}
   .page{padding-top:22px}
 }
 @media (max-width:420px){
+  .mobile-logo{font-size:1rem; white-space:nowrap}
+  .chip.xp{display:none}
   .match{grid-template-columns:1fr 1fr; gap:8px}
   .match .tilew{font-size:.84rem; padding:8px 10px}
   .chip.goal{display:none}
@@ -500,6 +536,7 @@ canvas.chart{width:100%; height:240px; display:block}
     <a href="#games" data-nav="games"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><path d="M17.5 14v7M14 17.5h7"/></svg><span>Games</span></a>
     <a href="#progress" data-nav="progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg><span>Progress</span></a>
   </nav>
+  <button class="inst-btn" type="button" data-install><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7M9 11l3 3 3-3M10 18h4"/></svg><span>Add to Home Screen</span></button>
   <div class="side-card">
     <div class="row"><span>Level <b id="sLvl">1</b></span><span id="sXp">0 XP</span></div>
     <div class="bar"><i id="sBar"></i></div>
@@ -513,6 +550,7 @@ canvas.chart{width:100%; height:240px; display:block}
       <a class="mobile-logo" href="#home" aria-label="Payday Quest home"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#28536B"/><circle cx="20" cy="20" r="11" fill="#FFC49B"/><path d="M20 14.6v10.8M17.4 17.6c0-1.2 1.1-1.9 2.6-1.9s2.6.7 2.6 1.8c0 2.5-5.2 1.3-5.2 3.9 0 1.1 1.1 1.9 2.6 1.9s2.6-.7 2.6-1.9" fill="none" stroke="#7A1E3A" stroke-width="1.5" stroke-linecap="round"/></svg>Payday Quest</a>
       <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
       <div class="chips">
+        <button class="inst-btn inst-top" type="button" data-install aria-label="Add Payday Quest to your home screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7M9 11l3 3 3-3"/></svg>Get app</button>
         <span class="chip streak" id="cStreak" title="Day streak"><svg viewBox="0 0 24 24"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-6 0 2 1 3 2 3 0-4-1-6 1-9z" fill="#F3A5BC"/><path d="M12 13c1 1.5 2.5 2.4 2.5 4.3a2.5 2.5 0 0 1-5 0c0-1.2.8-2 1.5-2.6 0 .8.4 1.3 1 1.3 0-1.2-.4-2 0-3z" fill="#7A1E3A"/></svg><span id="cStreakN">0</span></span>
         <span class="chip xp" id="cXp" title="Total XP"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 6.3 6.4.6-4.9 4.3 1.5 6.6L12 16.4 6.4 19.8l1.5-6.6L3 8.9l6.4-.6z" fill="#8FB78F" stroke="#1E3D1F" stroke-width="1.2" stroke-linejoin="round"/></svg><span id="cXpN">0</span><span class="lbl">XP</span></span>
         <span class="chip goal" id="cGoal" title="Daily goal"><svg class="ring" viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" fill="none" stroke="#DCE8E9" stroke-width="5"/><circle id="cGoalArc" cx="18" cy="18" r="14" fill="none" stroke="#8FB78F" stroke-width="5" stroke-linecap="round" stroke-dasharray="88" stroke-dashoffset="88" transform="rotate(-90 18 18)" style="transition:stroke-dashoffset .6s"/></svg><span id="cGoalTxt">0/30</span></span>
@@ -530,9 +568,11 @@ canvas.chart{width:100%; height:240px; display:block}
 <script src="js/data-learn-3.js"></script>
 <script src="js/data-extra.js"></script>
 <script src="js/core.js"></script>
+<script src="js/install.js"></script>
 <script src="js/learn.js"></script>
 <script src="js/games.js"></script>
 <script src="js/sim.js"></script>
 <script src="js/progress.js"></script>
+<script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js"));</script>
 </body>
 </html>
