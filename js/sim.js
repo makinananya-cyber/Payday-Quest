@@ -189,7 +189,7 @@ TOOL.life = (app, t) => {
 };
 
 /* ================= BUDGET BUILDER ================= */
-const EXAMPLE_PLAN = { income: [["Part-time job (net)", 520], ["Allowance", 60]], exp: [["Phone plan", 25, "need"], ["Bus pass", 40, "need"], ["Snacks & drinks", 60, "want"], ["Going out with friends", 80, "want"], ["Streaming & games", 20, "want"], ["Savings for goal", 150, "save"], ["Emergency fund", 50, "save"]] };
+const EXAMPLE_PLAN = { income: [["Part-time job (net)", 520], ["Allowance", 60]], exp: [["Phone plan", 25, "need"], ["Daily commute", 40, "need"], ["Snacks & drinks", 60, "want"], ["Going out with friends", 80, "want"], ["Streaming & games", 20, "want"], ["Savings for goal", 150, "save"], ["Emergency fund", 50, "save"]] };
 TOOL.budget = (app, t) => {
   const S = PQ.S(); let plan = S.plan ? JSON.parse(JSON.stringify(S.plan)) : JSON.parse(JSON.stringify(EXAMPLE_PLAN)); const isExample = !S.plan;
   app.innerHTML = head(t, "Use your real numbers for a typical month. Everything stays in this browser.") + `${isExample ? `<div class="notice" style="margin-bottom:16px">${PQ.ICON.info}<span>These are <b>example numbers</b>. Replace them with your own, then press Save.</span></div>` : ""}
