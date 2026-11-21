@@ -4,14 +4,21 @@
 const PQ = window.PQ;
 const SITE = "https://makinananya-cyber.github.io/Payday-Quest/";
 let deferred = null;
-const standalone = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+const MODES = ["standalone", "fullscreen", "minimal-ui", "window-controls-overlay"];
+const inApp_ = () => MODES.some(m => matchMedia(`(display-mode: ${m})`).matches) || navigator.standalone === true || document.referrer.startsWith("android-app://");
+let installedElsewhere = false;
+const standalone = () => inApp_() || installedElsewhere;
+if (inApp_()) document.documentElement.classList.add("pq-app");
+MODES.forEach(m => { try { matchMedia(`(display-mode: ${m})`).addEventListener("change", () => { if (inApp_()) document.documentElement.classList.add("pq-app"); refresh(); }); } catch (e) {} });
+/* On Android Chrome, also hide the button in the browser when the app is already installed */
+if (navigator.getInstalledRelatedApps) navigator.getInstalledRelatedApps().then(apps => { if (apps && apps.length) { installedElsewhere = true; refresh(); } }).catch(() => {});
 const ua = navigator.userAgent;
 const isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 const isAndroid = /Android/.test(ua);
 const onSite = /github\.io$/.test(location.hostname) || location.hostname === "localhost";
 
 addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferred = e; });
-addEventListener("appinstalled", () => { deferred = null; refresh(); PQ.toast && PQ.toast("<b>Installed!</b> Find Payday Quest on your home screen"); });
+addEventListener("appinstalled", () => { deferred = null; installedElsewhere = true; refresh(); PQ.toast && PQ.toast("<b>Installed!</b> Find Payday Quest on your home screen"); });
 
 const PHONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7M9 11l3 3 3-3M10 18h4"/></svg>';
 PQ.ICON.install = PHONE;
@@ -69,4 +76,5 @@ function refresh() {
 document.addEventListener("click", e => { if (e.target.closest("[data-install]")) PQ.install(); });
 addEventListener("DOMContentLoaded", refresh);
 addEventListener("hashchange", () => setTimeout(refresh, 0));
+addEventListener("pageshow", refresh);
 })();

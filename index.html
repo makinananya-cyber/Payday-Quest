@@ -433,6 +433,12 @@ canvas.chart{width:100%; height:240px; display:block}
 
 
 /* install */
+[hidden]{display:none!important}
+/* Inside the installed app, never show install prompts */
+@media (display-mode: standalone), (display-mode: fullscreen), (display-mode: minimal-ui), (display-mode: window-controls-overlay){
+  .inst-btn, .inst-top, .install-card{display:none!important}
+}
+html.pq-app .inst-btn, html.pq-app .inst-top, html.pq-app .install-card{display:none!important}
 .inst-btn{display:flex; align-items:center; gap:12px; margin-top:18px; padding:13px 14px; border-radius:14px; border:2px solid var(--peach); background:var(--peach); color:var(--maroon); font-weight:800; font-size:.95rem; width:100%; box-shadow:0 4px 0 #c98f66; transition:transform .15s}
 .inst-btn:hover{transform:translateY(-1px)}
 .inst-btn svg{width:22px; height:22px; flex:none}
@@ -573,6 +579,6 @@ canvas.chart{width:100%; height:240px; display:block}
 <script src="js/games.js"></script>
 <script src="js/sim.js"></script>
 <script src="js/progress.js"></script>
-<script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js"));</script>
+<script>if ("serviceWorker" in navigator) { const had = !!navigator.serviceWorker.controller; let done = false; navigator.serviceWorker.addEventListener("controllerchange", () => { if (had && !done) { done = true; location.reload(); } }); addEventListener("load", () => navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then(r => r.update()).catch(() => {})); }</script>
 </body>
 </html>
