@@ -6,11 +6,13 @@ const SITE = "https://makinananya-cyber.github.io/Payday-Quest/";
 let deferred = null;
 const MODES = ["standalone", "fullscreen", "minimal-ui", "window-controls-overlay"];
 const inApp_ = () => MODES.some(m => matchMedia(`(display-mode: ${m})`).matches) || navigator.standalone === true || document.referrer.startsWith("android-app://");
+/* installedElsewhere: the app is installed on this device but we're in a normal browser tab.
+   Buttons stay visible there and switch to "Open the app". They are only hidden inside the app itself. */
 let installedElsewhere = false;
-const standalone = () => inApp_() || installedElsewhere;
+const standalone = () => inApp_();
 if (inApp_()) document.documentElement.classList.add("pq-app");
 MODES.forEach(m => { try { matchMedia(`(display-mode: ${m})`).addEventListener("change", () => { if (inApp_()) document.documentElement.classList.add("pq-app"); refresh(); }); } catch (e) {} });
-/* On Android Chrome, also hide the button in the browser when the app is already installed */
+/* Chrome (Android, Windows, Mac) can tell us when the app is already installed */
 if (navigator.getInstalledRelatedApps) navigator.getInstalledRelatedApps().then(apps => { if (apps && apps.length) { installedElsewhere = true; refresh(); } }).catch(() => {});
 const ua = navigator.userAgent;
 const isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
@@ -27,7 +29,16 @@ const inApp = /FBAN|FBAV|Instagram|Snapchat|TikTok|musical_ly|BytedanceWebview|L
 const browser = /SamsungBrowser/.test(ua) ? "samsung" : /EdgA|EdgiOS|Edg\//.test(ua) ? "edge" : /FxiOS|Firefox/.test(ua) ? "firefox" : /CriOS|Chrome/.test(ua) ? "chrome" : /Safari/.test(ua) ? "safari" : "other";
 const isMac = /Macintosh/.test(ua) && !isIOS;
 
+function openSteps() {
+  const where = isAndroid || isIOS ? "your home screen or app list" : isMac ? "Launchpad, your Dock or the Applications folder" : "the Start menu, your taskbar or desktop";
+  const list = [`Open <b>Payday Quest</b> from ${where}.`];
+  if (!isAndroid && !isIOS && (browser === "chrome" || browser === "edge")) list.unshift("Click the <b>Open in app</b> icon at the right end of the address bar (a screen with an arrow), or");
+  list.push("Want to install it again? Remove the app first, then come back here and click this button.");
+  return { title: "Payday Quest is already installed", intro: "This device already has the app. To open it:", list };
+}
+
 function steps() {
+  if (installedElsewhere && onSite) return openSteps();
   if (!onSite) return { title: "Install from the website", intro: "Apps can only be installed from the main website. Open it on your phone, then tap the install button there.", list: [], link: true };
   if (inApp) return { title: "Open in your browser first", intro: "You're viewing this inside another app, which can't add apps to your home screen.", list: ["Tap the <b>⋯</b> or <b>⋮</b> menu in the corner of this screen.", `Choose <b>Open in ${isIOS ? "Safari" : "browser"}</b> (or <b>Open in external browser</b>).`, "Tap <b>Get app</b> again on the website."], link: true };
   if (isIOS) return { title: "Add to your iPhone or iPad", intro: browser === "safari" ? "In Safari:" : "In this browser (needs iOS 16.4 or newer; on older versions, use Safari):",
@@ -67,14 +78,23 @@ PQ.install = async () => {
   modal();
 };
 
-PQ.installCard = () => standalone() ? "" : `<div class="card install-card"><div class="inst-ico"><img src="icons/icon-192.png" alt="" width="56" height="56" onerror="this.replaceWith(Object.assign(document.createElement('span'),{innerHTML:PQ.ICON.install}))"></div><div><p class="label">Free app</p><h3 style="margin-top:2px">Get Payday Quest on your home screen</h3><p class="muted" style="font-size:.93rem">Open it like any other app, full screen and even offline.</p></div><button class="btn btn-primary" type="button" data-install>${PHONE} Add to Home Screen</button></div>`;
+const TXT = {
+  get: { side: "Add to Home Screen", top: "Get app", h: "Get Payday Quest on your home screen", p: "Open it like any other app, full screen and even offline.", btn: "Add to Home Screen" },
+  open: { side: "Open the app", top: "Open app", h: "You have the Payday Quest app", p: "It's installed on this device. Open it for full screen and offline use.", btn: "Open the app" }
+};
+PQ.installCard = () => { const t = TXT[installedElsewhere ? "open" : "get"]; return standalone() ? "" : `<div class="card install-card"><div class="inst-ico"><img src="icons/icon-192.png" alt="" width="56" height="56" onerror="this.replaceWith(Object.assign(document.createElement('span'),{innerHTML:PQ.ICON.install}))"></div><div><p class="label">Free app</p><h3 style="margin-top:2px" data-t="h">${t.h}</h3><p class="muted" style="font-size:.93rem" data-t="p">${t.p}</p></div><button class="btn btn-primary" type="button" data-install>${PHONE} <span data-t="btn">${t.btn}</span></button></div>`; };
 
 function refresh() {
-  const hide = standalone();
+  const hide = standalone(), t = TXT[installedElsewhere ? "open" : "get"];
   document.querySelectorAll(".inst-btn, .install-card").forEach(el => el.hidden = hide);
+  document.querySelectorAll(".side .inst-btn span").forEach(el => el.textContent = t.side);
+  document.querySelectorAll(".inst-top").forEach(el => { el.lastChild.textContent = t.top; el.setAttribute("aria-label", t.side); });
+  document.querySelectorAll(".install-card [data-t]").forEach(el => el.textContent = t[el.dataset.t]);
 }
 document.addEventListener("click", e => { if (e.target.closest("[data-install]")) PQ.install(); });
 addEventListener("DOMContentLoaded", refresh);
 addEventListener("hashchange", () => setTimeout(refresh, 0));
+PQ.refreshInstall = refresh;
+PQ.installInfo = () => ({ chromePromptReady: !!deferred, alreadyInstalled: installedElsewhere, insideApp: standalone() });
 addEventListener("pageshow", refresh);
 })();
